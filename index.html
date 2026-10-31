@@ -1,0 +1,3323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Octalysis Students | Sondeo Motivacional de Reglas de Clase</title>
+  
+  <!-- Tipografía Google: Outfit e Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Librerías de Exportación y QR (CDN de alta disponibilidad) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       VARIABLES Y DESIGN TOKENS (Tema Tecno-Pedagógico Dark Mode)
+       ========================================================================== */
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: #151d30;
+      --bg-card-hover: #1c2742;
+      --bg-input: #090d16;
+      --border-color: #24324f;
+      --border-accent: #3b82f6;
+
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      /* Colores Octalysis */
+      --white-hat: #06b6d4;      /* Cyan / Top */
+      --black-hat: #f43f5e;      /* Carmín / Bottom */
+      --black-hat-alt: #f59e0b;  /* Ámbar */
+      --intrinsic: #a855f7;      /* Púrpura / Right Brain */
+      --extrinsic: #3b82f6;      /* Azul / Left Brain */
+      --success: #10b981;        /* Verde Esmeralda */
+      --gold: #fbbf24;           /* Oro para Prioridad 1 */
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-glow: 0 0 25px rgba(6, 182, 212, 0.15);
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ENCABEZADO Y NAVEGACIÓN */
+    header {
+      background: rgba(21, 29, 48, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0.85rem 1.5rem;
+    }
+
+    .header-container {
+      max-width: 1350px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--white-hat), var(--intrinsic));
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      color: #fff;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
+
+    .brand-text h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* SALA BADGE Y ACCIONES HEADER */
+    .header-center {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(9, 13, 22, 0.7);
+      border: 1px solid var(--border-color);
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-md);
+    }
+
+    .room-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--white-hat);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-tab {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.5rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-tab:hover {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border-accent);
+    }
+
+    .btn-tab.active {
+      background: var(--border-accent);
+      color: #fff;
+      border-color: var(--border-accent);
+    }
+
+    .btn-create-room {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-create-room:hover {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    main {
+      flex: 1;
+      max-width: 1350px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 1.5rem;
+    }
+
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       VISTA 1: FLUJO DEL ESTUDIANTE
+       ========================================================================== */
+    .banner-course {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .banner-course-info h2 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .banner-course-info p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .student-profile-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+    }
+
+    /* BANDEJA DE SELECCIÓN (PRESUPUESTO 6) */
+    .tray-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-card);
+      position: sticky;
+      top: 75px;
+      z-index: 80;
+      backdrop-filter: blur(10px);
+    }
+
+    .tray-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.9rem;
+    }
+
+    .tray-title {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+    }
+
+    .budget-badge {
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid var(--white-hat);
+      color: var(--white-hat);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .budget-badge.full {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .tray-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.6rem;
+      min-height: 52px;
+    }
+
+    .tray-card-mini {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-main);
+      animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .tray-card-mini .remove-btn {
+      color: var(--black-hat);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .empty-tray-text {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      padding: 0.6rem;
+      font-style: italic;
+    }
+
+    /* FILTROS Y BARRA DE CATÁLOGO */
+    .deck-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .deck-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .filter-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .filter-chip:hover, .filter-chip.active {
+      background: var(--border-accent);
+      color: #fff;
+      border-color: var(--border-accent);
+    }
+
+    .deck-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-shuffle {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--white-hat);
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-shuffle:hover {
+      background: rgba(6, 182, 212, 0.1);
+      border-color: var(--white-hat);
+    }
+
+    /* GRID DE TARJETAS DE MECÁNICAS */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .card-mechanic {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card-mechanic:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-accent);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+      background: var(--bg-card-hover);
+    }
+
+    .card-mechanic.selected {
+      border-color: var(--white-hat);
+      background: rgba(6, 182, 212, 0.08);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+    }
+
+    .card-header-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      gap: 0.5rem;
+    }
+
+    .cd-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .cd-pill.white { background: rgba(6, 182, 212, 0.15); color: var(--white-hat); border: 1px solid var(--white-hat); }
+    .cd-pill.black { background: rgba(244, 63, 94, 0.15); color: var(--black-hat); border: 1px solid var(--black-hat); }
+    .cd-pill.intrinsic { background: rgba(168, 85, 247, 0.15); color: var(--intrinsic); border: 1px solid var(--intrinsic); }
+    .cd-pill.extrinsic { background: rgba(59, 130, 246, 0.15); color: var(--extrinsic); border: 1px solid var(--extrinsic); }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .btn-select-card {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .card-mechanic.selected .btn-select-card {
+      background: var(--white-hat);
+      color: #0b0f19;
+      border-color: var(--white-hat);
+    }
+
+    /* BARRA FLOTANTE DE ACCIÓN PARA CONTINUAR */
+    .action-cta-bar {
+      position: sticky;
+      bottom: 20px;
+      z-index: 90;
+      background: rgba(21, 29, 48, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), var(--shadow-glow);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cta-text {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .btn-prioritize {
+      background: linear-gradient(135deg, var(--white-hat), #0284c7);
+      color: #0b0f19;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.6rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-prioritize:hover:not(:disabled) {
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-prioritize:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background: var(--border-color);
+      color: var(--text-dim);
+    }
+
+    /* ==========================================================================
+       FASE 2: MODAL / DRAWER DE PRIORIZACIÓN TOP 1-3
+       ========================================================================== */
+    .prioritize-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .prioritize-header {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .prioritize-header h3 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    .prioritize-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .priority-slots-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .priority-slot-card {
+      background: var(--bg-main);
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .priority-slot-card.filled {
+      border-style: solid;
+      border-color: var(--border-accent);
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .priority-slot-card.gold.filled {
+      border-color: var(--gold);
+      background: rgba(251, 191, 36, 0.05);
+    }
+
+    .slot-badge {
+      font-size: 0.8rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .slot-badge.p1 { color: var(--gold); }
+    .slot-badge.p2 { color: #cbd5e1; }
+    .slot-badge.p3 { color: #cd7f32; }
+
+    .slot-select {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.6rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .slot-select:focus {
+      border-color: var(--white-hat);
+    }
+
+    /* ==========================================================================
+       DIAGNÓSTICO INDIVIDUAL (RADAR 8D + BALANCE)
+       ========================================================================== */
+    .diagnosis-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .diag-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .diag-grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .diag-grid-layout { grid-template-columns: 1fr; }
+    }
+
+    .canvas-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .canvas-card h4 {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .radar-canvas-wrap {
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .radar-canvas-wrap canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .radar-hint-text {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    /* BARRAS DE BALANCE */
+    .metrics-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .balance-box {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .balance-box h4 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .bar-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .bar-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .progress-track {
+      height: 14px;
+      background: #1e293b;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .progress-fill-left-cyan {
+      background: linear-gradient(90deg, #0284c7, var(--white-hat));
+      height: 100%;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .progress-fill-right-red {
+      background: linear-gradient(90deg, var(--black-hat-alt), var(--black-hat));
+      height: 100%;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .progress-fill-left-purple {
+      background: linear-gradient(90deg, #7c3aed, var(--intrinsic));
+      height: 100%;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .progress-fill-right-blue {
+      background: linear-gradient(90deg, #2563eb, var(--extrinsic));
+      height: 100%;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* REPORTE CUALITATIVO DEL ARQUETIPO */
+    .archetype-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .archetype-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white-hat);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .archetype-desc {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .study-tips-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .study-tips-list li {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .study-tips-list li span {
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    /* ==========================================================================
+       VISTA 2: TEACHER DASHBOARD (EN VIVO CON EXPORTACIÓN)
+       ========================================================================== */
+    .teacher-topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .teacher-room-info h2 {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .teacher-room-info p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .export-button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .btn-export {
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-excel {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--success);
+      color: #34d399;
+    }
+
+    .btn-excel:hover {
+      background: var(--success);
+      color: #0b0f19;
+    }
+
+    .btn-pdf {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: var(--black-hat);
+      color: #fb7185;
+    }
+
+    .btn-pdf:hover {
+      background: var(--black-hat);
+      color: #fff;
+    }
+
+    .btn-csv {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--extrinsic);
+      color: #60a5fa;
+    }
+
+    .btn-csv:hover {
+      background: var(--extrinsic);
+      color: #fff;
+    }
+
+    /* KPIS ROW */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .kpi-title {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .kpi-subtext {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* GRIDS DE ANÁLISIS DOCENTE */
+    .dash-analytics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 950px) {
+      .dash-analytics-grid { grid-template-columns: 1fr; }
+    }
+
+    .dash-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dash-box-header {
+      margin-bottom: 1rem;
+    }
+
+    .dash-box-header h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .dash-box-header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* RANKING DE REGLAS PRIORIZADAS */
+    .ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 0.4rem;
+    }
+
+    .ranking-item {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    .rank-number {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      min-width: 24px;
+    }
+
+    .ranking-item:nth-child(1) .rank-number { color: var(--gold); }
+    .ranking-item:nth-child(2) .rank-number { color: #cbd5e1; }
+    .ranking-item:nth-child(3) .rank-number { color: #cd7f32; }
+
+    .rank-info {
+      flex: 1;
+    }
+
+    .rank-name {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .rank-cd {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .rank-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .badge-p1 {
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-votes {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid var(--extrinsic);
+      color: #60a5fa;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* PREGUNTAS DISPARADORAS DE DEBATE */
+    .debate-card {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(6, 182, 212, 0.05));
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .debate-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .debate-questions-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .debate-question-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--white-hat);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    /* TABLA DE RESPUESTAS EN VIVO */
+    .table-container {
+      overflow-x: auto;
+      max-height: 450px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    thead th {
+      background: #0f172a;
+      color: var(--text-muted);
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* MODALES */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 540px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .modal-close-btn:hover { color: #fff; }
+
+    .modal-box h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-box p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 0.65rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--white-hat);
+    }
+
+    .form-checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--white-hat), #0284c7);
+      color: #0b0f19;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.75rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-submit-btn:hover {
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    }
+
+    /* QR MODAL ESPECÍFICO */
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .qr-code-box {
+      background: #fff;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      background: rgba(11, 15, 25, 0.8);
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--white-hat);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER PRINCIPAL DE LA PLATAFORMA
+       ========================================================================== -->
+  <header>
+    <div class="header-container">
+      <div class="brand" onclick="goToHome()">
+        <div class="brand-icon">⬡</div>
+        <div class="brand-text">
+          <h1>Octalysis Students</h1>
+          <p>Sondeo de Reglas y Motivaciones de Aprendizaje</p>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <span class="live-dot"></span>
+        <div class="room-badge" id="headerRoomBadge">
+          Sala: <strong id="headerRoomCode">OCTA-DEMO</strong>
+        </div>
+        <span style="color: var(--border-color);">|</span>
+        <span id="headerCourseName" style="font-size: 0.85rem; color: var(--text-muted); max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          Taller Demostrativo
+        </span>
+      </div>
+
+      <div class="header-nav">
+        <button class="btn-tab active" id="navStudentBtn" onclick="trySwitchToStudent()">
+          🎒 Estudiante
+        </button>
+        <button class="btn-tab" id="navTeacherBtn" onclick="promptTeacherAccess()">
+          👨‍🏫 Profesor
+        </button>
+        <button class="btn-create-room" onclick="openCreateRoomModal()">
+          ✨ Crear Sala
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================================================
+         VISTA 1: FLUJO DEL ESTUDIANTE
+         ========================================================================== -->
+    <section id="viewStudent" class="view-section active">
+      
+      <!-- BANNER DE BIENVENIDA Y RETO DE LA CLASE -->
+      <div class="banner-course">
+        <div class="banner-course-info">
+          <h2>🎯 Sondeo de Preferencias del Curso</h2>
+          <p>Explora el catálogo y elige hasta <strong>6 dinámicas o reglas</strong> que harían de esta asignatura una experiencia de aprendizaje motivadora y retadora.</p>
+        </div>
+        <div class="student-profile-chip">
+          <span>👤 Estudiante:</span>
+          <strong id="displayStudentNick">Anónimo</strong>
+          <button onclick="openStudentOnboardingModal()" style="background: none; border: none; color: var(--white-hat); cursor: pointer; text-decoration: underline; font-size: 0.75rem;">(Cambiar)</button>
+        </div>
+      </div>
+
+      <!-- BANDEJA SUPERIOR FIJA: SELECCIÓN DE HASTA 6 MECÁNICAS -->
+      <div class="tray-container">
+        <div class="tray-header">
+          <div class="tray-title">
+            📥 Tus reglas seleccionadas
+          </div>
+          <div class="budget-badge" id="trayBudgetBadge">0 / 6 seleccionadas</div>
+        </div>
+        <div class="tray-cards-grid" id="trayCardsGrid">
+          <div class="empty-tray-text">Haz clic en las tarjetas del catálogo inferior para agregarlas (máximo 6)...</div>
+        </div>
+      </div>
+
+      <!-- FILTROS Y BARRA DE CONTROL DEL CATÁLOGO -->
+      <div class="deck-toolbar">
+        <div class="deck-filters">
+          <button class="filter-chip active" onclick="filterMechanics('all', this)">Todas (24)</button>
+          <button class="filter-chip" onclick="filterMechanics('white', this)">Sombrero Blanco (CD1-CD3)</button>
+          <button class="filter-chip" onclick="filterMechanics('black', this)">Sombrero Negro (CD6-CD8)</button>
+          <button class="filter-chip" onclick="filterMechanics('intrinsic', this)">Intrínsecas (Creatividad/Social)</button>
+          <button class="filter-chip" onclick="filterMechanics('extrinsic', this)">Extrínsecas (Logro/Puntos)</button>
+        </div>
+        <div class="deck-actions">
+          <button class="btn-shuffle" onclick="shuffleCatalog()">
+            🎲 Barajar orden
+          </button>
+        </div>
+      </div>
+
+      <!-- CATÁLOGO DE 24 MECÁNICAS ADAPTADAS A ESTUDIANTES -->
+      <div class="cards-grid" id="catalogCardsGrid">
+        <!-- Generado dinámicamente -->
+      </div>
+
+      <!-- BARRA DE ACCIÓN FLOTANTE PARA PASAR A PRIORIZACIÓN -->
+      <div class="action-cta-bar" id="studentActionBar">
+        <div class="cta-text">
+          <span id="ctaHintText">Selecciona al menos 3 mecánicas (máximo 6) para continuar al análisis.</span>
+        </div>
+        <button class="btn-prioritize" id="btnGoToPrioritize" onclick="openPrioritizationStep()" disabled>
+          ⭐ Priorizar mis Reglas de Oro →
+        </button>
+      </div>
+
+      <!-- SECCIÓN FASE 2: PRIORIZACIÓN TOP 1-3 -->
+      <div class="prioritize-box" id="prioritizeSection" style="display: none;">
+        <div class="prioritize-header">
+          <h3>⭐ Prioriza tu Énfasis: Reglas de Oro</h3>
+          <p>De las reglas que seleccionaste, escoge cuáles son tus <strong>Top 1, 2 y 3</strong> prioritarias. Esto le indicará al profesor en qué dinámicas poner el mayor esfuerzo pedagógico.</p>
+        </div>
+
+        <div class="priority-slots-container">
+          <!-- SLOT TOP 1 -->
+          <div class="priority-slot-card gold" id="slotCard1">
+            <div class="slot-badge p1">🥇 Prioridad 1: Mi Regla de Oro (Máximo Impacto)</div>
+            <select class="slot-select" id="selectP1" onchange="updatePrioritySlot(1)">
+              <option value="">-- Elige tu regla #1 --</option>
+            </select>
+          </div>
+
+          <!-- SLOT TOP 2 -->
+          <div class="priority-slot-card" id="slotCard2">
+            <div class="slot-badge p2">🥈 Prioridad 2: Segundo Énfasis Importante</div>
+            <select class="slot-select" id="selectP2" onchange="updatePrioritySlot(2)">
+              <option value="">-- Elige tu regla #2 --</option>
+            </select>
+          </div>
+
+          <!-- SLOT TOP 3 -->
+          <div class="priority-slot-card" id="slotCard3">
+            <div class="slot-badge p3">🥉 Prioridad 3: Tercer Complemento Valioso</div>
+            <select class="slot-select" id="selectP3" onchange="updatePrioritySlot(3)">
+              <option value="">-- Elige tu regla #3 --</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="text-align: center;">
+          <button class="btn-prioritize" id="btnSubmitSurvey" onclick="submitStudentSurvey()">
+            🚀 Confirmar y Ver Mi Diagnóstico Octalysis
+          </button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN FASE 3: DIAGNÓSTICO INDIVIDUAL INMEDIATO -->
+      <div class="diagnosis-panel" id="studentDiagnosisSection" style="display: none;">
+        <div class="diag-title-row">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff;">📊 Tu Perfil Psicopedagógico de Aprendizaje</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Basado en tus preferencias de reglas y tus Core Drives dominantes.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-tab" onclick="scrollBackToCatalog()">Revisar selección</button>
+          </div>
+        </div>
+
+        <div class="diag-grid-layout">
+          <!-- RADAR 8D INTERACTIVO -->
+          <div class="canvas-card">
+            <h4>Tu Radar Octagonal (CD1 a CD8)</h4>
+            <div class="radar-canvas-wrap">
+              <canvas id="studentRadarCanvas" width="440" height="440"></canvas>
+            </div>
+            <p class="radar-hint-text">💡 Haz clic sobre los vértices del gráfico para explorar el significado de cada Core Drive.</p>
+          </div>
+
+          <!-- BARRAS DE BALANCE Y ARQUETIPO -->
+          <div class="metrics-container">
+            <div class="balance-box">
+              <h4>⚖️ Tus Ejes de Equilibrio Motivacional</h4>
+
+              <!-- EJE SOMBREROS -->
+              <div class="bar-group">
+                <div class="bar-labels">
+                  <span style="color: var(--white-hat);">Sombrero Blanco (Autonomía/Significado): <strong id="valWhiteHat">0%</strong></span>
+                  <span style="color: var(--black-hat);">Sombrero Negro (Urgencia/Reto): <strong id="valBlackHat">0%</strong></span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill-left-cyan" id="barWhiteHat" style="width: 50%;"></div>
+                  <div class="progress-fill-right-red" id="barBlackHat" style="width: 50%;"></div>
+                </div>
+              </div>
+
+              <!-- EJE MOTIVACIÓN -->
+              <div class="bar-group">
+                <div class="bar-labels">
+                  <span style="color: var(--intrinsic);">Intrínseca (Proceso/Creatividad): <strong id="valIntrinsic">0%</strong></span>
+                  <span style="color: var(--extrinsic);">Extrínseca (Metas/Recompensas): <strong id="valExtrinsic">0%</strong></span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill-left-purple" id="barIntrinsic" style="width: 50%;"></div>
+                  <div class="progress-fill-right-blue" id="barExtrinsic" style="width: 50%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ARQUETIPO DE ESTUDIANTE -->
+            <div class="archetype-card" id="studentArchetypeBox">
+              <div class="archetype-title" id="archetypeTitle">🌟 Explorador Autónomo</div>
+              <p class="archetype-desc" id="archetypeDesc">Cargando arquetipo...</p>
+              <div style="font-size: 0.8rem; font-weight: 700; color: #fff; margin-top: 0.4rem;">💡 Claves para tu autorregulación y estudio:</div>
+              <ul class="study-tips-list" id="archetypeTipsList">
+                <!-- Consejos dinámicos -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         VISTA 2: TEACHER DASHBOARD (EN VIVO CON EXPORTADORES)
+         ========================================================================== -->
+    <section id="viewTeacher" class="view-section">
+      
+      <div class="teacher-topbar">
+        <div class="teacher-room-info">
+          <h2>
+            👨‍🏫 Panel Docente en Vivo
+            <span style="font-size: 0.8rem; background: rgba(59, 130, 246, 0.2); color: #93c5fd; padding: 0.2rem 0.6rem; border-radius: 999px;">Sala: <span id="teacherRoomCodeDisplay">OCTA-DEMO</span></span>
+          </h2>
+          <p id="teacherSubtitleDisplay">Monitoreando respuestas en tiempo real</p>
+        </div>
+
+        <div class="export-button-group">
+          <button class="btn-export btn-excel" onclick="exportDataToExcel()">
+            📊 Descargar Excel (.xlsx)
+          </button>
+          <button class="btn-export btn-pdf" onclick="exportDataToPDF()">
+            📑 Descargar PDF Ejecutivo
+          </button>
+          <button class="btn-export btn-csv" onclick="exportDataToCSV()">
+            📁 Descargar CSV
+          </button>
+          <button class="btn-tab" onclick="openRoomQRModal()">
+            📱 Ver QR de Sala
+          </button>
+          <button class="btn-tab" onclick="openRoomSettingsModal()">
+            ⚙️ Configurar Sala
+          </button>
+        </div>
+      </div>
+
+      <!-- KPIS PRINCIPALES -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <span class="kpi-title">Estudiantes Participantes</span>
+          <span class="kpi-value" id="kpiTotalStudents">0</span>
+          <span class="kpi-subtext">Respuestas consolidadas</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Tendencia de Sombrero</span>
+          <span class="kpi-value" id="kpiDominantHat" style="color: var(--white-hat);">Sombrero Blanco</span>
+          <span class="kpi-subtext" id="kpiHatBreakdown">50% Blanco vs 50% Negro</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Balance Motivacional</span>
+          <span class="kpi-value" id="kpiDominantMotivation" style="color: var(--intrinsic);">Intrínseca</span>
+          <span class="kpi-subtext" id="kpiMotivBreakdown">50% Intrínseca vs 50% Extrínseca</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-title">Regla de Oro #1 del Aula</span>
+          <span class="kpi-value" id="kpiTopRule" style="font-size: 1.15rem; color: var(--gold); line-height: 1.2;">--</span>
+          <span class="kpi-subtext" id="kpiTopRuleVotes">Mayor consenso de prioridad</span>
+        </div>
+      </div>
+
+      <!-- RADAR COLECTIVO Y CUADRANTE 2D -->
+      <div class="dash-analytics-grid">
+        <div class="dash-box">
+          <div class="dash-box-header">
+            <h3>🕸️ Radar Octalysis Colectivo del Grupo</h3>
+            <p>Promedio vectorial de todos los estudiantes registrados (CD1 - CD8)</p>
+          </div>
+          <div class="radar-canvas-wrap" style="margin: 0 auto;">
+            <canvas id="classRadarCanvas" width="440" height="440"></canvas>
+          </div>
+        </div>
+
+        <div class="dash-box">
+          <div class="dash-box-header">
+            <h3>🎯 Cuadrante 2D de Perfiles (Dispersión)</h3>
+            <p>Eje X: Extrínseca / Intrínseca | Eje Y: Sombrero Negro / Sombrero Blanco</p>
+          </div>
+          <div class="radar-canvas-wrap" style="margin: 0 auto;">
+            <canvas id="classQuadrantCanvas" width="440" height="440"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- RANKING DE MECÁNICAS PRIORIZADAS -->
+      <div class="dash-box" style="margin-bottom: 1.5rem;">
+        <div class="dash-box-header">
+          <h3>🏆 Ranking de Reglas Priorizadas por el Grupo</h3>
+          <p>Ordenadas por consenso de importancia (Mayor peso a votos de Prioridad 1)</p>
+        </div>
+        <div class="ranking-list" id="rankingListContainer">
+          <p style="color: var(--text-dim); font-size: 0.85rem; padding: 1rem;">Esperando respuestas de estudiantes...</p>
+        </div>
+      </div>
+
+      <!-- DISPARADORES AUTOMATIZADOS DE DEBATE PEDAGÓGICO -->
+      <div class="debate-card">
+        <h3>💬 Disparadores de Debate Pedagógico para Acuerdos de Clase</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Preguntas generadas automáticamente según el perfil del aula para negociar el funcionamiento del semestre:
+        </p>
+        <div class="debate-questions-list" id="debateQuestionsList">
+          <!-- Disparadores dinámicos -->
+        </div>
+      </div>
+
+      <!-- TABLA DETALLADA DE RESPUESTAS EN VIVO -->
+      <div class="dash-box">
+        <div class="dash-box-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <h3>📋 Registro Individual de Respuestas</h3>
+            <p>Datos en tiempo real listos para exportar</p>
+          </div>
+          <input type="text" id="tableSearchInput" placeholder="Buscar por nombre o cédula..." class="form-input" style="width: 250px; padding: 0.4rem 0.75rem; font-size: 0.8rem;" oninput="renderSubmissionsTable()">
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha/Hora</th>
+                <th>Estudiante</th>
+                <th id="thCedula">Cédula / ID</th>
+                <th id="thEmail">Correo Institucional</th>
+                <th>Regla de Oro (P1)</th>
+                <th>P2 / P3</th>
+                <th>Sombreros</th>
+                <th>Motivación</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTableBody">
+              <!-- Filas dinámicas -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 1: ONBOARDING DEL ESTUDIANTE (REGISTRO)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalStudentOnboarding">
+    <div class="modal-box">
+      <div class="brand-icon" style="margin: 0 auto 1rem auto;">⬡</div>
+      <h3 style="text-align: center;">Bienvenido al Sondeo</h3>
+      <p style="text-align: center;">Por favor ingresa tus datos para personalizar tu diagnóstico y registrar tu participación en la clase.</p>
+      
+      <form onsubmit="saveStudentOnboarding(event)">
+        <div class="form-group">
+          <label class="form-label" for="inputStudentNick">Nombre o Apodo *</label>
+          <input type="text" id="inputStudentNick" class="form-input" placeholder="Ej. Camila M. / Neo" required>
+        </div>
+
+        <div class="form-group" id="groupStudentCedula" style="display: none;">
+          <label class="form-label" for="inputStudentCedula">Número de Cédula / Documento de Identidad *</label>
+          <input type="text" id="inputStudentCedula" class="form-input" placeholder="Ej. 1144123456">
+        </div>
+
+        <div class="form-group" id="groupStudentEmail" style="display: none;">
+          <label class="form-label" for="inputStudentEmail">Correo Institucional / Usuario *</label>
+          <input type="email" id="inputStudentEmail" class="form-input" placeholder="Ej. camila.moreno@uao.edu.co">
+        </div>
+
+        <button type="submit" class="form-submit-btn">Ingresar al Catálogo →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: CREACIÓN DE NUEVA SALA (DOCENTE)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalCreateRoom">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeModal('modalCreateRoom')">✕</button>
+      <h3>✨ Crear Nueva Sesión / Sala</h3>
+      <p>Configura tu sala en 10 segundos. No necesitas clonar repositorios ni configurar bases de datos complejas.</p>
+
+      <form onsubmit="handleCreateRoomSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="newRoomName">Nombre de la Asignatura / Grupo *</label>
+          <input type="text" id="newRoomName" class="form-input" placeholder="Ej. Narrativa Digital 2026-1" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newRoomPin">PIN de Seguridad del Profesor (4 dígitos) *</label>
+          <input type="password" maxlength="6" id="newRoomPin" class="form-input" placeholder="Ej. 1234" value="1234" required>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">Este PIN protegerá tu acceso al Dashboard y a las exportaciones.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Datos Requeridos a los Estudiantes:</label>
+          <div class="form-checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="checkRequireCedula">
+              <span>Solicitar Número de Cédula / Documento de Identidad</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="checkRequireEmail">
+              <span>Solicitar Correo o Usuario Institucional (ej. @uao.edu.co)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Destino de Almacenamiento:</label>
+          <div class="form-checkbox-group">
+            <label class="checkbox-label">
+              <input type="radio" name="storageType" value="cloud" checked onchange="toggleStorageCustomField()">
+              <span><strong>Nube en Tiempo Real (Recomendado):</strong> Sincronización instantánea y descargas locales directas.</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="storageType" value="custom_sheet" onchange="toggleStorageCustomField()">
+              <span><strong>Mi Propio Google Sheet:</strong> Guardar copia directa en mi Drive vía Apps Script Webhook.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" id="customSheetWebhookGroup" style="display: none;">
+          <label class="form-label" for="customWebhookUrl">URL de tu Webhook de Google Apps Script:</label>
+          <input type="url" id="customWebhookUrl" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
+          <span style="font-size: 0.75rem; color: var(--text-dim);">El sistema enviará cada respuesta a tu propia hoja de cálculo además del panel visual.</span>
+        </div>
+
+        <button type="submit" class="form-submit-btn">Crear Sala y Obtener Enlace →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: ACCESO PROTEGIDO CON PIN DE PROFESOR
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalTeacherPin">
+    <div class="modal-box" style="max-width: 420px; text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('modalTeacherPin')">✕</button>
+      <div class="brand-icon" style="margin: 0 auto 1rem auto; background: linear-gradient(135deg, var(--extrinsic), var(--intrinsic));">🔒</div>
+      <h3>Acceso de Profesor</h3>
+      <p>Ingresa el PIN de seguridad de 4 dígitos de esta sala para acceder al panel y exportaciones.</p>
+
+      <form onsubmit="handleTeacherPinSubmit(event)">
+        <div class="form-group">
+          <input type="password" id="inputTeacherPin" class="form-input" placeholder="Ingresa el PIN..." maxlength="6" style="text-align: center; font-size: 1.3rem; letter-spacing: 0.2em;" required autofocus>
+        </div>
+        <button type="submit" class="form-submit-btn">Entrar al Panel Docente →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: CÓDIGO QR Y ENLACE DE LA SALA
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalRoomQR">
+    <div class="modal-box" style="text-align: center;">
+      <button class="modal-close-btn" onclick="closeModal('modalRoomQR')">✕</button>
+      <h3>📱 Proyectar Enlace y QR para Estudiantes</h3>
+      <p>Proyecta este código en pantalla para que los estudiantes escaneen con sus teléfonos móviles:</p>
+
+      <div class="qr-container">
+        <div class="qr-code-box" id="qrCanvasContainer"></div>
+        <div style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--white-hat);" id="qrRoomCodeText">
+          OCTA-DEMO
+        </div>
+        <div style="width: 100%;">
+          <input type="text" id="shareRoomUrlInput" class="form-input" style="text-align: center; font-size: 0.85rem;" readonly>
+        </div>
+        <button class="btn-tab" onclick="copyShareRoomUrl()">📋 Copiar Enlace Directo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 5: DETALLE TEÓRICO DE CORE DRIVE (AL CLICKEAR EL RADAR)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalCoreDriveInfo">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeModal('modalCoreDriveInfo')">✕</button>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="cd-pill white" id="infoDrivePill">CD1</span>
+        <h3 id="infoDriveTitle" style="margin: 0;">Significado Épico</h3>
+      </div>
+      <p id="infoDriveDesc" style="font-size: 0.95rem; color: var(--text-main); line-height: 1.5; margin-bottom: 1rem;"></p>
+      <div style="background: var(--bg-main); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem;">
+        <strong style="font-size: 0.8rem; color: var(--white-hat); display: block; margin-bottom: 0.25rem;">Impacto en el Aula:</strong>
+        <p id="infoDriveClassroom" style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Octalysis Students · Basado en el marco de Gamificación y Motivación Humana de Yu-kai Chou</p>
+    <p style="margin-top: 0.25rem;">Diseñado para la co-creación pedagógica de acuerdos de clase y diagnóstico motivacional.</p>
+  </footer>
+
+  <!-- ==========================================================================
+       JAVASCRIPT: NÚCLEO LÓGICO, MECÁNICAS, OCTALYSIS Y EXPORTADORES
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       1. BASE DE DATOS DE 24 MECÁNICAS ADAPTADAS AL ESTUDIANTE
+       ========================================================================== */
+    const MECHANICS_DB = [
+      // CD1: Significado Épico y Llamado (White Hat / Intrínseco)
+      { id: 1, cd: 1, name: "Caso o Enigma del Mundo Real", desc: "Las lecturas y tareas son 'pistas de investigación' para resolver un reto real de la comunidad o industria.", hat: "white", motiv: "intrinsic", pts: 5 },
+      { id: 2, cd: 1, name: "Publicación Abierta con Impacto", desc: "Los mejores proyectos se publican en una wiki o repositorio abierto para ayudar a futuros estudiantes.", hat: "white", motiv: "intrinsic", pts: 5 },
+      { id: 3, cd: 1, name: "Manifiesto de Misión Compartida", desc: "La clase define metas colectivas vinculadas a causas sociales o éticas que trascienden la simple nota.", hat: "white", motiv: "intrinsic", pts: 5 },
+
+      // CD2: Desarrollo y Logro (White Hat / Extrínseco)
+      { id: 4, cd: 2, name: "Niveles de Experiencia (XP)", desc: "Ganas puntos de experiencia por actividades voluntarias y ves tu barra de progreso subir semana a semana.", hat: "white", motiv: "extrinsic", pts: 5 },
+      { id: 5, cd: 2, name: "Árbol de Habilidades y Maestrías", desc: "Puedes elegir qué competencias técnicas o temas especializados profundizar a lo largo del semestre.", hat: "white", motiv: "extrinsic", pts: 5 },
+      { id: 6, cd: 2, name: "Desafío Final Épico Práctico", desc: "Un reto aplicativo acumulativo en equipo que sustituye el examen tradicional de memoria.", hat: "white", motiv: "extrinsic", pts: 5 },
+
+      // CD3: Empoderamiento de la Creatividad y Feedback (White Hat / Intrínseco)
+      { id: 7, cd: 3, name: "Rutas de Entrega Multiformato", desc: "Libertad para elegir el formato de tus entregas (video, podcast, ensayo interactivo, código o prototipo).", hat: "white", motiv: "intrinsic", pts: 5 },
+      { id: 8, cd: 3, name: "Co-diseño de Criterios y Rúbricas", desc: "El profesor y los estudiantes debaten y acuerdan juntos las reglas de evaluación antes de iniciar el proyecto.", hat: "white", motiv: "intrinsic", pts: 5 },
+      { id: 9, cd: 3, name: "Zona Sandbox (Sin Miedo al Fallo)", desc: "Espacios de experimentación creativa donde puedes probar ideas arriesgadas sin penalización de nota.", hat: "white", motiv: "intrinsic", pts: 5 },
+
+      // CD4: Propiedad y Posesión (White Hat / Extrínseco)
+      { id: 10, cd: 4, name: "Portafolio Personalizado", desc: "Construyes una galería digital propia donde conservas tus proyectos como evidencia para tu futuro profesional.", hat: "white", motiv: "extrinsic", pts: 5 },
+      { id: 11, cd: 4, name: "Insignias y Logros Coleccionables", desc: "Sellos digitales que reconocen talentos específicos (ej. 'Gran analista', 'Apoyo solidario a pares').", hat: "white", motiv: "extrinsic", pts: 5 },
+      { id: 12, cd: 4, name: "Banco de Privilegios y Puntos", desc: "Acumulas puntos de participación constante para canjear por comodines o días de gracia en entregas.", hat: "white", motiv: "extrinsic", pts: 5 },
+
+      // CD5: Influencia Social y Afinidad (White Hat / Intrínseco)
+      { id: 13, cd: 5, name: "Clanes / Comunidades de Estudio", desc: "Equipos estables y autónomos de apoyo mutuo para resolver dudas y prepararse juntos antes de cada sesión.", hat: "white", motiv: "intrinsic", pts: 5 },
+      { id: 14, cd: 5, name: "Co-evaluación Formativa entre Pares", desc: "Sesiones guiadas para retroalimentar el borrador de otro compañero con aportes constructivos antes de calificar.", hat: "white", motiv: "intrinsic", pts: 5 },
+      { id: 15, cd: 5, name: "Mural de Gratitud y Reconocimiento", desc: "Pizarra compartida donde los estudiantes pueden destacar públicamente la ayuda recibida de compañeros.", hat: "white", motiv: "intrinsic", pts: 5 },
+
+      // CD6: Escasez e Impaciencia (Black Hat / Extrínseco)
+      { id: 16, cd: 6, name: "Retos Relámpago con Bonificación", desc: "Oportunidades breves de puntos extra que se abren por sorpresa solo durante los primeros 10 minutos de clase.", hat: "black", motiv: "extrinsic", pts: 5 },
+      { id: 17, cd: 6, name: "Cupos Limitados para Asesorías VIP", desc: "Turnos exclusivos de mentoría uno a uno con el docente a los que se accede por orden de postulación.", hat: "black", motiv: "extrinsic", pts: 5 },
+      { id: 18, cd: 6, name: "Desbloqueo Secuencial de Recursos", desc: "Las guías avanzadas y casos modelo se liberan solo cuando el grupo demuestra dominio de la fase previa.", hat: "black", motiv: "extrinsic", pts: 5 },
+
+      // CD7: Curiosidad e Impredecibilidad (Black Hat / Intrínseco)
+      { id: 19, cd: 7, name: "Ruleta de Eventos Sorpresa", desc: "Dinámicas imprevistas al inicio de clase (debates rápidos, cambio de roles, preguntas en ruleta lúdica).", hat: "black", motiv: "intrinsic", pts: 5 },
+      { id: 20, cd: 7, name: "Pistas y Acertijos Previos", desc: "El profesor publica un acertijo o enigma breve en la plataforma días antes para anticipar el tema de clase.", hat: "black", motiv: "intrinsic", pts: 5 },
+      { id: 21, cd: 7, name: "Recompensas Inesperadas (Easter Eggs)", desc: "Bonificaciones secretas que se revelan espontáneamente cuando alguien formula una pregunta genial.", hat: "black", motiv: "intrinsic", pts: 5 },
+
+      // CD8: Pérdida y Evitación (Black Hat / Extrínseco)
+      { id: 22, cd: 8, name: "Racha de Asistencia con Escudo", desc: "Mantener asistencia perfecta otorga un 'escudo' que perdona automáticamente un retraso imprevisto.", hat: "black", motiv: "extrinsic", pts: 5 },
+      { id: 23, cd: 8, name: "Comodines con Fecha de Caducidad", desc: "Pases especiales para extender plazos que deben usarse en el corte correspondiente antes de que expiren.", hat: "black", motiv: "extrinsic", pts: 5 },
+      { id: 24, cd: 8, name: "Red de Salvavidas ante Calificaciones", desc: "Posibilidad de reelaborar una mala entrega tras recibir retroalimentación para recuperar la nota.", hat: "black", motiv: "extrinsic", pts: 5 }
+    ];
+
+    /* INFORMACIÓN PEDAGÓGICA DE LOS 8 CORE DRIVES */
+    const CORE_DRIVES_INFO = {
+      1: { name: "Significado Épico y Llamado", hat: "Sombrero Blanco", motiv: "Intrínseca", desc: "Impulso que surge cuando la persona siente que forma parte de algo más grande que ella misma o que ha sido elegida para una misión de impacto real.", classroom: "Aumenta el compromiso y la trascendencia de las tareas al conectarlas con problemas reales y éticos." },
+      2: { name: "Desarrollo y Logro", hat: "Sombrero Blanco", motiv: "Extrínseca", desc: "Impulso interno de progresar, adquirir nuevas habilidades, superar desafíos y alcanzar hitos tangibles.", classroom: "Clarifica las metas del curso mediante barras de progreso, insignias y retos acumulativos escalonados." },
+      3: { name: "Empoderamiento de la Creatividad", hat: "Sombrero Blanco", motiv: "Intrínseca", desc: "Permite a los estudiantes expresar su ingenio, probar diferentes estrategias y recibir retroalimentación inmediata.", classroom: "Fomenta la autonomía y pensamiento crítico permitiendo elegir formatos y co-diseñar criterios." },
+      4: { name: "Propiedad y Posesión", hat: "Sombrero Blanco", motiv: "Extrínseca", desc: "Sentimiento de pertenencia y control sobre lo que se construye o acumula a través del esfuerzo propio.", classroom: "Incentiva el orgullo académico al crear portafolios propios y acumular privilegios legítimos." },
+      5: { name: "Influencia Social y Afinidad", hat: "Sombrero Blanco", motiv: "Intrínseca", desc: "Motivación impulsada por las relaciones interpersonales, la aceptación social, la colaboración y la empatía.", classroom: "Fortalece el aprendizaje cooperativo a través de clanes de estudio y co-evaluación constructiva." },
+      6: { name: "Escasez e Impaciencia", hat: "Sombrero Negro", motiv: "Extrínseca", desc: "Deseo de obtener algo simplemente porque es difícil de alcanzar, exclusivo o tiene disponibilidad limitada.", classroom: "Activa la concentración inmediata con ventanas relámpago y cupos exclusivos de asesoría." },
+      7: { name: "Curiosidad e Impredecibilidad", hat: "Sombrero Negro", motiv: "Intrínseca", desc: "Atracción por lo desconocido, la sorpresa y el deseo de descubrir qué pasará a continuación.", classroom: "Rompe la monotonía del aula tradicional mediante misterios semanales y eventos aleatorios." },
+      8: { name: "Pérdida y Evitación", hat: "Sombrero Negro", motiv: "Extrínseca", desc: "Motivación para evitar consecuencias negativas, caídas de rendimiento o pérdida de beneficios alcanzados.", classroom: "Ofrece certidumbre y reduce la ansiedad cuando incluye salvavidas y segundas oportunidades de mejora." }
+    };
+
+    /* ==========================================================================
+       2. GESTIÓN DEL ESTADO GLOBAL DE LA SALA Y USUARIO
+       ========================================================================== */
+    const DEFAULT_ROOM = {
+      code: "OCTA-DEMO",
+      name: "Taller Demostrativo de Gamificación",
+      pin: "1234",
+      requireCedula: false,
+      requireEmail: false,
+      storageType: "cloud", // 'cloud' o 'custom_sheet'
+      customWebhook: "",
+      createdAt: new Date().toISOString()
+    };
+
+    let currentRoom = { ...DEFAULT_ROOM };
+    let currentRole = "student"; // 'student' o 'teacher'
+    let currentStudent = {
+      nick: "Estudiante #1",
+      cedula: "",
+      email: ""
+    };
+
+    let selectedMechanics = [];
+    let priorityP1 = null;
+    let priorityP2 = null;
+    let priorityP3 = null;
+    let activeFilter = 'all';
+
+    // Almacén de respuestas de la sala actual
+    let roomSubmissions = [];
+
+    /* ==========================================================================
+       3. INICIALIZACIÓN DE LA APLICACIÓN
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Leer parámetros URL (?sala=OCTA-123 &pin=1234)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlSala = urlParams.get('sala') || urlParams.get('room');
+      const urlPin = urlParams.get('pin');
+      const urlMode = urlParams.get('mode') || urlParams.get('role');
+
+      if (urlSala) {
+        loadRoomConfig(urlSala.toUpperCase());
+      } else {
+        loadRoomConfig(DEFAULT_ROOM.code);
+      }
+
+      // 2. Renderizar catálogo inicial
+      renderCatalog();
+
+      // 3. Revisar si viene con PIN de profesor en URL
+      if (urlPin && urlPin === currentRoom.pin) {
+        switchToTeacherDashboard();
+      } else if (urlMode === 'teacher') {
+        promptTeacherAccess();
+      } else {
+        // Modo estudiante por defecto
+        updateStudentHeader();
+        checkStudentOnboardingNeeded();
+      }
+
+      // 4. Iniciar escucha / polling de sincronización en la nube
+      startSyncListener();
+    });
+
+    /* ==========================================================================
+       4. GESTIÓN Y PERSISTENCIA DE SALAS
+       ========================================================================== */
+    function getRoomStorageKey(code) {
+      return `octalysis_room_${code}`;
+    }
+
+    function getSubmissionsStorageKey(code) {
+      return `octalysis_subs_${code}`;
+    }
+
+    function loadRoomConfig(roomCode) {
+      const stored = localStorage.getItem(getRoomStorageKey(roomCode));
+      if (stored) {
+        try {
+          currentRoom = JSON.parse(stored);
+        } catch (e) {
+          currentRoom = { ...DEFAULT_ROOM, code: roomCode };
+        }
+      } else {
+        currentRoom = { ...DEFAULT_ROOM, code: roomCode };
+        saveRoomConfigToLocal();
+      }
+
+      // Cargar respuestas guardadas localmente
+      const storedSubs = localStorage.getItem(getSubmissionsStorageKey(roomCode));
+      if (storedSubs) {
+        try {
+          roomSubmissions = JSON.parse(storedSubs);
+        } catch (e) {
+          roomSubmissions = [];
+        }
+      } else if (roomCode === 'OCTA-DEMO' && roomSubmissions.length === 0) {
+        // Datos demostrativos para enriquecer la experiencia inicial
+        seedDemoData();
+      }
+
+      updateRoomHeaderUI();
+    }
+
+    function saveRoomConfigToLocal() {
+      localStorage.setItem(getRoomStorageKey(currentRoom.code), JSON.stringify(currentRoom));
+    }
+
+    function saveSubmissionsToLocal() {
+      localStorage.setItem(getSubmissionsStorageKey(currentRoom.code), JSON.stringify(roomSubmissions));
+    }
+
+    function updateRoomHeaderUI() {
+      document.getElementById('headerRoomCode').textContent = currentRoom.code;
+      document.getElementById('headerCourseName').textContent = currentRoom.name;
+      document.getElementById('teacherRoomCodeDisplay').textContent = currentRoom.code;
+      document.getElementById('teacherSubtitleDisplay').textContent = `${currentRoom.name} · ${roomSubmissions.length} participantes registrados`;
+      
+      // Actualizar visibilidad de columnas según config de sala
+      const showCed = currentRoom.requireCedula;
+      const showMail = currentRoom.requireEmail;
+      document.getElementById('thCedula').style.display = showCed ? '' : 'none';
+      document.getElementById('thEmail').style.display = showMail ? '' : 'none';
+      document.getElementById('groupStudentCedula').style.display = showCed ? 'block' : 'none';
+      document.getElementById('groupStudentEmail').style.display = showMail ? 'block' : 'none';
+    }
+
+    /* CREAR NUEVA SALA */
+    function openCreateRoomModal() {
+      document.getElementById('newRoomName').value = '';
+      document.getElementById('newRoomPin').value = '1234';
+      document.getElementById('checkRequireCedula').checked = false;
+      document.getElementById('checkRequireEmail').checked = false;
+      document.getElementById('customWebhookUrl').value = '';
+      document.querySelector('input[name="storageType"][value="cloud"]').checked = true;
+      toggleStorageCustomField();
+      openModal('modalCreateRoom');
+    }
+
+    function toggleStorageCustomField() {
+      const isCustom = document.querySelector('input[name="storageType"]:checked').value === 'custom_sheet';
+      document.getElementById('customSheetWebhookGroup').style.display = isCustom ? 'block' : 'none';
+    }
+
+    function handleCreateRoomSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('newRoomName').value.trim();
+      const pin = document.getElementById('newRoomPin').value.trim() || '1234';
+      const reqCed = document.getElementById('checkRequireCedula').checked;
+      const reqMail = document.getElementById('checkRequireEmail').checked;
+      const storage = document.querySelector('input[name="storageType"]:checked').value;
+      const webhook = document.getElementById('customWebhookUrl').value.trim();
+
+      // Generar código aleatorio de sala ej. OCTA-492
+      const randomCode = 'OCTA-' + Math.floor(100 + Math.random() * 900);
+
+      currentRoom = {
+        code: randomCode,
+        name: name,
+        pin: pin,
+        requireCedula: reqCed,
+        requireEmail: reqMail,
+        storageType: storage,
+        customWebhook: webhook,
+        createdAt: new Date().toISOString()
+      };
+
+      saveRoomConfigToLocal();
+      roomSubmissions = [];
+      saveSubmissionsToLocal();
+
+      closeModal('modalCreateRoom');
+      
+      // Actualizar URL sin recargar
+      const newUrl = `${window.location.pathname}?sala=${randomCode}`;
+      window.history.pushState({ path: newUrl }, '', newUrl);
+
+      updateRoomHeaderUI();
+      openRoomQRModal();
+    }
+
+    /* QR DE LA SALA */
+    function openRoomQRModal() {
+      const qrContainer = document.getElementById('qrCanvasContainer');
+      qrContainer.innerHTML = '';
+      
+      const shareUrl = `${window.location.origin}${window.location.pathname}?sala=${currentRoom.code}`;
+      document.getElementById('shareRoomUrlInput').value = shareUrl;
+      document.getElementById('qrRoomCodeText').textContent = currentRoom.code;
+
+      if (typeof QRCode !== 'undefined') {
+        new QRCode(qrContainer, {
+          text: shareUrl,
+          width: 200,
+          height: 200,
+          colorDark: "#0b0f19",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+
+      openModal('modalRoomQR');
+    }
+
+    function copyShareRoomUrl() {
+      const input = document.getElementById('shareRoomUrlInput');
+      input.select();
+      input.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(input.value);
+      alert('¡Enlace de la sala copiado al portapapeles!');
+    }
+
+    /* ==========================================================================
+       5. NAVEGACIÓN ENTRE ROLES (ESTUDIANTE Y PROFESOR)
+       ========================================================================== */
+    function trySwitchToStudent() {
+      currentRole = 'student';
+      document.getElementById('navStudentBtn').classList.add('active');
+      document.getElementById('navTeacherBtn').classList.remove('active');
+      document.getElementById('viewStudent').classList.add('active');
+      document.getElementById('viewTeacher').classList.remove('active');
+    }
+
+    function promptTeacherAccess() {
+      // Si ya está autenticado con PIN en sesión
+      if (sessionStorage.getItem(`auth_${currentRoom.code}`) === 'true') {
+        switchToTeacherDashboard();
+        return;
+      }
+      document.getElementById('inputTeacherPin').value = '';
+      openModal('modalTeacherPin');
+    }
+
+    function handleTeacherPinSubmit(e) {
+      e.preventDefault();
+      const enteredPin = document.getElementById('inputTeacherPin').value.trim();
+      if (enteredPin === currentRoom.pin) {
+        sessionStorage.setItem(`auth_${currentRoom.code}`, 'true');
+        closeModal('modalTeacherPin');
+        switchToTeacherDashboard();
+      } else {
+        alert('PIN incorrecto. Por favor verifica con el docente creador de la sala.');
+      }
+    }
+
+    function switchToTeacherDashboard() {
+      currentRole = 'teacher';
+      document.getElementById('navStudentBtn').classList.remove('active');
+      document.getElementById('navTeacherBtn').classList.add('active');
+      document.getElementById('viewStudent').classList.remove('active');
+      document.getElementById('viewTeacher').classList.add('active');
+      renderTeacherDashboard();
+    }
+
+    function goToHome() {
+      trySwitchToStudent();
+    }
+
+    /* ==========================================================================
+       6. ONBOARDING DEL ESTUDIANTE
+       ========================================================================== */
+    function checkStudentOnboardingNeeded() {
+      const savedStudent = sessionStorage.getItem(`student_${currentRoom.code}`);
+      if (savedStudent) {
+        currentStudent = JSON.parse(savedStudent);
+        updateStudentHeader();
+      } else {
+        openStudentOnboardingModal();
+      }
+    }
+
+    function openStudentOnboardingModal() {
+      document.getElementById('inputStudentNick').value = currentStudent.nick || '';
+      document.getElementById('inputStudentCedula').value = currentStudent.cedula || '';
+      document.getElementById('inputStudentEmail').value = currentStudent.email || '';
+      
+      document.getElementById('groupStudentCedula').style.display = currentRoom.requireCedula ? 'block' : 'none';
+      document.getElementById('groupStudentEmail').style.display = currentRoom.requireEmail ? 'block' : 'none';
+      
+      openModal('modalStudentOnboarding');
+    }
+
+    function saveStudentOnboarding(e) {
+      e.preventDefault();
+      const nick = document.getElementById('inputStudentNick').value.trim();
+      const cedula = document.getElementById('inputStudentCedula').value.trim();
+      const email = document.getElementById('inputStudentEmail').value.trim();
+
+      if (currentRoom.requireCedula && !cedula) {
+        alert('Por favor ingresa tu número de cédula o documento requerido para esta clase.');
+        return;
+      }
+      if (currentRoom.requireEmail && !email) {
+        alert('Por favor ingresa tu correo institucional requerido.');
+        return;
+      }
+
+      currentStudent = { nick, cedula, email };
+      sessionStorage.setItem(`student_${currentRoom.code}`, JSON.stringify(currentStudent));
+      updateStudentHeader();
+      closeModal('modalStudentOnboarding');
+    }
+
+    function updateStudentHeader() {
+      document.getElementById('displayStudentNick').textContent = currentStudent.nick || 'Estudiante';
+    }
+
+    /* ==========================================================================
+       7. CATÁLOGO DE MECÁNICAS Y BANDEJA DE SELECCIÓN
+       ========================================================================== */
+    function renderCatalog() {
+      const container = document.getElementById('catalogCardsGrid');
+      container.innerHTML = '';
+
+      let list = [...MECHANICS_DB];
+
+      // Aplicar filtro si existe
+      if (activeFilter === 'white') list = list.filter(m => m.hat === 'white');
+      if (activeFilter === 'black') list = list.filter(m => m.hat === 'black');
+      if (activeFilter === 'intrinsic') list = list.filter(m => m.motiv === 'intrinsic');
+      if (activeFilter === 'extrinsic') list = list.filter(m => m.motiv === 'extrinsic');
+
+      list.forEach(mech => {
+        const isSelected = selectedMechanics.some(m => m.id === mech.id);
+        const card = document.createElement('div');
+        card.className = `card-mechanic ${isSelected ? 'selected' : ''}`;
+        card.id = `cardMech_${mech.id}`;
+        card.onclick = () => toggleSelectMechanic(mech);
+
+        const cdInfo = CORE_DRIVES_INFO[mech.cd];
+        const hatClass = mech.hat === 'white' ? 'white' : 'black';
+        const hatLabel = mech.hat === 'white' ? 'Blanco' : 'Negro';
+        const motivLabel = mech.motiv === 'intrinsic' ? 'Intrínseca' : 'Extrínseca';
+
+        card.innerHTML = `
+          <div>
+            <div class="card-header-meta">
+              <span class="cd-pill ${hatClass}">CD${mech.cd}: ${cdInfo.name}</span>
+              <span class="cd-pill ${mech.motiv}">${motivLabel}</span>
+            </div>
+            <div class="card-title">${mech.name}</div>
+            <div class="card-desc">${mech.desc}</div>
+          </div>
+          <div class="card-footer">
+            <span>Sombrero ${hatLabel}</span>
+            <button class="btn-select-card" type="button">
+              ${isSelected ? '✓ Seleccionada' : '+ Seleccionar'}
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      updateTrayUI();
+    }
+
+    function filterMechanics(filterType, btnEl) {
+      activeFilter = filterType;
+      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderCatalog();
+    }
+
+    function shuffleCatalog() {
+      // Fisher-Yates shuffle
+      for (let i = MECHANICS_DB.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [MECHANICS_DB[i], MECHANICS_DB[j]] = [MECHANICS_DB[j], MECHANICS_DB[i]];
+      }
+      renderCatalog();
+    }
+
+    function toggleSelectMechanic(mech) {
+      const idx = selectedMechanics.findIndex(m => m.id === mech.id);
+      if (idx > -1) {
+        selectedMechanics.splice(idx, 1);
+      } else {
+        if (selectedMechanics.length >= 6) {
+          alert('Has alcanzado el límite máximo de 6 mecánicas para tu perfil de curso.');
+          return;
+        }
+        selectedMechanics.push(mech);
+      }
+      renderCatalog();
+    }
+
+    function removeFromTray(mechId, e) {
+      if (e) e.stopPropagation();
+      const idx = selectedMechanics.findIndex(m => m.id === mechId);
+      if (idx > -1) {
+        selectedMechanics.splice(idx, 1);
+        renderCatalog();
+      }
+    }
+
+    function updateTrayUI() {
+      const trayGrid = document.getElementById('trayCardsGrid');
+      const badge = document.getElementById('trayBudgetBadge');
+      const count = selectedMechanics.length;
+
+      badge.textContent = `${count} / 6 seleccionadas`;
+      if (count === 6) {
+        badge.classList.add('full');
+      } else {
+        badge.classList.remove('full');
+      }
+
+      if (count === 0) {
+        trayGrid.innerHTML = `<div class="empty-tray-text">Haz clic en las tarjetas del catálogo inferior para agregarlas (máximo 6)...</div>`;
+      } else {
+        trayGrid.innerHTML = '';
+        selectedMechanics.forEach(mech => {
+          const item = document.createElement('div');
+          item.className = 'tray-card-mini';
+          item.innerHTML = `
+            <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${mech.name}</span>
+            <button class="remove-btn" onclick="removeFromTray(${mech.id}, event)" title="Quitar">×</button>
+          `;
+          trayGrid.appendChild(item);
+        });
+      }
+
+      // Actualizar botón de acción flotante
+      const btnPrioritize = document.getElementById('btnGoToPrioritize');
+      const ctaHint = document.getElementById('ctaHintText');
+
+      if (count >= 3) {
+        btnPrioritize.disabled = false;
+        ctaHint.innerHTML = `✨ Tienes <strong>${count}</strong> de 6 mecánicas elegidas. ¡Ya puedes priorizar tus favoritas!`;
+      } else {
+        btnPrioritize.disabled = true;
+        ctaHint.innerHTML = `Selecciona al menos <strong>3</strong> mecánicas (tienes ${count}/6) para continuar al análisis.`;
+      }
+    }
+
+    /* ==========================================================================
+       8. FASE 2: PRIORIZACIÓN TOP 1-3
+       ========================================================================== */
+    function openPrioritizationStep() {
+      if (selectedMechanics.length < 3) return;
+
+      const section = document.getElementById('prioritizeSection');
+      section.style.display = 'block';
+
+      // Llenar selectores con las mecánicas seleccionadas
+      populatePrioritySelects();
+
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function populatePrioritySelects() {
+      const selects = [
+        document.getElementById('selectP1'),
+        document.getElementById('selectP2'),
+        document.getElementById('selectP3')
+      ];
+
+      selects.forEach((sel, idx) => {
+        const currentVal = idx === 0 ? priorityP1 : idx === 1 ? priorityP2 : priorityP3;
+        sel.innerHTML = `<option value="">-- Elige la regla para Prioridad ${idx + 1} --</option>`;
+        
+        selectedMechanics.forEach(m => {
+          const opt = document.createElement('option');
+          opt.value = m.id;
+          opt.textContent = `${m.name} (CD${m.cd})`;
+          if (currentVal && currentVal.id === m.id) {
+            opt.selected = true;
+          }
+          sel.appendChild(opt);
+        });
+      });
+
+      refreshSlotCardStyles();
+    }
+
+    function updatePrioritySlot(slotIndex) {
+      const sel1 = document.getElementById('selectP1');
+      const sel2 = document.getElementById('selectP2');
+      const sel3 = document.getElementById('selectP3');
+
+      const id1 = parseInt(sel1.value) || null;
+      const id2 = parseInt(sel2.value) || null;
+      const id3 = parseInt(sel3.value) || null;
+
+      // Evitar duplicados
+      if (slotIndex === 1 && id1 && (id1 === id2 || id1 === id3)) {
+        if (id1 === id2) sel2.value = "";
+        if (id1 === id3) sel3.value = "";
+      }
+      if (slotIndex === 2 && id2 && (id2 === id1 || id2 === id3)) {
+        if (id2 === id1) sel1.value = "";
+        if (id2 === id3) sel3.value = "";
+      }
+      if (slotIndex === 3 && id3 && (id3 === id1 || id3 === id2)) {
+        if (id3 === id1) sel1.value = "";
+        if (id3 === id2) sel2.value = "";
+      }
+
+      priorityP1 = selectedMechanics.find(m => m.id === parseInt(sel1.value)) || null;
+      priorityP2 = selectedMechanics.find(m => m.id === parseInt(sel2.value)) || null;
+      priorityP3 = selectedMechanics.find(m => m.id === parseInt(sel3.value)) || null;
+
+      refreshSlotCardStyles();
+    }
+
+    function refreshSlotCardStyles() {
+      const card1 = document.getElementById('slotCard1');
+      const card2 = document.getElementById('slotCard2');
+      const card3 = document.getElementById('slotCard3');
+
+      if (priorityP1) card1.classList.add('filled'); else card1.classList.remove('filled');
+      if (priorityP2) card2.classList.add('filled'); else card2.classList.remove('filled');
+      if (priorityP3) card3.classList.add('filled'); else card3.classList.remove('filled');
+    }
+
+    /* ==========================================================================
+       9. CÁLCULO OCTALYSIS Y ENVÍO DEL SONDEO
+       ========================================================================== */
+    function submitStudentSurvey() {
+      if (!priorityP1) {
+        alert('Por favor selecciona al menos tu Prioridad 1 ("Regla de Oro") para continuar.');
+        document.getElementById('selectP1').focus();
+        return;
+      }
+
+      // Cálculo de los vectores CD1 a CD8
+      const cdTotals = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+      selectedMechanics.forEach(m => {
+        cdTotals[m.cd] += m.pts;
+      });
+
+      // Bonus de ponderación por prioridades (P1 = +3 pts, P2 = +2 pts, P3 = +1 pt)
+      if (priorityP1) cdTotals[priorityP1.cd] += 3;
+      if (priorityP2) cdTotals[priorityP2.cd] += 2;
+      if (priorityP3) cdTotals[priorityP3.cd] += 1;
+
+      // Sombreros: Blanco (1, 2, 3) vs Negro (6, 7, 8)
+      const whiteHatScore = cdTotals[1] + cdTotals[2] + cdTotals[3];
+      const blackHatScore = cdTotals[6] + cdTotals[7] + cdTotals[8];
+      const totHats = whiteHatScore + blackHatScore;
+      const pctWhite = totHats > 0 ? Math.round((whiteHatScore / totHats) * 100) : 50;
+      const pctBlack = totHats > 0 ? Math.round((blackHatScore / totHats) * 100) : 50;
+
+      // Motivación: Intrínseca (3, 5, 7) vs Extrínseca (2, 4, 6)
+      const intrinsicScore = cdTotals[3] + cdTotals[5] + cdTotals[7];
+      const extrinsicScore = cdTotals[2] + cdTotals[4] + cdTotals[6];
+      const totMotiv = intrinsicScore + extrinsicScore;
+      const pctIntrinsic = totMotiv > 0 ? Math.round((intrinsicScore / totMotiv) * 100) : 50;
+      const pctExtrinsic = totMotiv > 0 ? Math.round((extrinsicScore / totMotiv) * 100) : 50;
+
+      // Determinar Arquetipo
+      const archetype = determineArchetype(pctWhite, pctBlack, pctIntrinsic, pctExtrinsic, cdTotals);
+
+      // Crear objeto de respuesta
+      const submission = {
+        id: 'sub_' + Math.random().toString(36).substring(2, 9),
+        roomId: currentRoom.code,
+        timestamp: new Date().toISOString(),
+        studentName: currentStudent.nick || 'Estudiante Anónimo',
+        cedula: currentStudent.cedula || 'N/A',
+        email: currentStudent.email || 'N/A',
+        selectedMechanics: selectedMechanics.map(m => ({ id: m.id, name: m.name, cd: m.cd })),
+        priority1: priorityP1 ? { id: priorityP1.id, name: priorityP1.name, cd: priorityP1.cd } : null,
+        priority2: priorityP2 ? { id: priorityP2.id, name: priorityP2.name, cd: priorityP2.cd } : null,
+        priority3: priorityP3 ? { id: priorityP3.id, name: priorityP3.name, cd: priorityP3.cd } : null,
+        cdTotals,
+        pctWhite,
+        pctBlack,
+        pctIntrinsic,
+        pctExtrinsic,
+        archetype: archetype.name
+      };
+
+      // Guardar localmente
+      roomSubmissions.push(submission);
+      saveSubmissionsToLocal();
+
+      // Sincronizar en la nube
+      syncSubmissionToCloud(submission);
+
+      // Mostrar resultados en la UI del estudiante
+      renderStudentDiagnosisUI(submission, archetype);
+    }
+
+    function determineArchetype(pctWhite, pctBlack, pctIntrinsic, pctExtrinsic, cdTotals) {
+      // 4 Cuadrantes principales
+      if (pctWhite >= 50 && pctIntrinsic >= 50) {
+        return {
+          name: "🌟 Explorador Autónomo y Creativo",
+          desc: "Te apasiona aprender cuando tienes libertad de elegir formatos, explorar soluciones propias y conectar con un propósito trascendente.",
+          tips: [
+            "Aprovecha las rutas de entrega flexibles para dar rienda suelta a tus talentos creativos.",
+            "Proponle al docente ideas de proyectos aplicados que resuelvan dilemas reales.",
+            "Cuida no dispersarte: fija metas semanales concretas para no postergar entregas abiertas."
+          ]
+        };
+      } else if (pctWhite >= 50 && pctExtrinsic > 50) {
+        return {
+          name: "🎯 Estratega de Logro y Maestría",
+          desc: "Te motiva tener claridad absoluta en metas, rúbricas transparentes, acumulación de experiencia y reconocimiento tangible de tu progreso.",
+          tips: [
+            "Utiliza rúbricas y criterios claros como tu mapa de ruta para asegurar la máxima calificación.",
+            "Monitorea tus hitos y mantén al día tu portafolio de evidencias de aprendizaje.",
+            "Atrévete a veces a tomar riesgos creativos aunque no aseguren puntos inmediatos."
+          ]
+        };
+      } else if (pctBlack > 50 && pctIntrinsic >= 50) {
+        return {
+          name: "⚡ Dinamizador de Misterios y Retos",
+          desc: "Te entusiasman las clases impredecibles, debates inesperados, enigmas y actividades lúdicas que rompen la rutina tradicional.",
+          tips: [
+            "Participa activamente en dinámicas espontáneas y retos sorpresa al inicio de clase.",
+            "Transforma los temas teóricos en preguntas desafiantes o mini-debates con tus compañeros.",
+            "Establece un calendario personal para no depender solo de la adrenalina de última hora."
+          ]
+        };
+      } else {
+        return {
+          name: "🛡️ Táctico de Alto Rendimiento y Seguridad",
+          desc: "Valoras la previsión, los plazos precisos, evitar fallos innecesarios y contar con salvavidas para proteger tu rendimiento académico.",
+          tips: [
+            "Aprovecha las oportunidades de retroalimentación temprana para pulir tus trabajos.",
+            "Usa los comodines y plazos con inteligencia estratégica durante las semanas más pesadas.",
+            "Fomenta la confianza en tus capacidades; equivocarse en borradores es parte natural del aprendizaje."
+          ]
+        };
+      }
+    }
+
+    function renderStudentDiagnosisUI(sub, archetype) {
+      document.getElementById('studentDiagnosisSection').style.display = 'block';
+
+      // Actualizar barras
+      document.getElementById('valWhiteHat').textContent = `${sub.pctWhite}%`;
+      document.getElementById('valBlackHat').textContent = `${sub.pctBlack}%`;
+      document.getElementById('barWhiteHat').style.width = `${sub.pctWhite}%`;
+      document.getElementById('barBlackHat').style.width = `${sub.pctBlack}%`;
+
+      document.getElementById('valIntrinsic').textContent = `${sub.pctIntrinsic}%`;
+      document.getElementById('valExtrinsic').textContent = `${sub.pctExtrinsic}%`;
+      document.getElementById('barIntrinsic').style.width = `${sub.pctIntrinsic}%`;
+      document.getElementById('barExtrinsic').style.width = `${sub.pctExtrinsic}%`;
+
+      // Arquetipo
+      document.getElementById('archetypeTitle').textContent = archetype.name;
+      document.getElementById('archetypeDesc').textContent = archetype.desc;
+      const tipsList = document.getElementById('archetypeTipsList');
+      tipsList.innerHTML = '';
+      archetype.tips.forEach(tip => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span>✓</span> ${tip}`;
+        tipsList.appendChild(li);
+      });
+
+      // Dibujar Radar Canvas
+      drawOctagonRadar('studentRadarCanvas', sub.cdTotals, true);
+
+      document.getElementById('studentDiagnosisSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollBackToCatalog() {
+      document.querySelector('.tray-container').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* ==========================================================================
+       10. MOTOR GRÁFICO: RADAR OCTAGONAL 8D Y CUADRANTE 2D EN CANVAS
+       ========================================================================== */
+    function drawOctagonRadar(canvasId, cdTotals, attachClickEvents = false) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const maxRadius = w * 0.38;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Calcular valor máximo para escalar
+      const values = [cdTotals[1], cdTotals[2], cdTotals[3], cdTotals[4], cdTotals[5], cdTotals[6], cdTotals[7], cdTotals[8]];
+      const maxVal = Math.max(15, Math.max(...values));
+
+      // Ángulos para los 8 Core Drives (el 1 en la cima: -Math.PI / 2)
+      const angles = [];
+      for (let i = 0; i < 8; i++) {
+        angles.push(-Math.PI / 2 + (i * Math.PI * 2) / 8);
+      }
+
+      // 1. Dibujar círculos/octágonos de guía
+      ctx.strokeStyle = '#24324f';
+      ctx.lineWidth = 1;
+      for (let r = 1; r <= 4; r++) {
+        const rad = (maxRadius * r) / 4;
+        ctx.beginPath();
+        for (let i = 0; i < 8; i++) {
+          const x = cx + rad * Math.cos(angles[i]);
+          const y = cy + rad * Math.sin(angles[i]);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      // 2. Dibujar radios
+      for (let i = 0; i < 8; i++) {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + maxRadius * Math.cos(angles[i]), cy + maxRadius * Math.sin(angles[i]));
+        ctx.stroke();
+      }
+
+      // 3. Polígono de datos
+      ctx.beginPath();
+      const polygonPoints = [];
+      for (let i = 0; i < 8; i++) {
+        const val = cdTotals[i + 1] || 0;
+        const currentR = (val / maxVal) * maxRadius;
+        const px = cx + currentR * Math.cos(angles[i]);
+        const py = cy + currentR * Math.sin(angles[i]);
+        polygonPoints.push({ x: px, y: py, cd: i + 1, val });
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+
+      // Gradiente de relleno
+      const grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, maxRadius);
+      grad.addColorStop(0, 'rgba(6, 182, 212, 0.45)');
+      grad.addColorStop(1, 'rgba(168, 85, 247, 0.25)');
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      // 4. Vértices y etiquetas
+      for (let i = 0; i < 8; i++) {
+        const pt = polygonPoints[i];
+
+        // Puntos de datos
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Etiquetas CD1 a CD8
+        const labelR = maxRadius + 24;
+        const lx = cx + labelR * Math.cos(angles[i]);
+        const ly = cy + labelR * Math.sin(angles[i]);
+
+        ctx.font = '600 11px Outfit, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Colores por Sombrero
+        if (i === 0 || i === 1 || i === 2) ctx.fillStyle = '#06b6d4'; // White
+        else if (i === 5 || i === 6 || i === 7) ctx.fillStyle = '#f43f5e'; // Black
+        else ctx.fillStyle = '#94a3b8'; // Neutral
+
+        ctx.fillText(`CD${i + 1}`, lx, ly);
+      }
+
+      // Evento de clic en vértices para mostrar información
+      if (attachClickEvents && !canvas._hasClickListener) {
+        canvas._hasClickListener = true;
+        canvas.addEventListener('click', (e) => {
+          const rect = canvas.getBoundingClientRect();
+          const scaleX = canvas.width / rect.width;
+          const scaleY = canvas.height / rect.height;
+          const clickX = (e.clientX - rect.left) * scaleX;
+          const clickY = (e.clientY - rect.top) * scaleY;
+
+          // Buscar CD más cercano al ángulo
+          const dx = clickX - cx;
+          const dy = clickY - cy;
+          let clickAngle = Math.atan2(dy, dx);
+          
+          let closestCd = 1;
+          let minDiff = 999;
+          for (let i = 0; i < 8; i++) {
+            let diff = Math.abs(clickAngle - angles[i]);
+            if (diff > Math.PI) diff = Math.PI * 2 - diff;
+            if (diff < minDiff) {
+              minDiff = diff;
+              closestCd = i + 1;
+            }
+          }
+
+          openCoreDriveInfoModal(closestCd);
+        });
+      }
+    }
+
+    function openCoreDriveInfoModal(cdNum) {
+      const info = CORE_DRIVES_INFO[cdNum];
+      if (!info) return;
+
+      document.getElementById('infoDrivePill').textContent = `CD${cdNum}`;
+      document.getElementById('infoDriveTitle').textContent = info.name;
+      document.getElementById('infoDriveDesc').textContent = info.desc;
+      document.getElementById('infoDriveClassroom').textContent = info.classroom;
+
+      openModal('modalCoreDriveInfo');
+    }
+
+    function drawClassQuadrant(canvasId, submissions) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Fondo de cuadrantes sutil
+      ctx.fillStyle = 'rgba(6, 182, 212, 0.04)'; // Top-Right (White-Intrinsic)
+      ctx.fillRect(cx, 0, cx, cy);
+      ctx.fillStyle = 'rgba(59, 130, 246, 0.04)'; // Top-Left (White-Extrinsic)
+      ctx.fillRect(0, 0, cx, cy);
+      ctx.fillStyle = 'rgba(244, 63, 94, 0.04)'; // Bottom-Right (Black-Intrinsic)
+      ctx.fillRect(cx, cy, cx, cy);
+      ctx.fillStyle = 'rgba(245, 158, 11, 0.04)'; // Bottom-Left (Black-Extrinsic)
+      ctx.fillRect(0, cy, cx, cy);
+
+      // Ejes X e Y
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, cy);
+      ctx.lineTo(w, cy);
+      ctx.moveTo(cx, 0);
+      ctx.lineTo(cx, h);
+      ctx.stroke();
+
+      // Rótulos de los 4 extremos
+      ctx.font = '600 10px Outfit, sans-serif';
+      ctx.fillStyle = '#06b6d4';
+      ctx.textAlign = 'center';
+      ctx.fillText('▲ Sombrero Blanco (+Y)', cx, 18);
+
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText('▼ Sombrero Negro (-Y)', cx, h - 10);
+
+      ctx.fillStyle = '#a855f7';
+      ctx.textAlign = 'right';
+      ctx.fillText('Intrínseca (+X) ▶', w - 12, cy - 8);
+
+      ctx.fillStyle = '#3b82f6';
+      ctx.textAlign = 'left';
+      ctx.fillText('◀ Extrínseca (-X)', 12, cy - 8);
+
+      // Dibujar cada estudiante como un punto disperso
+      submissions.forEach(sub => {
+        // X mapeado de Extrínseco (-1) a Intrínseco (+1)
+        const xOffset = ((sub.pctIntrinsic - 50) / 50) * (cx * 0.82);
+        // Y mapeado de Negro (-1) a Blanco (+1)
+        const yOffset = -((sub.pctWhite - 50) / 50) * (cy * 0.82);
+
+        const px = cx + xOffset;
+        const py = cy + yOffset;
+
+        ctx.beginPath();
+        ctx.arc(px, py, 6, 0, Math.PI * 2);
+        ctx.fillStyle = sub.pctWhite >= 50 ? '#06b6d4' : '#f43f5e';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      });
+    }
+
+    /* ==========================================================================
+       11. TEACHER DASHBOARD: AGREGACIÓN DE RESULTADOS Y DEBATE
+       ========================================================================== */
+    function renderTeacherDashboard() {
+      updateRoomHeaderUI();
+
+      const total = roomSubmissions.length;
+      document.getElementById('kpiTotalStudents').textContent = total;
+
+      if (total === 0) {
+        document.getElementById('rankingListContainer').innerHTML = `<p style="color: var(--text-dim); font-size: 0.85rem; padding: 1rem;">Esperando respuestas de estudiantes...</p>`;
+        return;
+      }
+
+      // 1. Promedios globales
+      let avgWhite = 0, avgBlack = 0, avgInt = 0, avgExt = 0;
+      const classCdSums = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+      const mechanicsVotes = {};
+
+      roomSubmissions.forEach(sub => {
+        avgWhite += sub.pctWhite;
+        avgBlack += sub.pctBlack;
+        avgInt += sub.pctIntrinsic;
+        avgExt += sub.pctExtrinsic;
+
+        for (let cd = 1; cd <= 8; cd++) {
+          classCdSums[cd] += sub.cdTotals[cd] || 0;
+        }
+
+        // Conteo de mecánicas
+        sub.selectedMechanics.forEach(m => {
+          if (!mechanicsVotes[m.id]) {
+            mechanicsVotes[m.id] = { id: m.id, name: m.name, cd: m.cd, totalVotes: 0, p1Votes: 0, p2Votes: 0, p3Votes: 0 };
+          }
+          mechanicsVotes[m.id].totalVotes++;
+        });
+
+        if (sub.priority1 && mechanicsVotes[sub.priority1.id]) mechanicsVotes[sub.priority1.id].p1Votes++;
+        if (sub.priority2 && mechanicsVotes[sub.priority2.id]) mechanicsVotes[sub.priority2.id].p2Votes++;
+        if (sub.priority3 && mechanicsVotes[sub.priority3.id]) mechanicsVotes[sub.priority3.id].p3Votes++;
+      });
+
+      avgWhite = Math.round(avgWhite / total);
+      avgBlack = Math.round(avgBlack / total);
+      avgInt = Math.round(avgInt / total);
+      avgExt = Math.round(avgExt / total);
+
+      // Promedio por Core Drive
+      const classCdAverages = {};
+      for (let cd = 1; cd <= 8; cd++) {
+        classCdAverages[cd] = parseFloat((classCdSums[cd] / total).toFixed(1));
+      }
+
+      // Actualizar KPIs
+      document.getElementById('kpiDominantHat').textContent = avgWhite >= avgBlack ? 'Sombrero Blanco' : 'Sombrero Negro';
+      document.getElementById('kpiDominantHat').style.color = avgWhite >= avgBlack ? 'var(--white-hat)' : 'var(--black-hat)';
+      document.getElementById('kpiHatBreakdown').textContent = `${avgWhite}% Blanco vs ${avgBlack}% Negro`;
+
+      document.getElementById('kpiDominantMotivation').textContent = avgInt >= avgExt ? 'Intrínseca' : 'Extrínseca';
+      document.getElementById('kpiDominantMotivation').style.color = avgInt >= avgExt ? 'var(--intrinsic)' : 'var(--extrinsic)';
+      document.getElementById('kpiMotivBreakdown').textContent = `${avgInt}% Intrínseca vs ${avgExt}% Extrínseca`;
+
+      // Ranking ponderado (P1 tiene mayor peso: 3x, P2: 2x, P3: 1x + voto base)
+      const sortedRanking = Object.values(mechanicsVotes).sort((a, b) => {
+        const scoreA = (a.p1Votes * 3) + (a.p2Votes * 2) + a.p3Votes + a.totalVotes;
+        const scoreB = (b.p1Votes * 3) + (b.p2Votes * 2) + b.p3Votes + b.totalVotes;
+        return scoreB - scoreA;
+      });
+
+      if (sortedRanking.length > 0) {
+        document.getElementById('kpiTopRule').textContent = sortedRanking[0].name;
+        document.getElementById('kpiTopRuleVotes').textContent = `${sortedRanking[0].p1Votes} votos como Regla de Oro (#1)`;
+      }
+
+      // Renderizar Ranking UI
+      renderRankingListUI(sortedRanking);
+
+      // Renderizar Radar Colectivo y Cuadrante 2D
+      drawOctagonRadar('classRadarCanvas', classCdAverages, false);
+      drawClassQuadrant('classQuadrantCanvas', roomSubmissions);
+
+      // Renderizar Disparadores de Debate
+      renderDebateQuestionsUI(avgWhite, avgBlack, avgInt, avgExt, sortedRanking);
+
+      // Renderizar Tabla
+      renderSubmissionsTable();
+    }
+
+    function renderRankingListUI(sortedRanking) {
+      const container = document.getElementById('rankingListContainer');
+      container.innerHTML = '';
+
+      sortedRanking.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'ranking-item';
+        row.innerHTML = `
+          <div class="rank-number">#${index + 1}</div>
+          <div class="rank-info">
+            <div class="rank-name">${item.name}</div>
+            <div class="rank-cd">CD${item.cd}: ${CORE_DRIVES_INFO[item.cd].name}</div>
+          </div>
+          <div class="rank-badges">
+            ${item.p1Votes > 0 ? `<span class="badge-p1">🥇 ${item.p1Votes} de Oro</span>` : ''}
+            <span class="badge-votes">${item.totalVotes} votos totales</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function renderDebateQuestionsUI(avgWhite, avgBlack, avgInt, avgExt, sortedRanking) {
+      const container = document.getElementById('debateQuestionsList');
+      container.innerHTML = '';
+
+      const topRule = sortedRanking[0] ? sortedRanking[0].name : "las reglas de entrega";
+
+      const questions = [];
+
+      if (avgWhite >= 60) {
+        questions.push(`🌟 <strong>Alta necesidad de Autonomía y Sentido:</strong> El aula se inclina fuertemente por Sombrero Blanco (${avgWhite}%). ¿Cómo distribuiremos los formatos de entrega abierta para que el profesor pueda calificar a tiempo sin colapsar?`);
+      } else if (avgBlack >= 50) {
+        questions.push(`⚡ <strong>Demanda de Adrenalina y Estructura:</strong> El grupo responde con fuerza al Sombrero Negro (${avgBlack}%). ¿Qué comodines o ventanas relámpago podemos pactar que incentiven la puntualidad sin generar ansiedad tóxica?`);
+      }
+
+      if (avgInt >= 55) {
+        questions.push(`🤝 <strong>Enfoque Social y Creativo:</strong> La motivación dominante es Intrínseca (${avgInt}%). ¿Qué porcentaje del tiempo de clase dedicaremos al trabajo en equipos/clanes versus la exposición magistral?`);
+      } else {
+        questions.push(`🎯 <strong>Claridad en Recompensas y Metas:</strong> La motivación Extrínseca predomina (${avgExt}%). ¿Qué hitos o insignias intermedias podemos implementar para que siempre sepan cómo va su nota?`);
+      }
+
+      questions.push(`🏆 <strong>Consenso sobre la regla favorita:</strong> La dinámica más votada fue "<em>${topRule}</em>". ¿Qué compromisos mutuos (docente y estudiantes) se requieren para que esta regla funcione en la vida real?`);
+
+      questions.forEach(q => {
+        const item = document.createElement('div');
+        item.className = 'debate-question-item';
+        item.innerHTML = q;
+        container.appendChild(item);
+      });
+    }
+
+    function renderSubmissionsTable() {
+      const tbody = document.getElementById('teacherTableBody');
+      const searchTerm = (document.getElementById('tableSearchInput')?.value || '').toLowerCase();
+      tbody.innerHTML = '';
+
+      const filtered = roomSubmissions.filter(s => {
+        return s.studentName.toLowerCase().includes(searchTerm) || 
+               s.cedula.toLowerCase().includes(searchTerm) ||
+               s.email.toLowerCase().includes(searchTerm);
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-dim); padding: 1.5rem;">No se encontraron registros.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(sub => {
+        const tr = document.createElement('tr');
+        const p1Name = sub.priority1 ? sub.priority1.name : '--';
+        const p2p3 = [sub.priority2?.name, sub.priority3?.name].filter(Boolean).join(', ') || '--';
+
+        const showCed = currentRoom.requireCedula;
+        const showMail = currentRoom.requireEmail;
+
+        tr.innerHTML = `
+          <td>${new Date(sub.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+          <td><strong>${sub.studentName}</strong></td>
+          ${showCed ? `<td>${sub.cedula}</td>` : '<td style="display:none"></td>'}
+          ${showMail ? `<td>${sub.email}</td>` : '<td style="display:none"></td>'}
+          <td><span style="color: var(--gold); font-weight: 600;">🥇 ${p1Name}</span></td>
+          <td style="font-size: 0.8rem; color: var(--text-muted);">${p2p3}</td>
+          <td><span style="color: var(--white-hat);">${sub.pctWhite}%</span> / <span style="color: var(--black-hat);">${sub.pctBlack}%</span></td>
+          <td><span style="color: var(--intrinsic);">${sub.pctIntrinsic}%</span> / <span style="color: var(--extrinsic);">${sub.pctExtrinsic}%</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ==========================================================================
+       12. MOTOR DE EXPORTACIÓN (EXCEL .xlsx, PDF EJECUTIVO Y CSV)
+       ========================================================================== */
+
+    /* EXPORTAR A EXCEL (.XLSX) CON 2 PESTAÑAS */
+    function exportDataToExcel() {
+      if (typeof XLSX === 'undefined') {
+        alert('La librería SheetJS aún se está cargando. Por favor intenta en 3 segundos.');
+        return;
+      }
+
+      if (roomSubmissions.length === 0) {
+        alert('No hay respuestas registradas en esta sala para exportar.');
+        return;
+      }
+
+      const wb = XLSX.utils.book_new();
+
+      // HOJA 1: RESUMEN GRUPAL
+      const summaryData = [
+        ["REPORTE EJECUTIVO DE SONDEO OCTALYSIS"],
+        ["Asignatura / Grupo:", currentRoom.name],
+        ["Código de Sala:", currentRoom.code],
+        ["Fecha de Generación:", new Date().toLocaleString()],
+        ["Total Estudiantes:", roomSubmissions.length],
+        [],
+        ["PROMEDIOS DE CORE DRIVES (CD1 a CD8)"],
+        ["Core Drive", "Nombre", "Puntaje Promedio", "Dimensión"],
+        ["CD1", CORE_DRIVES_INFO[1].name, calculateCdAverage(1), "Sombrero Blanco / Intrínseco"],
+        ["CD2", CORE_DRIVES_INFO[2].name, calculateCdAverage(2), "Sombrero Blanco / Extrínseco"],
+        ["CD3", CORE_DRIVES_INFO[3].name, calculateCdAverage(3), "Sombrero Blanco / Intrínseco"],
+        ["CD4", CORE_DRIVES_INFO[4].name, calculateCdAverage(4), "Sombrero Blanco / Extrínseco"],
+        ["CD5", CORE_DRIVES_INFO[5].name, calculateCdAverage(5), "Sombrero Blanco / Intrínseco"],
+        ["CD6", CORE_DRIVES_INFO[6].name, calculateCdAverage(6), "Sombrero Negro / Extrínseco"],
+        ["CD7", CORE_DRIVES_INFO[7].name, calculateCdAverage(7), "Sombrero Negro / Intrínseco"],
+        ["CD8", CORE_DRIVES_INFO[8].name, calculateCdAverage(8), "Sombrero Negro / Extrínseco"],
+        [],
+        ["BALANCES GLOBALES DEL AULA"],
+        ["Dimensión", "Porcentaje Consolidado"],
+        ["Sombrero Blanco (Autonomía/Significado)", `${document.getElementById('valWhiteHat')?.textContent || '50%'}`],
+        ["Sombrero Negro (Urgencia/Reto)", `${document.getElementById('valBlackHat')?.textContent || '50%'}`],
+        ["Motivación Intrínseca (Creatividad/Social)", `${document.getElementById('valIntrinsic')?.textContent || '50%'}`],
+        ["Motivación Extrínseca (Metas/Recompensas)", `${document.getElementById('valExtrinsic')?.textContent || '50%'}`]
+      ];
+
+      const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
+      XLSX.utils.book_append_sheet(wb, wsSummary, "Resumen del Grupo");
+
+      // HOJA 2: DETALLE INDIVIDUAL DE ESTUDIANTES
+      const headers = [
+        "ID Respuesta", "Fecha/Hora", "Nombre/Apodo", "Cédula / Documento", "Correo Institucional",
+        "Regla Oro (P1)", "Prioridad 2", "Prioridad 3",
+        "Mecánica 1", "Mecánica 2", "Mecánica 3", "Mecánica 4", "Mecánica 5", "Mecánica 6",
+        "CD1", "CD2", "CD3", "CD4", "CD5", "CD6", "CD7", "CD8",
+        "% Sombrero Blanco", "% Sombrero Negro", "% Intrínseca", "% Extrínseca", "Arquetipo"
+      ];
+
+      const detailData = [headers];
+
+      roomSubmissions.forEach(s => {
+        const mechs = s.selectedMechanics.map(m => m.name);
+        detailData.push([
+          s.id,
+          s.timestamp,
+          s.studentName,
+          s.cedula || 'N/A',
+          s.email || 'N/A',
+          s.priority1 ? s.priority1.name : '',
+          s.priority2 ? s.priority2.name : '',
+          s.priority3 ? s.priority3.name : '',
+          mechs[0] || '', mechs[1] || '', mechs[2] || '', mechs[3] || '', mechs[4] || '', mechs[5] || '',
+          s.cdTotals[1], s.cdTotals[2], s.cdTotals[3], s.cdTotals[4], s.cdTotals[5], s.cdTotals[6], s.cdTotals[7], s.cdTotals[8],
+          s.pctWhite, s.pctBlack, s.pctIntrinsic, s.pctExtrinsic,
+          s.archetype || ''
+        ]);
+      });
+
+      const wsDetail = XLSX.utils.aoa_to_sheet(detailData);
+      XLSX.utils.book_append_sheet(wb, wsDetail, "Respuestas Individuales");
+
+      // Descargar archivo
+      const fileName = `Octalysis_${currentRoom.code}_${sanitizeFileName(currentRoom.name)}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+    }
+
+    function calculateCdAverage(cdNum) {
+      if (roomSubmissions.length === 0) return 0;
+      const sum = roomSubmissions.reduce((acc, s) => acc + (s.cdTotals[cdNum] || 0), 0);
+      return parseFloat((sum / roomSubmissions.length).toFixed(1));
+    }
+
+    /* EXPORTAR A PDF EJECUTIVO CON RADAR CAPTURADO */
+    async function exportDataToPDF() {
+      if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
+        alert('Librería jsPDF no disponible.');
+        return;
+      }
+
+      if (roomSubmissions.length === 0) {
+        alert('No hay respuestas registradas para generar el reporte PDF.');
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+      // Membrete
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 30, 'F');
+
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.setTextColor(255, 255, 255);
+      doc.text("INFORME DE SONDEO OCTALYSIS", 15, 14);
+
+      doc.setFontSize(10);
+      doc.setFont('Helvetica', 'normal');
+      doc.setTextColor(6, 182, 212);
+      doc.text(`Asignatura: ${currentRoom.name} | Sala: ${currentRoom.code}`, 15, 22);
+
+      doc.setTextColor(150, 160, 180);
+      doc.text(`Fecha: ${new Date().toLocaleDateString()} | Total Estudiantes: ${roomSubmissions.length}`, 140, 22);
+
+      // Métricas KPI
+      doc.setFontSize(12);
+      doc.setFont('Helvetica', 'bold');
+      doc.setTextColor(15, 23, 42);
+      doc.text("1. Resumen de Balances Pedagógicos", 15, 42);
+
+      doc.setFontSize(10);
+      doc.setFont('Helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+
+      const dominantHat = document.getElementById('kpiDominantHat')?.textContent || 'Sombrero Blanco';
+      const hatSub = document.getElementById('kpiHatBreakdown')?.textContent || '';
+      const dominantMotiv = document.getElementById('kpiDominantMotivation')?.textContent || 'Intrínseca';
+      const motivSub = document.getElementById('kpiMotivBreakdown')?.textContent || '';
+
+      doc.text(`• Tendencia de Sombrero Dominante: ${dominantHat} (${hatSub})`, 18, 50);
+      doc.text(`• Balance Motivacional del Aula: ${dominantMotiv} (${motivSub})`, 18, 56);
+      doc.text(`• Regla de Mayor Consenso (#1): ${document.getElementById('kpiTopRule')?.textContent || 'N/A'}`, 18, 62);
+
+      // Captura del Radar Canvas Colectivo
+      const canvasRadar = document.getElementById('classRadarCanvas');
+      if (canvasRadar) {
+        try {
+          const imgData = canvasRadar.toDataURL('image/png');
+          doc.text("2. Radar Octagonal Colectivo (CD1 a CD8)", 15, 75);
+          doc.addImage(imgData, 'PNG', 45, 80, 120, 120);
+        } catch (e) {
+          console.error("Error al incrustar radar en PDF", e);
+        }
+      }
+
+      // Conclusiones y Debate
+      doc.setFontSize(12);
+      doc.setFont('Helvetica', 'bold');
+      doc.text("3. Preguntas Clave para el Acuerdo Pedagógico", 15, 215);
+
+      doc.setFontSize(9);
+      doc.setFont('Helvetica', 'normal');
+      const debateItems = document.querySelectorAll('.debate-question-item');
+      let yPos = 223;
+      debateItems.forEach((item, idx) => {
+        if (idx < 3) {
+          const text = item.innerText.replace(/\n/g, ' ');
+          const splitText = doc.splitTextToSize(`• ${text}`, 180);
+          doc.text(splitText, 15, yPos);
+          yPos += (splitText.length * 4.5) + 2;
+        }
+      });
+
+      // Pie de página
+      doc.setFontSize(8);
+      doc.setTextColor(130, 130, 130);
+      doc.text("Generado automáticamente por Octalysis Students Platform · Formato para docentes", 15, 285);
+
+      doc.save(`Reporte_Octalysis_${currentRoom.code}.pdf`);
+    }
+
+    /* EXPORTAR A CSV CON BOM UTF-8 */
+    function exportDataToCSV() {
+      if (roomSubmissions.length === 0) {
+        alert('No hay respuestas para exportar.');
+        return;
+      }
+
+      const headers = [
+        "id", "timestamp", "sala", "estudiante", "cedula", "correo",
+        "prioridad_1", "prioridad_2", "prioridad_3",
+        "mecanica_1", "mecanica_2", "mecanica_3", "mecanica_4", "mecanica_5", "mecanica_6",
+        "cd1", "cd2", "cd3", "cd4", "cd5", "cd6", "cd7", "cd8",
+        "pct_sombrero_blanco", "pct_sombrero_negro", "pct_intrinseca", "pct_extrinseca", "arquetipo"
+      ];
+
+      const rows = [headers.join(';')];
+
+      roomSubmissions.forEach(s => {
+        const mechs = s.selectedMechanics.map(m => `"${m.name}"`);
+        const row = [
+          s.id,
+          s.timestamp,
+          `"${s.roomId}"`,
+          `"${s.studentName}"`,
+          `"${s.cedula || 'N/A'}"`,
+          `"${s.email || 'N/A'}"`,
+          `"${s.priority1 ? s.priority1.name : ''}"`,
+          `"${s.priority2 ? s.priority2.name : ''}"`,
+          `"${s.priority3 ? s.priority3.name : ''}"`,
+          mechs[0] || '""', mechs[1] || '""', mechs[2] || '""', mechs[3] || '""', mechs[4] || '""', mechs[5] || '""',
+          s.cdTotals[1], s.cdTotals[2], s.cdTotals[3], s.cdTotals[4], s.cdTotals[5], s.cdTotals[6], s.cdTotals[7], s.cdTotals[8],
+          s.pctWhite, s.pctBlack, s.pctIntrinsic, s.pctExtrinsic,
+          `"${s.archetype || ''}"`
+        ];
+        rows.push(row.join(';'));
+      });
+
+      const csvContent = "\uFEFF" + rows.join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `Octalysis_Respuestas_${currentRoom.code}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function sanitizeFileName(str) {
+      return str.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
+    }
+
+    /* ==========================================================================
+       13. SINCRONIZACIÓN EN LA NUBE (DUAL: FIREBASE REALTIME + GOOGLE SHEETS)
+       ========================================================================== */
+    const CLOUD_DB_BASE_URL = "https://octalysis-students-default-rtdb.firebaseio.com";
+
+    function syncSubmissionToCloud(submission) {
+      // 1. Guardar en Cloud DB Multi-sala (Firebase REST)
+      if (currentRoom.storageType === 'cloud') {
+        const endpoint = `${CLOUD_DB_BASE_URL}/rooms/${currentRoom.code}/submissions.json`;
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(submission)
+        }).catch(err => {
+          console.log('Sincronización local activa (offline fallback):', err);
+        });
+      }
+
+      // 2. Si el profesor configuró su propio Google Apps Script Webhook
+      if (currentRoom.storageType === 'custom_sheet' && currentRoom.customWebhook && currentRoom.customWebhook.trim() !== '') {
+        fetch(currentRoom.customWebhook, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(submission)
+        }).catch(err => {
+          console.log('Error enviando al Webhook de Google Sheets:', err);
+        });
+      }
+    }
+
+    function startSyncListener() {
+      // Polling ligero cada 4 segundos para actualizar en vivo el panel docente
+      setInterval(() => {
+        if (currentRole === 'teacher' && currentRoom.storageType === 'cloud') {
+          fetchCloudSubmissions();
+        }
+      }, 4000);
+    }
+
+    function fetchCloudSubmissions() {
+      const endpoint = `${CLOUD_DB_BASE_URL}/rooms/${currentRoom.code}/submissions.json`;
+      fetch(endpoint)
+        .then(res => res.json())
+        .then(data => {
+          if (data && typeof data === 'object') {
+            const list = Object.values(data);
+            if (list.length > roomSubmissions.length) {
+              roomSubmissions = list;
+              saveSubmissionsToLocal();
+              renderTeacherDashboard();
+            }
+          }
+        })
+        .catch(() => {
+          // Mantener datos de localStorage
+        });
+    }
+
+    /* DATOS DEMOSTRATIVOS PARA EL TALLER INICIAL */
+    function seedDemoData() {
+      roomSubmissions = [
+        {
+          id: 'demo_1',
+          roomId: 'OCTA-DEMO',
+          timestamp: new Date(Date.now() - 3600000 * 2).toISOString(),
+          studentName: "Santiago R.",
+          cedula: "1144123001",
+          email: "santiago.r@uao.edu.co",
+          selectedMechanics: [MECHANICS_DB[0], MECHANICS_DB[6], MECHANICS_DB[8], MECHANICS_DB[12], MECHANICS_DB[13], MECHANICS_DB[18]],
+          priority1: MECHANICS_DB[6], // Rutas de Entrega Multiformato
+          priority2: MECHANICS_DB[8], // Zona Sandbox
+          priority3: MECHANICS_DB[0], // Caso del Mundo Real
+          cdTotals: { 1: 8, 2: 0, 3: 15, 4: 0, 5: 10, 6: 0, 7: 5, 8: 0 },
+          pctWhite: 75,
+          pctBlack: 25,
+          pctIntrinsic: 80,
+          pctExtrinsic: 20,
+          archetype: "🌟 Explorador Autónomo y Creativo"
+        },
+        {
+          id: 'demo_2',
+          roomId: 'OCTA-DEMO',
+          timestamp: new Date(Date.now() - 3600000 * 1.5).toISOString(),
+          studentName: "Valentina M.",
+          cedula: "1144123002",
+          email: "valentina.m@uao.edu.co",
+          selectedMechanics: [MECHANICS_DB[3], MECHANICS_DB[4], MECHANICS_DB[9], MECHANICS_DB[11], MECHANICS_DB[21], MECHANICS_DB[23]],
+          priority1: MECHANICS_DB[3], // Niveles de XP
+          priority2: MECHANICS_DB[23], // Red de Salvavidas
+          priority3: MECHANICS_DB[4], // Árbol de Habilidades
+          cdTotals: { 1: 0, 2: 13, 3: 0, 4: 10, 5: 0, 6: 0, 7: 0, 8: 12 },
+          pctWhite: 60,
+          pctBlack: 40,
+          pctIntrinsic: 25,
+          pctExtrinsic: 75,
+          archetype: "🎯 Estratega de Logro y Maestría"
+        },
+        {
+          id: 'demo_3',
+          roomId: 'OCTA-DEMO',
+          timestamp: new Date(Date.now() - 3600000 * 0.8).toISOString(),
+          studentName: "Mateo G.",
+          cedula: "1144123003",
+          email: "mateo.g@uao.edu.co",
+          selectedMechanics: [MECHANICS_DB[6], MECHANICS_DB[12], MECHANICS_DB[14], MECHANICS_DB[18], MECHANICS_DB[19], MECHANICS_DB[23]],
+          priority1: MECHANICS_DB[6], // Rutas de Entrega Multiformato
+          priority2: MECHANICS_DB[18], // Ruleta Sorpresa
+          priority3: MECHANICS_DB[12], // Clanes de Estudio
+          cdTotals: { 1: 0, 2: 0, 3: 10, 4: 0, 5: 11, 6: 0, 7: 12, 8: 5 },
+          pctWhite: 55,
+          pctBlack: 45,
+          pctIntrinsic: 85,
+          pctExtrinsic: 15,
+          archetype: "⚡ Dinamizador de Misterios y Retos"
+        }
+      ];
+      saveSubmissionsToLocal();
+    }
+
+    /* ==========================================================================
+       14. UTILIDADES DE MODALES
+       ========================================================================== */
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Cerrar modales con tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
+      }
+    });
+  </script>
+</body>
+</html>
