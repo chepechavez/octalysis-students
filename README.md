@@ -1,9 +1,9 @@
 # ⬡ Octalysis Students
-> **Plataforma web de sondeo motivacional y co-creación de acuerdos de clase basada en el marco de Gamificación Octalysis.**
+> **Plataforma web de sondeo motivacional y cocreación de acuerdos de clase basada en el modelo Octalysis.**
 
-![Versión](https://img.shields.io/badge/versión-2.0.0-cyan.svg)
+![Versión](https://img.shields.io/badge/versión-2.1.0-cyan.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-purple.svg)
-![Despliegue](https://img.shields.io/badge/GitHub%20Pages-Ready-emerald.svg)
+![Despliegue](https://img.shields.io/badge/GitHub%20Pages-listo-emerald.svg)
 
 ---
 
@@ -11,71 +11,79 @@
 
 **Octalysis Students** es una evolución del taller docente de Octalysis, diseñada para que **cualquier profesor pueda aplicarla directamente con sus estudiantes** en el aula de clase o de forma asíncrona, **sin necesidad de clonar repositorios, instalar programas ni configurar servidores**.
 
-Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan a los estudiantes, facilitando la negociación informada de acuerdos pedagógicos para el semestre.
+Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan a los estudiantes sin sesgos teóricos previos, facilitando la negociación informada de acuerdos pedagógicos para el semestre.
 
 ---
 
-## ✨ Características Principales
+## ✨ Características principales
 
-### 🎒 Para los Estudiantes (Móvil y Escritorio)
-- **Catálogo de 24 mecánicas adaptadas:** Explicadas en lenguaje cotidiano y cercano al estudiante (3 mecánicas por cada uno de los 8 Core Drives).
-- **Bandeja de selección de hasta 6 reglas:** Los estudiantes eligen libremente qué dinámicas les gustaría vivir en el curso.
-- **Priorización Top 1-3 (Regla de Oro):** Identifica el énfasis real del estudiante sin generar falsas expectativas sobre reglas inalcanzables.
-- **Diagnóstico individual inmediato:**
-  - Gráfico octagonal 8D interactivo en HTML5 Canvas con información pedagógica al tocar cada vértice.
-  - Balance de Sombreros (Blanco vs Negro).
-  - Balance de Motivación (Intrínseca vs Extrínseca).
-  - Identificación de su **Arquetipo de Estudiante** con consejos prácticos para su autorregulación académica.
+### 🎒 Para los estudiantes (móvil y escritorio)
+- **Catálogo inicial imparcial y mezclado al azar:** las 24 dinámicas del curso se presentan únicamente con su título y descripción cotidiana (sin mostrar etiquetas de *Core Drive*, sombrero blanco o negro ni tipo de motivación) para evitar sesgos de deseabilidad social. Incluye buscador por palabra clave y botón **🎲 Mezclar orden**.
+- **Selección exacta de 6 reglas:** todos los participantes completan una base matemática idéntica de 6 preferencias antes de priorizar.
+- **Priorización sin etiquetas teóricas:** el estudiante indica su **prioridad 1 (regla de oro, obligatoria)** y opcionalmente sus **prioridades 2 y 3**.
+- **Devolución psicopedagógica interactiva inmediata:**
+  1. **Red octagonal oficial (CD1 a CD8):** diagrama fiel a la geometría oficial de Yu-kai Chou con etiquetas interactivas y botones rápidos para explorar de qué trata cada *Core Drive*.
+  2. **Ejes de equilibrio motivacional clicables:** barras comparativas con modales explicativos sobre la diferencia entre **sombrero blanco y sombrero negro** y entre **motivación intrínseca y motivación extrínseca**.
+  3. **Estrategia de aprendizaje y autorregulación:** recomendaciones prácticas personalizadas según el perfil resultante.
+  4. **Revelación opcional de las 24 tarjetas por *Core Drive*:** acordeón desplegable con las 24 reglas ordenadas secuencialmente de `CD1` a `CD8`, mostrando su clasificación teórica completa y resaltando las elecciones y prioridades del estudiante.
 
-### 👨‍🏫 Para el Docente (Panel en Vivo y Exportaciones)
-- **Creación de salas en 10 segundos:** Código alfanumérico amigable (ej. `OCTA-492`) y generación automática de **código QR proyectable** para escaneo desde smartphones.
-- **Seguridad por PIN de 4 dígitos:** Protege el panel de control y las exportaciones frente a accesos no autorizados.
-- **Configuración de datos institucionales:** El docente puede activar casillas para solicitar opcionalmente **Número de Cédula / Documento de Identidad** y **Correo Institucional** (ej. `@uao.edu.co`).
-- **Dashboard analítico colectivo en tiempo real:**
-  - Radar Octalysis promedio del curso (CD1 a CD8).
-  - Cuadrante 2D de dispersión psicológica del grupo.
-  - Ranking ponderado de mecánicas más votadas.
-  - Disparadores automatizados de debate pedagógico para pactar acuerdos viables.
+### 👨‍🏫 Para el docente (panel en vivo y exportaciones)
+- **Creación de salas en segundos con confirmación de PIN:** código alfanumérico único (ej. `OCTA-798`), validación de doble escritura del PIN (4 a 6 caracteres), generación de enlace firmado (`&cfg=`) y **código QR proyectable**.
+- **Seguridad criptográfica del PIN:** el PIN nunca viaja en texto plano; se deriva mediante `SHA-256` (`hashRoomPin`) y funciona en cualquier navegador o dispositivo sin caer en claves predeterminadas (la clave `1234` aplica únicamente a la sala demostrativa `OCTA-DEMO`).
+- **Configuración de datos institucionales:** casillas opcionales para solicitar **número de cédula o documento de identidad** y **correo o usuario institucional** (ej. `@uao.edu.co`).
+- **Panel analítico colectivo en tiempo real:**
+  - Red Octalysis colectiva del curso (`CD1` a `CD8`) con geometría oficial.
+  - Cuadrante 2D de dispersión motivacional del grupo.
+  - Ranking ponderado de reglas priorizadas y disparadores automatizados de debate pedagógico.
+  - Gestión de sala en vivo (cambio de PIN confirmado, edición de campos y botón para vaciar respuestas de la sala tras exportar).
 - **Motores de exportación directa en el navegador:**
-  - 📊 **Excel estructurado (`.xlsx`):** Con 2 hojas (*Resumen del Grupo* y *Respuestas Individuales* detalladas con cédula, correo, prioridades y puntajes).
-  - 📑 **PDF Ejecutivo:** Con membrete institucional, métricas clave, gráfico de radar capturado y preguntas de debate listas para imprimir o proyectar.
-  - 📁 **CSV plano:** Codificado en UTF-8 con BOM para apertura inmediata en Excel en español o herramientas de análisis de datos (R, Python, SPSS).
+  - 📊 **Excel estructurado (`.xlsx`):** con 2 hojas (*Resumen del grupo* con promedios colectivos reales y *Respuestas individuales* detalladas).
+  - 📑 **PDF ejecutivo:** con membrete, métricas clave, gráfico octagonal capturado en alto contraste y preguntas de debate.
+  - 📁 **CSV plano:** codificado en UTF-8 con BOM (`\uFEFF`) y separador `;` para apertura directa en Excel en español o software estadístico (R, Python, SPSS).
 
 ---
 
-## 🚀 Despliegue en 1 Minuto (GitHub Pages)
+## 🛠️ Arquitectura de sincronización en la nube (Google Apps Script)
 
-Cualquier profesor o institución puede usar esta herramienta alojada públicamente:
+El repositorio incluye el backend multi-sala listo para copiar y pegar en [`google-apps-script/Code.gs`](google-apps-script/Code.gs), el cual soporta dos modalidades:
 
-1. Ve a la configuración de tu repositorio en GitHub: `Settings` > `Pages`.
+### 1. Modo rápido (hoja maestra del proyecto)
+Pensado para que cualquier profesor invitado cree su sala sin tocar hojas de cálculo:
+1. Crea un Google Sheet vacío en tu cuenta administradora y abre **Extensiones > Apps Script**.
+2. Pega el contenido íntegro de [`google-apps-script/Code.gs`](google-apps-script/Code.gs) y guarda.
+3. Haz clic en **Implementar > Nueva implementación > Aplicación web**.
+4. Configura **Ejecutar como:** *Yo* y **Quién tiene acceso:** *Cualquier persona*.
+5. Copia la URL generada (terminada en `/exec`) y pégala en la constante `MASTER_WEBHOOK_URL` de [`index.html`](index.html) (línea 2213).
+
+### 2. Usar mi propio Google Sheet (privacidad total por docente)
+Si un profesor prefiere que los datos de sus estudiantes viajen **100 % directo a su propio Google Drive**:
+1. Crea un Google Sheet personal, pega [`google-apps-script/Code.gs`](google-apps-script/Code.gs) en **Extensiones > Apps Script** y publícalo como **Aplicación web** (*Cualquier persona*).
+2. Al crear la sala en la página, elige **Usar mi propio Google Sheet** y pega su URL `/exec`.
+3. La plataforma incrusta automáticamente el identificador del script (`&wh=`) en el enlace y en el código QR de los estudiantes para que todas las respuestas lleguen exclusivamente a su hoja.
+
+---
+
+## 🚀 Despliegue en GitHub Pages
+
+1. Ve a la configuración del repositorio en GitHub: `Settings` > `Pages`.
 2. En **Build and deployment** > **Source**, selecciona `Deploy from a branch`.
-3. Selecciona la rama `main` y la carpeta `/ (root)`.
-4. Haz clic en **Save**. ¡Tu enlace público quedará activo inmediatamente!
+3. Selecciona la rama `main` y la carpeta `/ (root)` y pulsa **Save**.
 
 ---
 
-## 🛠️ Arquitectura de Almacenamiento Dual
+## 📖 Marco teórico: distribución oficial de los 8 *Core Drives*
 
-La aplicación está diseñada bajo el principio de **cero fricción técnica**, ofreciendo dos rutas al docente:
-
-1. **Ruta 1 (Nube en Tiempo Real - Por Defecto):** Sincronización multi-sala automática y almacenamiento local en el navegador. Cero configuración para el docente.
-2. **Ruta 2 (Google Sheets Propio):** Si el docente desea conservar una copia directa en su Google Drive institucional, solo debe ingresar la URL de su Webhook de Google Apps Script al crear la sala.
-
----
-
-## 📖 Marco Teórico: Los 8 Core Drives de Octalysis
-
-1. **CD1 - Significado Épico y Llamado:** Conexión con causas reales y trascendentes.
-2. **CD2 - Desarrollo y Logro:** Progreso, maestrías, insignias y superación de retos.
-3. **CD3 - Empoderamiento de la Creatividad:** Autonomía en formatos, co-diseño y feedback rápido.
-4. **CD4 - Propiedad y Posesión:** Construcción de portafolios propios y privilegios acumulados.
-5. **CD5 - Influencia Social y Afinidad:** Clanes de estudio, colaboración y co-evaluación formativa.
-6. **CD6 - Escasez e Impaciencia:** Ventanas relámpago y cupos exclusivos de asesoría.
-7. **CD7 - Curiosidad e Impredecibilidad:** Eventos sorpresa, acertijos previos y actividades dinámicas.
-8. **CD8 - Pérdida y Evitación:** Rachas protectoras, salvavidas y segundas oportunidades de entrega.
+- **CD1 (arriba · sombrero blanco):** significado épico y vocación.
+- **CD2 (arriba-izquierda · sombrero blanco / extrínseca):** desarrollo y logro.
+- **CD3 (arriba-derecha · sombrero blanco / intrínseca):** empoderamiento de la creatividad y retroalimentación.
+- **CD4 (centro-izquierda · extrínseca):** propiedad y posesión.
+- **CD5 (centro-derecha · intrínseca):** influencia social y afinidad.
+- **CD6 (abajo-izquierda · sombrero negro / extrínseca):** escasez e impaciencia.
+- **CD7 (abajo-derecha · sombrero negro / intrínseca):** impredecibilidad y curiosidad.
+- **CD8 (abajo · sombrero negro):** pérdida y evitación.
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto está distribuido bajo la licencia MIT. Diseñado para comunidades académicas, docentes y estudiantes interesados en el diseño pedagógico motivacional.
+Distribuido bajo la licencia MIT para comunidades académicas, docentes y estudiantes interesados en el diseño pedagógico motivacional.
