@@ -1489,6 +1489,220 @@
       margin-bottom: 1rem;
     }
 
+    /* TARJETA Y MODAL DE GUÍA PARA GOOGLE SHEET PROPIO */
+    .custom-sheet-help-card {
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.32);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      margin-top: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .help-card-header {
+      display: flex;
+      gap: 0.65rem;
+      align-items: flex-start;
+    }
+
+    .help-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .help-card-header strong {
+      display: block;
+      color: #fff;
+      font-size: 0.82rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .help-card-header p {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.35;
+    }
+
+    .help-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn-help-guide {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(2, 132, 199, 0.22));
+      border: 1px solid var(--white-hat);
+      color: #e0f2fe;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.42rem 0.85rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-help-guide:hover {
+      background: var(--white-hat);
+      color: #0b0f19;
+    }
+
+    .btn-copy-code-fast {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.76rem;
+      padding: 0.42rem 0.85rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-code-fast:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--text-muted);
+    }
+
+    .modal-backdrop.guide-modal-backdrop {
+      z-index: 300;
+    }
+
+    .guide-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 1.15rem 0;
+    }
+
+    .guide-step-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.95rem 1.05rem;
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+    }
+
+    .guide-step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--white-hat);
+      color: #0b0f19;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .guide-step-body {
+      flex: 1;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      line-height: 1.45;
+    }
+
+    .guide-step-body strong {
+      color: #fff;
+      display: block;
+      font-size: 0.88rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .guide-step-body p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 0.2rem 0 0.4rem 0;
+      line-height: 1.4;
+    }
+
+    .guide-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.45rem;
+    }
+
+    .btn-step-action {
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid var(--white-hat);
+      color: var(--white-hat);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.38rem 0.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-step-action:hover {
+      background: var(--white-hat);
+      color: #0b0f19;
+    }
+
+    .guide-alert-box {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      border-radius: 6px;
+      padding: 0.6rem 0.75rem;
+      margin-top: 0.5rem;
+      font-size: 0.76rem;
+      color: #fda4af;
+      line-height: 1.35;
+    }
+
+    .code-preview-details {
+      margin-top: 0.65rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.76rem;
+    }
+
+    .code-preview-details summary {
+      cursor: pointer;
+      color: var(--text-muted);
+      user-select: none;
+      font-weight: 600;
+    }
+
+    .code-preview-details summary:hover {
+      color: var(--white-hat);
+    }
+
+    .code-preview-box {
+      max-height: 220px;
+      overflow-y: auto;
+      background: #090d16;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.75rem;
+      margin-top: 0.55rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      color: #93c5fd;
+      white-space: pre;
+    }
+
     .checkbox-label {
       display: flex;
       align-items: flex-start;
@@ -2047,9 +2261,24 @@
         <div class="form-group" id="customSheetWebhookGroup" style="display: none;">
           <label class="form-label" for="customWebhookUrl">URL de tu aplicación web de Google Apps Script (/exec):</label>
           <input type="url" id="customWebhookUrl" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
-          <span style="font-size: 0.75rem; color: var(--text-dim); display: block; margin-top: 0.3rem;">
-            Copia el código de <code>google-apps-script/Code.gs</code> en tu Google Sheet (Extensiones → Apps Script → Implementar como aplicación web con acceso para cualquier persona).
-          </span>
+          
+          <div class="custom-sheet-help-card">
+            <div class="help-card-header">
+              <span class="help-icon">💡</span>
+              <div>
+                <strong>¿Cómo conectar tu Google Sheet en 3 minutos?</strong>
+                <p>Las respuestas de tus alumnos irán directo a tu Google Drive sin servidores intermediarios.</p>
+              </div>
+            </div>
+            <div class="help-card-actions">
+              <button type="button" class="btn-help-guide" onclick="openModal('modalCustomSheetGuide')">
+                📖 Ver guía paso a paso y copiar código
+              </button>
+              <button type="button" class="btn-copy-code-fast" onclick="copyAppsScriptCode(this)">
+                📋 Copiar código .gs
+              </button>
+            </div>
+          </div>
         </div>
 
         <button type="submit" class="form-submit-btn">Crear sala y generar enlace →</button>
@@ -2099,7 +2328,10 @@
         <div id="editPinMatchMsg" class="pin-match-feedback"></div>
 
         <div class="form-group">
-          <label class="form-label" for="editWebhookUrl">Webhook personalizado de Google Apps Script (opcional):</label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.35rem;">
+            <label class="form-label" for="editWebhookUrl" style="margin: 0;">Webhook personalizado de Google Apps Script (opcional):</label>
+            <button type="button" onclick="openModal('modalCustomSheetGuide')" style="background: none; border: none; color: var(--white-hat); font-size: 0.76rem; cursor: pointer; text-decoration: underline;">💡 Ver guía y código .gs</button>
+          </div>
           <input type="url" id="editWebhookUrl" class="form-input" placeholder="https://script.google.com/macros/s/.../exec">
         </div>
 
@@ -2192,6 +2424,477 @@
       <div id="axisModalContent"></div>
     </div>
   </div>
+
+  <!-- ==========================================================================
+       MODAL 8: GUÍA PASO A PASO PARA USAR GOOGLE SHEET PROPIO (DOCENTE)
+       ========================================================================== -->
+  <div class="modal-backdrop guide-modal-backdrop" id="modalCustomSheetGuide">
+    <div class="modal-box" style="max-width: 680px;">
+      <button class="modal-close-btn" type="button" onclick="closeModal('modalCustomSheetGuide')">✕</button>
+      
+      <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem;">
+        <span style="font-size: 1.5rem;">📊</span>
+        <h3 style="margin: 0;">Conectar tu propio Google Sheet</h3>
+      </div>
+      <p style="margin-bottom: 1rem;">
+        Sigue estos 4 pasos rápidos para convertir una hoja de Google Drive en tu propia base de datos segura y gratuita. Las respuestas de tus estudiantes llegarán directamente a tu cuenta sin intermediarios.
+      </p>
+
+      <div class="guide-steps-list">
+        <!-- PASO 1 -->
+        <div class="guide-step-card">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-body">
+            <strong>Crea una nueva hoja de cálculo en Google</strong>
+            <p>Abre Google Sheets en tu cuenta institucional o personal y crea una hoja en blanco (por ejemplo, llamada <em>«Octalysis - Mis Cursos»</em>).</p>
+            <div class="guide-btn-row">
+              <a href="https://sheets.new" target="_blank" rel="noopener noreferrer" class="btn-step-action">
+                🔗 Abrir Google Sheets en blanco (sheets.new) ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="guide-step-card">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-body">
+            <strong>Abre el editor de Apps Script</strong>
+            <p>En el menú superior de tu hoja de cálculo, ve a <strong>Extensiones</strong> ➔ <strong>Apps Script</strong>. En la pantalla que se abre, borra el código que viene por defecto en el archivo <code>Código.gs</code>.</p>
+          </div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="guide-step-card">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-body">
+            <strong>Copia y pega el código oficial de Octalysis</strong>
+            <p>Copia el código backend preparado para Octalysis Students y pégalo íntegramente en tu editor de Apps Script:</p>
+            <div class="guide-btn-row">
+              <button type="button" class="btn-step-action" style="background: var(--white-hat); color: #0b0f19; font-weight: 700;" onclick="copyAppsScriptCode(this)">
+                📋 Copiar código al portapapeles
+              </button>
+              <a href="google-apps-script/Code.gs" download="Code.gs" class="btn-step-action">
+                📥 Descargar Code.gs
+              </a>
+            </div>
+
+            <details class="code-preview-details">
+              <summary>🔍 Ver / explorar código fuente aquí (369 líneas)</summary>
+              <pre class="code-preview-box"><code id="codePreviewContent"></code></pre>
+            </details>
+          </div>
+        </div>
+
+        <!-- PASO 4 -->
+        <div class="guide-step-card">
+          <div class="guide-step-num">4</div>
+          <div class="guide-step-body">
+            <strong>Implementa como Aplicación Web y autoriza permisos</strong>
+            <p>Arriba a la derecha en Apps Script, haz clic en el botón azul <strong>Implementar</strong> ➔ <strong>Nueva implementación</strong>.</p>
+            <p style="margin-top: 0.35rem;">Haz clic en el icono de engranaje ⚙️, selecciona <strong>Aplicación web</strong> y configura:</p>
+            <ul style="margin: 0.45rem 0 0.5rem 1.25rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.45;">
+              <li><strong>Ejecutar como:</strong> <code>Yo (tu correo de Google)</code></li>
+              <li><strong>Quién tiene acceso:</strong> <strong style="color: #fff;">Cualquier persona</strong></li>
+            </ul>
+            <div class="guide-alert-box">
+              ⚠️ <strong>Punto clave:</strong> Es fundamental elegir <strong>«Cualquier persona»</strong> para que los celulares de tus estudiantes puedan registrar sus respuestas sin exigirles iniciar sesión en tu cuenta.
+            </div>
+            <p style="margin-top: 0.55rem;">
+              Pulsa <strong>Implementar</strong>, concede los permisos estándar de Google y <strong>copia la URL de la aplicación web</strong> (la que termina en <code>/exec</code>).
+            </p>
+          </div>
+        </div>
+
+        <!-- PASO 5 -->
+        <div class="guide-step-card">
+          <div class="guide-step-num">5</div>
+          <div class="guide-step-body">
+            <strong>Pega tu URL en Octalysis Students y ¡listo!</strong>
+            <p>Regresa a esta ventana y pega la URL en el campo de texto. Al crear la sala o compartir el QR, las pestañas <strong>Salas</strong> y <strong>Respuestas</strong> se generarán automáticamente en tu Drive.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+        <button type="button" class="form-submit-btn" style="margin: 0; width: auto; padding: 0.7rem 1.6rem;" onclick="closeModal('modalCustomSheetGuide')">
+          ✓ Entendido, volver a configurar mi sala
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT CON EL CÓDIGO FUENTE EXACTO PARA COPIADO CON 1 CLIC (OFFLINE Y SEGURO) -->
+  <script type="text/plain" id="tplAppsScriptCode">/**
+ * ============================================================================
+ * OCTALYSIS STUDENTS — BACKEND MULTI-SALA EN GOOGLE APPS SCRIPT
+ * ============================================================================
+ * Este script convierte cualquier hoja de cálculo de Google (Google Sheet) en
+ * un servidor gratuito y sin caducidad para Octalysis Students.
+ *
+ * Sirve tanto como:
+ *   1. Hoja maestra para el modo rápido (múltiples salas aisladas por código).
+ *   2. Hoja personal de un docente que prefiera guardar los datos en su Drive.
+ *
+ * INSTRUCCIONES DE DESPLIEGUE (1 MINUTO):
+ *   1. Crea una hoja de cálculo nueva en Google Sheets.
+ *   2. Ve al menú Extensiones > Apps Script.
+ *   3. Borra el contenido de Código.gs y pega todo este archivo.
+ *   4. Haz clic en "Implementar" (arriba a la derecha) > "Nueva implementación".
+ *   5. En tipo, elige "Aplicación web".
+ *   6. En "Ejecutar como", selecciona "Yo".
+ *   7. En "Quién tiene acceso", selecciona "Cualquier persona".
+ *   8. Haz clic en "Implementar", autoriza los permisos y copia la URL (/exec).
+ * ============================================================================
+ */
+
+const SHEET_ROOMS = 'Salas';
+const SHEET_SUBMISSIONS = 'Respuestas';
+
+/**
+ * Inicializa las pestañas "Salas" y "Respuestas" si aún no existen.
+ */
+function ensureSheets_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  let roomsSheet = ss.getSheetByName(SHEET_ROOMS);
+  if (!roomsSheet) {
+    roomsSheet = ss.insertSheet(SHEET_ROOMS);
+    roomsSheet.appendRow([
+      'codigo_sala',
+      'nombre_curso',
+      'pin_hash',
+      'requiere_cedula',
+      'requiere_correo',
+      'creada_en',
+      'actualizada_en'
+    ]);
+    roomsSheet.getRange(1, 1, 1, 7).setFontWeight('bold');
+    roomsSheet.setFrozenRows(1);
+  }
+
+  let subsSheet = ss.getSheetByName(SHEET_SUBMISSIONS);
+  if (!subsSheet) {
+    subsSheet = ss.insertSheet(SHEET_SUBMISSIONS);
+    subsSheet.appendRow([
+      'id_respuesta',
+      'fecha_hora',
+      'codigo_sala',
+      'estudiante',
+      'cedula',
+      'correo',
+      'prioridad_1',
+      'prioridad_2',
+      'prioridad_3',
+      'mecanicas_elegidas',
+      'CD1',
+      'CD2',
+      'CD3',
+      'CD4',
+      'CD5',
+      'CD6',
+      'CD7',
+      'CD8',
+      'pct_sombrero_blanco',
+      'pct_sombrero_negro',
+      'pct_intrinseca',
+      'pct_extrinseca',
+      'arquetipo',
+      'payload_json'
+    ]);
+    subsSheet.getRange(1, 1, 1, 24).setFontWeight('bold');
+    subsSheet.setFrozenRows(1);
+  }
+
+  return { roomsSheet, subsSheet };
+}
+
+/**
+ * Construye una respuesta JSON compatible con CORS.
+ */
+function jsonResponse_(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Atiende consultas GET:
+ *   - ?action=ping
+ *   - ?action=getRoom&roomId=OCTA-123
+ */
+function doGet(e) {
+  try {
+    const params = (e && e.parameter) ? e.parameter : {};
+    const action = params.action || 'getRoom';
+
+    if (action === 'ping') {
+      return jsonResponse_({
+        ok: true,
+        service: 'Octalysis Students Backend',
+        version: '2.1.0'
+      });
+    }
+
+    const roomId = String(params.roomId || params.sala || '').trim().toUpperCase();
+    if (!roomId) {
+      return jsonResponse_({ ok: false, error: 'Falta el parámetro roomId.' });
+    }
+
+    const { roomsSheet, subsSheet } = ensureSheets_();
+
+    // 1. Buscar configuración de la sala
+    let roomConfig = null;
+    const roomRows = roomsSheet.getDataRange().getValues();
+    for (let i = 1; i < roomRows.length; i++) {
+      if (String(roomRows[i][0]).trim().toUpperCase() === roomId) {
+        roomConfig = {
+          code: roomId,
+          name: String(roomRows[i][1] || ''),
+          pinHash: String(roomRows[i][2] || ''),
+          requireCedula: roomRows[i][3] === true || String(roomRows[i][3]).toLowerCase() === 'true',
+          requireEmail: roomRows[i][4] === true || String(roomRows[i][4]).toLowerCase() === 'true',
+          createdAt: String(roomRows[i][5] || ''),
+          updatedAt: String(roomRows[i][6] || '')
+        };
+        break;
+      }
+    }
+
+    // 2. Buscar respuestas asociadas únicamente a esta sala
+    const submissions = [];
+    const subRows = subsSheet.getDataRange().getValues();
+    for (let j = 1; j < subRows.length; j++) {
+      if (String(subRows[j][2]).trim().toUpperCase() === roomId) {
+        const rawJson = subRows[j][23];
+        if (rawJson) {
+          try {
+            submissions.push(JSON.parse(rawJson));
+            continue;
+          } catch (parseErr) {
+            // Reconstruir desde columnas si el JSON fue editado manualmente
+          }
+        }
+        submissions.push({
+          id: String(subRows[j][0]),
+          timestamp: String(subRows[j][1]),
+          roomId: roomId,
+          studentName: String(subRows[j][3]),
+          cedula: String(subRows[j][4] || 'N/A'),
+          email: String(subRows[j][5] || 'N/A'),
+          priority1: subRows[j][6] ? { id: 0, name: String(subRows[j][6]), cd: 1 } : null,
+          priority2: subRows[j][7] ? { id: 0, name: String(subRows[j][7]), cd: 1 } : null,
+          priority3: subRows[j][8] ? { id: 0, name: String(subRows[j][8]), cd: 1 } : null,
+          selectedMechanics: String(subRows[j][9] || '')
+            .split(' | ')
+            .filter(Boolean)
+            .map(function(n) { return { id: 0, name: n, cd: 1 }; }),
+          cdTotals: {
+            1: Number(subRows[j][10]) || 0,
+            2: Number(subRows[j][11]) || 0,
+            3: Number(subRows[j][12]) || 0,
+            4: Number(subRows[j][13]) || 0,
+            5: Number(subRows[j][14]) || 0,
+            6: Number(subRows[j][15]) || 0,
+            7: Number(subRows[j][16]) || 0,
+            8: Number(subRows[j][17]) || 0
+          },
+          pctWhite: Number(subRows[j][18]) || 50,
+          pctBlack: Number(subRows[j][19]) || 50,
+          pctIntrinsic: Number(subRows[j][20]) || 50,
+          pctExtrinsic: Number(subRows[j][21]) || 50,
+          archetype: String(subRows[j][22] || '')
+        });
+      }
+    }
+
+    return jsonResponse_({
+      ok: true,
+      room: roomConfig,
+      submissions: submissions
+    });
+  } catch (err) {
+    return jsonResponse_({ ok: false, error: String(err) });
+  }
+}
+
+/**
+ * Atiende peticiones POST:
+ *   - action: 'saveRoom'
+ *   - action: 'submitSurvey'
+ *   - action: 'deleteRoom'
+ */
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+
+  try {
+    const rawBody = (e && e.postData && e.postData.contents) ? e.postData.contents : '{}';
+    const body = JSON.parse(rawBody);
+    const action = body.action || 'submitSurvey';
+    const { roomsSheet, subsSheet } = ensureSheets_();
+    const nowIso = new Date().toISOString();
+
+    // 1. CREAR O ACTUALIZAR CONFIGURACIÓN DE SALA
+    if (action === 'saveRoom') {
+      const room = body.room || {};
+      const code = String(room.code || '').trim().toUpperCase();
+      if (!code) {
+        return jsonResponse_({ ok: false, error: 'Código de sala inválido.' });
+      }
+
+      const rows = roomsSheet.getDataRange().getValues();
+      let foundRowIdx = -1;
+      let existingHash = '';
+
+      for (let i = 1; i < rows.length; i++) {
+        if (String(rows[i][0]).trim().toUpperCase() === code) {
+          foundRowIdx = i + 1;
+          existingHash = String(rows[i][2] || '');
+          break;
+        }
+      }
+
+      if (foundRowIdx > 0) {
+        // Verificar autorización si ya tenía un pinHash registrado
+        const authHash = String(body.authPinHash || room.pinHash || '');
+        if (existingHash && existingHash !== authHash) {
+          return jsonResponse_({ ok: false, error: 'No autorizado para modificar esta sala.' });
+        }
+        roomsSheet.getRange(foundRowIdx, 2, 1, 6).setValues([[
+          String(room.name || ''),
+          String(room.pinHash || existingHash),
+          Boolean(room.requireCedula),
+          Boolean(room.requireEmail),
+          String(room.createdAt || nowIso),
+          nowIso
+        ]]);
+      } else {
+        roomsSheet.appendRow([
+          code,
+          String(room.name || ''),
+          String(room.pinHash || ''),
+          Boolean(room.requireCedula),
+          Boolean(room.requireEmail),
+          String(room.createdAt || nowIso),
+          nowIso
+        ]);
+      }
+
+      return jsonResponse_({ ok: true, code: code });
+    }
+
+    // 2. ELIMINAR / VACIAR DATOS DE UNA SALA (SOLICITADO POR SU DOCENTE)
+    if (action === 'deleteRoom') {
+      const code = String(body.roomId || '').trim().toUpperCase();
+      const authHash = String(body.authPinHash || '');
+      const deleteConfigToo = Boolean(body.deleteConfig);
+
+      if (!code || !authHash) {
+        return jsonResponse_({ ok: false, error: 'Faltan credenciales de la sala.' });
+      }
+
+      const roomRows = roomsSheet.getDataRange().getValues();
+      let roomRowIdx = -1;
+      for (let i = 1; i < roomRows.length; i++) {
+        if (String(roomRows[i][0]).trim().toUpperCase() === code) {
+          if (String(roomRows[i][2] || '') !== authHash) {
+            return jsonResponse_({ ok: false, error: 'PIN no válido para eliminar esta sala.' });
+          }
+          roomRowIdx = i + 1;
+          break;
+        }
+      }
+
+      // Borrar respuestas de abajo hacia arriba para no desplazar índices
+      const subRows = subsSheet.getDataRange().getValues();
+      let deletedCount = 0;
+      for (let j = subRows.length - 1; j >= 1; j--) {
+        if (String(subRows[j][2]).trim().toUpperCase() === code) {
+          subsSheet.deleteRow(j + 1);
+          deletedCount++;
+        }
+      }
+
+      if (deleteConfigToo && roomRowIdx > 0) {
+        roomsSheet.deleteRow(roomRowIdx);
+      }
+
+      return jsonResponse_({ ok: true, deletedSubmissions: deletedCount });
+    }
+
+    // 3. REGISTRAR RESPUESTA DE ESTUDIANTE (submitSurvey o payload directo)
+    const sub = body.submission || body;
+    const roomId = String(sub.roomId || '').trim().toUpperCase();
+    if (!roomId) {
+      return jsonResponse_({ ok: false, error: 'Falta roomId en la respuesta.' });
+    }
+
+    const cd = sub.cdTotals || {};
+    const mechNames = Array.isArray(sub.selectedMechanics)
+      ? sub.selectedMechanics.map(function(m) { return m.name || m; }).join(' | ')
+      : '';
+
+    const rowValues = [
+      String(sub.id || ('sub_' + new Date().getTime())),
+      String(sub.timestamp || nowIso),
+      roomId,
+      String(sub.studentName || 'Estudiante'),
+      String(sub.cedula || 'N/A'),
+      String(sub.email || 'N/A'),
+      sub.priority1 ? String(sub.priority1.name || '') : '',
+      sub.priority2 ? String(sub.priority2.name || '') : '',
+      sub.priority3 ? String(sub.priority3.name || '') : '',
+      mechNames,
+      Number(cd[1]) || 0,
+      Number(cd[2]) || 0,
+      Number(cd[3]) || 0,
+      Number(cd[4]) || 0,
+      Number(cd[5]) || 0,
+      Number(cd[6]) || 0,
+      Number(cd[7]) || 0,
+      Number(cd[8]) || 0,
+      Number(sub.pctWhite) || 50,
+      Number(sub.pctBlack) || 50,
+      Number(sub.pctIntrinsic) || 50,
+      Number(sub.pctExtrinsic) || 50,
+      String(sub.archetype || ''),
+      JSON.stringify(sub)
+    ];
+
+    // Desduplicar si el mismo estudiante (por sessionToken o cédula o nombre exacto en la misma sala) reenvía
+    const subRows = subsSheet.getDataRange().getValues();
+    let existingSubRow = -1;
+    const subKey = (sub.cedula && sub.cedula !== 'N/A')
+      ? ('ced:' + String(sub.cedula).trim().toLowerCase())
+      : ('nick:' + String(sub.studentName || '').trim().toLowerCase());
+
+    for (let k = 1; k < subRows.length; k++) {
+      if (String(subRows[k][2]).trim().toUpperCase() === roomId) {
+        const rowCed = String(subRows[k][4] || '').trim().toLowerCase();
+        const rowNick = String(subRows[k][3] || '').trim().toLowerCase();
+        const rowKey = (rowCed && rowCed !== 'n/a') ? ('ced:' + rowCed) : ('nick:' + rowNick);
+        if (String(subRows[k][0]) === String(sub.id) || (subKey && rowKey === subKey)) {
+          existingSubRow = k + 1;
+          break;
+        }
+      }
+    }
+
+    if (existingSubRow > 0) {
+      subsSheet.getRange(existingSubRow, 1, 1, rowValues.length).setValues([rowValues]);
+    } else {
+      subsSheet.appendRow(rowValues);
+    }
+
+    return jsonResponse_({ ok: true, id: rowValues[0] });
+  } catch (err) {
+    return jsonResponse_({ ok: false, error: String(err) });
+  } finally {
+    lock.releaseLock();
+  }
+}
+</script>
 
   <!-- PIE DE PÁGINA -->
   <footer>
@@ -4523,7 +5226,62 @@
     /* ==========================================================================
        15. UTILIDADES DE MODALES Y REDIMENSIONAMIENTO DE CANVAS
        ========================================================================== */
+    function copyAppsScriptCode(btnElement) {
+      const codeHolder = document.getElementById('tplAppsScriptCode');
+      if (!codeHolder) return;
+      const code = codeHolder.textContent.trim();
+
+      const notifySuccess = () => {
+        if (btnElement) {
+          const originalText = btnElement.innerHTML;
+          btnElement.innerHTML = '✓ ¡Código copiado!';
+          btnElement.style.borderColor = 'var(--success)';
+          btnElement.style.color = '#34d399';
+          setTimeout(() => {
+            btnElement.innerHTML = originalText;
+            btnElement.style.borderColor = '';
+            btnElement.style.color = '';
+          }, 3000);
+        }
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(notifySuccess).catch(() => {
+          fallbackCopyText(code, notifySuccess);
+        });
+      } else {
+        fallbackCopyText(code, notifySuccess);
+      }
+    }
+
+    function fallbackCopyText(text, callback) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        if (callback) callback();
+      } catch (e) {
+        alert('No se pudo copiar automáticamente. Por favor descarga el archivo Code.gs o cópialo manualmente.');
+      }
+      document.body.removeChild(ta);
+    }
+
+    function initGuideCodePreview() {
+      const previewEl = document.getElementById('codePreviewContent');
+      const codeHolder = document.getElementById('tplAppsScriptCode');
+      if (previewEl && codeHolder && !previewEl.textContent.trim()) {
+        previewEl.textContent = codeHolder.textContent.trim();
+      }
+    }
+
     function openModal(modalId) {
+      if (modalId === 'modalCustomSheetGuide') {
+        initGuideCodePreview();
+      }
       const modal = document.getElementById(modalId);
       if (modal) modal.classList.add('active');
     }
@@ -4535,6 +5293,11 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        const guideModal = document.getElementById('modalCustomSheetGuide');
+        if (guideModal && guideModal.classList.contains('active')) {
+          closeModal('modalCustomSheetGuide');
+          return;
+        }
         document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
       }
     });

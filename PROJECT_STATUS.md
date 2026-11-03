@@ -55,6 +55,14 @@ La plataforma **Octalysis Students** se encuentra **100 % funcional, verificada 
 
 ---
 
+### 7) Guía integrada y copiado con 1 clic para «Usar mi propio Google Sheet»
+- **Asistencia contextual docente:** al seleccionar *Usar mi propio Google Sheet* en el modal de crear sala o al configurar una sala existente, se despliega una tarjeta de ayuda con acceso directo al nuevo modal `#modalCustomSheetGuide`.
+- **Tutorial de 4 pasos con cero fricción:** incluye enlace directo para abrir una hoja nueva en blanco (`sheets.new`), explicaciones claras y advertencia destacada sobre el permiso crucial (`Cualquier persona`).
+- **Copiado seguro sin dependencias externas:** botón de copiado inmediato al portapapeles (`copyAppsScriptCode`), enlace de descarga de `Code.gs` y visor interactivo desplegable del código fuente (369 líneas) embebido en `<script type="text/plain" id="tplAppsScriptCode">`, garantizando funcionamiento tanto en web (GitHub Pages) como sin conexión / localmente (`file://`).
+- **Manejo inteligente de modales superpuestos:** la tecla `Escape` cierra primero la guía manteniendo intactos los datos de la sala que el profesor estaba digitando.
+
+---
+
 ## 3. Estado de archivos del repositorio
 
 | Archivo | Estado | Descripción |
