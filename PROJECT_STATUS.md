@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
-**Última actualización:** 2 de noviembre de 2026  
-**Versión actual:** `2.1.0`  
+**Última actualización:** 3 de noviembre de 2026  
+**Versión actual:** `2.1.1`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -39,7 +39,7 @@ La plataforma **Octalysis Students** se encuentra **100 % funcional, verificada 
   4. **Sección desplegable opcional al final:** botón `📚 Explorar la información completa de las 24 tarjetas ordenadas por Core Drive (CD1 a CD8)`, que despliega los 8 bloques en orden secuencial con toda su clasificación teórica y medallas en las reglas elegidas y priorizadas por el estudiante.
 
 ### 4) Indicadores claros de clic en la red octagonal y en los ejes de equilibrio
-- Llamado explícito encima del octágono estudiantil indicando que las 8 etiquetas y vértices son clicables, cursor interactivo (`pointer`), efecto visual de resalte al pasar el cursor (`hover`) sobre las píldoras exteriores del Canvas y fila de 8 botones rápidos (`CD1 · Significado` a `CD8 · Evitación`) aptos para pantallas táctiles.
+- Llamado explícito encima del octágono estudiantil indicando que las 8 etiquetas y vértices son clicables, cursor interactivo (`pointer`) y efecto visual de resalte al pasar el cursor (`hover`) sobre las etiquetas exteriores del Canvas (abriendo el modal explicativo de cada Core Drive al hacer clic). Se eliminó la fila redundante de botones inferiores para mantener una interfaz limpia y centrada en el gráfico.
 - Botones interactivos `ℹ️ ¿Qué diferencia hay entre sombrero blanco y negro?` e `ℹ️ ¿Qué diferencia hay entre intrínseca y extrínseca?` junto con etiquetas subrayadas clicables en las barras de equilibrio, que abren el nuevo modal comparativo `#modalAxisExplanation`.
 
 ### 5) Geometría oficial del octágono Octalysis
@@ -67,7 +67,7 @@ La plataforma **Octalysis Students** se encuentra **100 % funcional, verificada 
 
 | Archivo | Estado | Descripción |
 | :--- | :--- | :--- |
-| [`index.html`](index.html) | ✅ Completo y verificado | Aplicación SPA completa (`v2.1.0`) para estudiantes y docentes |
+| [`index.html`](index.html) | ✅ Completo y verificado | Aplicación SPA completa (`v2.1.1`) para estudiantes y docentes |
 | [`google-apps-script/Code.gs`](google-apps-script/Code.gs) | ✅ Nuevo y listo para desplegar | Backend multi-sala para Google Sheets (`Salas` y `Respuestas`) |
 | [`README.md`](README.md) | ✅ Actualizado | Documentación de uso pedagógico, despliegue en GitHub Pages y Apps Script |
 | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) | ✅ Actualizado | Bitácora técnica viva para continuidad entre equipos |
@@ -104,6 +104,7 @@ git push origin main
 ## 6. Historial de cambios
 
 - **2026-11-03 (`v2.1.1`):**
+  - Simplificación de la red octagonal individual: eliminación de la fila redundante de botones inferiores (`CD1 · Significado` a `CD8 · Evitación`) y limpieza de estilos CSS, manteniendo la interactividad directamente en las 8 etiquetas periféricas y vértices del octágono en Canvas.
   - Corrección de renderizado en el cuadrante 2D: reemplazo del operador `|| 50` por `Number.isFinite(...)` en el cálculo de coordenadas y color de nodo para evitar que valores válidos de `0%` (sombrero blanco o intrínseca) colapsen falsamente al punto medio (`50%`) y se pinten en cian.
 - **2026-11-02 (`v2.1.0`):**
   - Solución integral al bug del PIN personalizado (`SHA-256` por sala, firma `&cfg=` en URL/QR, eliminación del respaldo `1234` fuera de `OCTA-DEMO` y creación de `google-apps-script/Code.gs`).

@@ -1,7 +1,7 @@
 # ⬡ Octalysis Students
 > **Plataforma web de sondeo motivacional y cocreación de acuerdos de clase basada en el modelo Octalysis.**
 
-![Versión](https://img.shields.io/badge/versión-2.1.0-cyan.svg)
+![Versión](https://img.shields.io/badge/versión-2.1.1-cyan.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-purple.svg)
 ![Despliegue](https://img.shields.io/badge/GitHub%20Pages-listo-emerald.svg)
 
@@ -22,7 +22,7 @@ Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan 
 - **Selección exacta de 6 reglas:** todos los participantes completan una base matemática idéntica de 6 preferencias antes de priorizar.
 - **Priorización sin etiquetas teóricas:** el estudiante indica su **prioridad 1 (regla de oro, obligatoria)** y opcionalmente sus **prioridades 2 y 3**.
 - **Devolución psicopedagógica interactiva inmediata:**
-  1. **Red octagonal oficial (CD1 a CD8):** diagrama fiel a la geometría oficial de Yu-kai Chou con etiquetas interactivas y botones rápidos para explorar de qué trata cada *Core Drive*.
+  1. **Red octagonal oficial (CD1 a CD8):** diagrama fiel a la geometría oficial de Yu-kai Chou con etiquetas y vértices interactivos clicables para explorar de qué trata cada *Core Drive*.
   2. **Ejes de equilibrio motivacional clicables:** barras comparativas con modales explicativos sobre la diferencia entre **sombrero blanco y sombrero negro** y entre **motivación intrínseca y motivación extrínseca**.
   3. **Estrategia de aprendizaje y autorregulación:** recomendaciones prácticas personalizadas según el perfil resultante.
   4. **Revelación opcional de las 24 tarjetas por *Core Drive*:** acordeón desplegable con las 24 reglas ordenadas secuencialmente de `CD1` a `CD8`, mostrando su clasificación teórica completa y resaltando las elecciones y prioridades del estudiante.
