@@ -2477,6 +2477,9 @@
               <a href="google-apps-script/Code.gs" download="Code.gs" class="btn-step-action">
                 📥 Descargar Code.gs
               </a>
+              <a href="https://github.com/chepechavez/octalysis-students/blob/main/google-apps-script/Code.gs" target="_blank" rel="noopener noreferrer" class="btn-step-action">
+                📂 Ver en GitHub ↗
+              </a>
             </div>
 
             <details class="code-preview-details">
@@ -5226,10 +5229,36 @@ function doPost(e) {
     /* ==========================================================================
        15. UTILIDADES DE MODALES Y REDIMENSIONAMIENTO DE CANVAS
        ========================================================================== */
-    function copyAppsScriptCode(btnElement) {
+    let cachedAppsScriptCode = '';
+
+    async function getLatestAppsScriptCode() {
+      if (cachedAppsScriptCode) return cachedAppsScriptCode;
+
+      // 1. Intentar obtener la versión más fresca en vivo directamente del archivo en el servidor / GitHub Pages
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          const res = await fetch('google-apps-script/Code.gs?t=' + Date.now());
+          if (res.ok) {
+            const liveText = await res.text();
+            if (liveText && liveText.trim().length > 100) {
+              cachedAppsScriptCode = liveText.trim();
+              return cachedAppsScriptCode;
+            }
+          }
+        } catch (fetchErr) {
+          console.warn('Carga dinámica de Code.gs no disponible, usando respaldo embebido:', fetchErr);
+        }
+      }
+
+      // 2. Respaldo de seguridad garantizado (offline o protocolo file://)
       const codeHolder = document.getElementById('tplAppsScriptCode');
-      if (!codeHolder) return;
-      const code = codeHolder.textContent.trim();
+      cachedAppsScriptCode = codeHolder ? codeHolder.textContent.trim() : '';
+      return cachedAppsScriptCode;
+    }
+
+    async function copyAppsScriptCode(btnElement) {
+      const code = await getLatestAppsScriptCode();
+      if (!code) return;
 
       const notifySuccess = () => {
         if (btnElement) {
@@ -5270,11 +5299,12 @@ function doPost(e) {
       document.body.removeChild(ta);
     }
 
-    function initGuideCodePreview() {
+    async function initGuideCodePreview() {
       const previewEl = document.getElementById('codePreviewContent');
-      const codeHolder = document.getElementById('tplAppsScriptCode');
-      if (previewEl && codeHolder && !previewEl.textContent.trim()) {
-        previewEl.textContent = codeHolder.textContent.trim();
+      if (!previewEl) return;
+      const code = await getLatestAppsScriptCode();
+      if (code) {
+        previewEl.textContent = code;
       }
     }
 
