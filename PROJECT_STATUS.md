@@ -95,6 +95,8 @@ git push origin main
 
 ## 6. Historial de cambios
 
+- **2026-11-03 (`v2.1.1`):**
+  - Corrección de renderizado en el cuadrante 2D: reemplazo del operador `|| 50` por `Number.isFinite(...)` en el cálculo de coordenadas y color de nodo para evitar que valores válidos de `0%` (sombrero blanco o intrínseca) colapsen falsamente al punto medio (`50%`) y se pinten en cian.
 - **2026-11-02 (`v2.1.0`):**
   - Solución integral al bug del PIN personalizado (`SHA-256` por sala, firma `&cfg=` en URL/QR, eliminación del respaldo `1234` fuera de `OCTA-DEMO` y creación de `google-apps-script/Code.gs`).
   - Confirmación obligatoria de PIN al crear sala y nuevo modal completo de configuración de sala activa.

@@ -3861,15 +3861,18 @@
       ctx.fillText('◀ Extrínseca (-X)', 12, cy - 8);
 
       submissions.forEach(sub => {
-        const xOffset = (((Number(sub.pctIntrinsic) || 50) - 50) / 50) * (cx * 0.82);
-        const yOffset = -(((Number(sub.pctWhite) || 50) - 50) / 50) * (cy * 0.82);
+        const whiteVal = Number.isFinite(Number(sub.pctWhite)) ? Number(sub.pctWhite) : 50;
+        const intVal = Number.isFinite(Number(sub.pctIntrinsic)) ? Number(sub.pctIntrinsic) : 50;
+
+        const xOffset = ((intVal - 50) / 50) * (cx * 0.82);
+        const yOffset = -((whiteVal - 50) / 50) * (cy * 0.82);
 
         const px = cx + xOffset;
         const py = cy + yOffset;
 
         ctx.beginPath();
         ctx.arc(px, py, 6, 0, Math.PI * 2);
-        ctx.fillStyle = (Number(sub.pctWhite) || 50) >= 50 ? '#06b6d4' : '#f43f5e';
+        ctx.fillStyle = whiteVal >= 50 ? '#06b6d4' : '#f43f5e';
         ctx.fill();
         ctx.strokeStyle = '#fff';
         ctx.lineWidth = 1.5;
