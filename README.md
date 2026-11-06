@@ -1,7 +1,7 @@
 # ⬡ Octalysis Students
 > **Plataforma web de sondeo motivacional y cocreación de acuerdos de clase basada en el modelo Octalysis.**
 
-![Versión](https://img.shields.io/badge/versión-2.1.1-cyan.svg)
+![Versión](https://img.shields.io/badge/versión-2.2.0-cyan.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-purple.svg)
 ![Despliegue](https://img.shields.io/badge/GitHub%20Pages-listo-emerald.svg)
 
@@ -26,6 +26,7 @@ Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan 
   2. **Ejes de equilibrio motivacional clicables:** barras comparativas con modales explicativos sobre la diferencia entre **sombrero blanco y sombrero negro** y entre **motivación intrínseca y motivación extrínseca**.
   3. **Estrategia de aprendizaje y autorregulación:** recomendaciones prácticas personalizadas según el perfil resultante.
   4. **Revelación opcional de las 24 tarjetas por *Core Drive*:** acordeón desplegable con las 24 reglas ordenadas secuencialmente de `CD1` a `CD8`, mostrando su clasificación teórica completa y resaltando las elecciones y prioridades del estudiante.
+  5. **Exportación individual del perfil (imagen PNG y PDF):** cada estudiante puede descargar su propio perfil psicopedagógico en alta resolución (`.png`) o como documento ejecutivo (`.pdf`) con su red octagonal, ejes motivacionales, estrategia de autorregulación y sus 6 reglas priorizadas.
 
 ### 👨‍🏫 Para el docente (panel en vivo y exportaciones)
 - **Creación de salas en segundos con confirmación de PIN:** código alfanumérico único (ej. `OCTA-798`), validación de doble escritura del PIN (4 a 6 caracteres), generación de enlace firmado (`&cfg=`) y **código QR proyectable**.

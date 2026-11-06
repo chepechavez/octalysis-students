@@ -12,11 +12,11 @@
  * INSTRUCCIONES DE DESPLIEGUE (1 MINUTO):
  *   1. Crea una hoja de cálculo nueva en Google Sheets.
  *   2. Ve al menú Extensiones > Apps Script.
- *   3. Borra el contenido de Código.gs y pega todo este archivo.
+ *   3. Borra el contenido de Código.gs, pega todo este archivo y pulsa GUARDAR (💾 Ctrl+S).
  *   4. Haz clic en "Implementar" (arriba a la derecha) > "Nueva implementación".
  *   5. En tipo, elige "Aplicación web".
  *   6. En "Ejecutar como", selecciona "Yo".
- *   7. En "Quién tiene acceso", selecciona "Cualquier persona".
+ *   7. En "Quién tiene acceso", selecciona "Cualquier persona" (acceso público sin login).
  *   8. Haz clic en "Implementar", autoriza los permisos y copia la URL (/exec).
  * ============================================================================
  */
@@ -25,30 +25,18 @@ const SHEET_ROOMS = 'Salas';
 const SHEET_SUBMISSIONS = 'Respuestas';
 
 /**
- * Inicializa las pestañas "Salas" y "Respuestas" si aún no existen.
+ * Inicializa las pestañas "Salas" y "Respuestas" si aún no existen,
+ * y sitúa "Respuestas" en primer lugar para que el docente vea la tabla de inmediato.
  */
 function ensureSheets_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-
-  let roomsSheet = ss.getSheetByName(SHEET_ROOMS);
-  if (!roomsSheet) {
-    roomsSheet = ss.insertSheet(SHEET_ROOMS);
-    roomsSheet.appendRow([
-      'codigo_sala',
-      'nombre_curso',
-      'pin_hash',
-      'requiere_cedula',
-      'requiere_correo',
-      'creada_en',
-      'actualizada_en'
-    ]);
-    roomsSheet.getRange(1, 1, 1, 7).setFontWeight('bold');
-    roomsSheet.setFrozenRows(1);
+  if (!ss) {
+    throw new Error('Este script debe crearse desde una hoja de Google Sheets (Extensiones > Apps Script).');
   }
 
   let subsSheet = ss.getSheetByName(SHEET_SUBMISSIONS);
   if (!subsSheet) {
-    subsSheet = ss.insertSheet(SHEET_SUBMISSIONS);
+    subsSheet = ss.insertSheet(SHEET_SUBMISSIONS, 0);
     subsSheet.appendRow([
       'id_respuesta',
       'fecha_hora',
@@ -75,8 +63,24 @@ function ensureSheets_() {
       'arquetipo',
       'payload_json'
     ]);
-    subsSheet.getRange(1, 1, 1, 24).setFontWeight('bold');
+    subsSheet.getRange(1, 1, 1, 24).setFontWeight('bold').setBackground('#d9ead3');
     subsSheet.setFrozenRows(1);
+  }
+
+  let roomsSheet = ss.getSheetByName(SHEET_ROOMS);
+  if (!roomsSheet) {
+    roomsSheet = ss.insertSheet(SHEET_ROOMS, 1);
+    roomsSheet.appendRow([
+      'codigo_sala',
+      'nombre_curso',
+      'pin_hash',
+      'requiere_cedula',
+      'requiere_correo',
+      'creada_en',
+      'actualizada_en'
+    ]);
+    roomsSheet.getRange(1, 1, 1, 7).setFontWeight('bold').setBackground('#cfe2f3');
+    roomsSheet.setFrozenRows(1);
   }
 
   return { roomsSheet, subsSheet };
@@ -102,10 +106,11 @@ function doGet(e) {
     const action = params.action || 'getRoom';
 
     if (action === 'ping') {
+      ensureSheets_();
       return jsonResponse_({
         ok: true,
         service: 'Octalysis Students Backend',
-        version: '2.1.0'
+        version: '2.2.0'
       });
     }
 

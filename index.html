@@ -1767,6 +1767,293 @@
       background: rgba(11, 15, 25, 0.85);
       margin-top: auto;
     }
+
+    /* BOTONES DE EXPORTACIÓN DEL ESTUDIANTE Y PORTAL DOCENTE */
+    .student-export-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .btn-export-img {
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid var(--white-hat);
+      color: #67e8f9;
+    }
+
+    .btn-export-img:hover {
+      background: var(--white-hat);
+      color: #0b0f19;
+    }
+
+    .teacher-portal-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.35rem 0 1.1rem 0;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .teacher-portal-divider::before,
+    .teacher-portal-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+
+    .teacher-portal-create-box {
+      background: rgba(37, 99, 235, 0.09);
+      border: 1px dashed rgba(59, 130, 246, 0.55);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .teacher-portal-create-box p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       ADAPTABILIDAD RESPONSIVA MÓVIL Y TABLET (VALIDACIÓN INTEGRAL)
+       ========================================================================== */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.65rem 0.9rem;
+      }
+
+      .header-container {
+        gap: 0.6rem;
+      }
+
+      .brand-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.05rem;
+      }
+
+      .brand-text h1 {
+        font-size: 1.02rem;
+      }
+
+      .brand-text p {
+        display: none;
+      }
+
+      .header-center {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        padding: 0.35rem 0.65rem;
+        font-size: 0.8rem;
+      }
+
+      .header-nav {
+        margin-left: auto;
+        gap: 0.4rem;
+      }
+
+      .btn-tab, .btn-create-room {
+        padding: 0.42rem 0.72rem;
+        font-size: 0.8rem;
+      }
+
+      main {
+        padding: 1rem 0.85rem;
+      }
+
+      .banner-course {
+        padding: 1rem 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .banner-course-info h2 {
+        font-size: 1.18rem;
+      }
+
+      .banner-course-info p {
+        font-size: 0.84rem;
+      }
+
+      .student-profile-chip {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      /* En móvil la bandeja superior fluye con la página para no tapar el catálogo al hacer scroll */
+      .tray-container {
+        position: relative;
+        top: auto;
+        padding: 0.9rem 1rem;
+        margin-bottom: 1.1rem;
+      }
+
+      .tray-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.45rem;
+      }
+
+      .tray-card-mini {
+        padding: 0.4rem 0.55rem;
+        font-size: 0.76rem;
+      }
+
+      .deck-search-wrap {
+        min-width: 100%;
+        max-width: 100%;
+      }
+
+      .deck-actions {
+        width: 100%;
+      }
+
+      .btn-shuffle {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+
+      .action-cta-bar {
+        bottom: 10px;
+        padding: 0.85rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 0.65rem;
+      }
+
+      .cta-text {
+        font-size: 0.82rem;
+      }
+
+      .btn-prioritize {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.88rem;
+        padding: 0.7rem 1rem;
+      }
+
+      .prioritize-box {
+        padding: 1.2rem 1rem;
+      }
+
+      .priority-slots-container {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+      }
+
+      .diag-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .student-export-actions {
+        width: 100%;
+      }
+
+      .student-export-actions button {
+        flex: 1 1 calc(50% - 0.35rem);
+        justify-content: center;
+        text-align: center;
+      }
+
+      .canvas-card {
+        padding: 0.95rem 0.65rem;
+      }
+
+      .balance-box, .archetype-card, .cd-group-block {
+        padding: 1rem;
+      }
+
+      .axis-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .bar-labels {
+        flex-wrap: wrap;
+      }
+
+      .teacher-topbar {
+        padding: 1rem;
+      }
+
+      .export-button-group {
+        width: 100%;
+      }
+
+      .export-button-group button {
+        flex: 1 1 calc(50% - 0.35rem);
+        justify-content: center;
+      }
+
+      .kpi-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      .kpi-card {
+        padding: 0.95rem;
+      }
+
+      .kpi-value {
+        font-size: 1.4rem;
+      }
+
+      .debate-card {
+        padding: 1rem;
+      }
+
+      .debate-questions-list {
+        grid-template-columns: 1fr;
+      }
+
+      #tableSearchInput {
+        width: 100% !important;
+      }
+
+      .modal-backdrop {
+        padding: 0.65rem;
+      }
+
+      .modal-box {
+        padding: 1.25rem 1.05rem;
+        max-height: 92vh;
+      }
+
+      .guide-step-card {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.85rem;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .tray-cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-row {
+        grid-template-columns: 1fr;
+      }
+
+      .student-export-actions button,
+      .export-button-group button {
+        flex: 1 1 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1801,9 +2088,6 @@
         </button>
         <button class="btn-tab" id="navTeacherBtn" onclick="promptTeacherAccess()">
           👨‍🏫 Profesor
-        </button>
-        <button class="btn-create-room" onclick="openCreateRoomModal()">
-          ✨ Crear sala
         </button>
       </div>
     </div>
@@ -1914,8 +2198,16 @@
             <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff;">📊 Tu perfil psicopedagógico de aprendizaje</h3>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Resultado calculado a partir de tus 6 reglas preferidas y tu priorización en el modelo Octalysis.</p>
           </div>
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn-tab" type="button" onclick="scrollBackToCatalog()">Modificar mis elecciones</button>
+          <div class="student-export-actions">
+            <button class="btn-export btn-export-img" type="button" onclick="exportStudentProfileImage()">
+              🖼️ Descargar imagen (.png)
+            </button>
+            <button class="btn-export btn-pdf" type="button" onclick="exportStudentProfilePDF()">
+              📑 Descargar PDF (.pdf)
+            </button>
+            <button class="btn-tab" type="button" onclick="scrollBackToCatalog()">
+              ✏️ Modificar mis elecciones
+            </button>
           </div>
         </div>
 
@@ -2017,6 +2309,9 @@
         </div>
 
         <div class="export-button-group">
+          <button class="btn-create-room" type="button" onclick="openCreateRoomModal()">
+            ✨ Crear nueva sala
+          </button>
           <button class="btn-export btn-excel" type="button" onclick="exportDataToExcel()">
             📊 Descargar Excel (.xlsx)
           </button>
@@ -2309,22 +2604,37 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL 4: ACCESO PROTEGIDO CON PIN DE PROFESOR
+       MODAL 4: PORTAL DE ACCESO DOCENTE (INGRESAR CON PIN O CREAR NUEVA SALA)
        ========================================================================== -->
   <div class="modal-backdrop" id="modalTeacherPin">
-    <div class="modal-box" style="max-width: 420px; text-align: center;">
+    <div class="modal-box" style="max-width: 460px; text-align: center;">
       <button class="modal-close-btn" type="button" onclick="closeModal('modalTeacherPin')">✕</button>
-      <div class="brand-icon" style="margin: 0 auto 1rem auto; background: linear-gradient(135deg, var(--extrinsic), var(--intrinsic));">🔒</div>
-      <h3>Acceso para el profesor</h3>
-      <p id="teacherPinPromptDesc">Ingresa el PIN de seguridad que definiste al crear esta sala para abrir el panel docente y sus exportaciones.</p>
+      <div class="brand-icon" style="margin: 0 auto 0.85rem auto; background: linear-gradient(135deg, var(--extrinsic), var(--intrinsic));">👨‍🏫</div>
+      <h3>Portal de acceso docente</h3>
+      <p id="teacherPinPromptDesc">Ingresa el PIN de la sala actual para ver los resultados en vivo o crea una sala nueva con tu propio PIN.</p>
 
       <form onsubmit="handleTeacherPinSubmit(event)">
-        <div class="form-group">
-          <input type="password" id="inputTeacherPin" class="form-input" placeholder="PIN de la sala" maxlength="6" style="text-align: center; font-size: 1.3rem; letter-spacing: 0.2em;" required>
+        <div class="form-group" style="margin-bottom: 0.75rem;">
+          <input type="password" id="inputTeacherPin" class="form-input" placeholder="PIN de la sala actual" maxlength="6" style="text-align: center; font-size: 1.25rem; letter-spacing: 0.2em;" required>
         </div>
         <div id="teacherPinErrorMsg" style="color: var(--black-hat); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.65rem; display: none;"></div>
-        <button type="submit" class="form-submit-btn">Entrar al panel docente →</button>
+        <button type="submit" class="form-submit-btn">🔓 Entrar a la sala actual →</button>
       </form>
+
+      <div id="demoQuickAccessRow" style="margin-top: 0.65rem; display: none;">
+        <button type="button" class="btn-tab" style="width: 100%; justify-content: center; border-color: rgba(6, 182, 212, 0.45); color: var(--white-hat);" onclick="enterDemoTeacherModeDirectly()">
+          👀 Explorar panel demostrativo (PIN: 1234)
+        </button>
+      </div>
+
+      <div class="teacher-portal-divider">¿Inicias un curso nuevo?</div>
+
+      <div class="teacher-portal-create-box">
+        <p>Si aún no tienes sala ni PIN para tu clase, créala aquí en segundos y obtén el enlace y código QR para tus estudiantes:</p>
+        <button type="button" class="btn-create-room" style="width: 100%; justify-content: center; padding: 0.68rem 1rem; font-size: 0.9rem;" onclick="closeModal('modalTeacherPin'); openCreateRoomModal();">
+          ✨ Crear nueva sala y definir mi PIN
+        </button>
+      </div>
     </div>
   </div>
 
@@ -2477,7 +2787,7 @@
           <div class="guide-step-num">5</div>
           <div class="guide-step-body">
             <strong>Pega tu URL en Octalysis Students y ¡listo!</strong>
-            <p>Regresa a esta ventana y pega la URL en el campo de texto. Al crear la sala o compartir el QR, las pestañas <strong>Salas</strong> y <strong>Respuestas</strong> se generarán automáticamente en tu Drive.</p>
+            <p>Regresa a esta ventana y pega la URL en el campo de texto. Al crear la sala o recibir respuestas, el script creará automáticamente dos pestañas nuevas en la barra inferior de tu Google Sheet: <strong>«Respuestas»</strong> y <strong>«Salas»</strong> (revisa esas pestañas en lugar de <em>Hoja 1</em>).</p>
           </div>
         </div>
       </div>
@@ -2505,11 +2815,11 @@
  * INSTRUCCIONES DE DESPLIEGUE (1 MINUTO):
  *   1. Crea una hoja de cálculo nueva en Google Sheets.
  *   2. Ve al menú Extensiones > Apps Script.
- *   3. Borra el contenido de Código.gs y pega todo este archivo.
+ *   3. Borra el contenido de Código.gs, pega todo este archivo y pulsa GUARDAR (💾 Ctrl+S).
  *   4. Haz clic en "Implementar" (arriba a la derecha) > "Nueva implementación".
  *   5. En tipo, elige "Aplicación web".
  *   6. En "Ejecutar como", selecciona "Yo".
- *   7. En "Quién tiene acceso", selecciona "Cualquier persona".
+ *   7. En "Quién tiene acceso", selecciona "Cualquier persona" (acceso público sin login).
  *   8. Haz clic en "Implementar", autoriza los permisos y copia la URL (/exec).
  * ============================================================================
  */
@@ -2518,30 +2828,18 @@ const SHEET_ROOMS = 'Salas';
 const SHEET_SUBMISSIONS = 'Respuestas';
 
 /**
- * Inicializa las pestañas "Salas" y "Respuestas" si aún no existen.
+ * Inicializa las pestañas "Salas" y "Respuestas" si aún no existen,
+ * y sitúa "Respuestas" en primer lugar para que el docente vea la tabla de inmediato.
  */
 function ensureSheets_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-
-  let roomsSheet = ss.getSheetByName(SHEET_ROOMS);
-  if (!roomsSheet) {
-    roomsSheet = ss.insertSheet(SHEET_ROOMS);
-    roomsSheet.appendRow([
-      'codigo_sala',
-      'nombre_curso',
-      'pin_hash',
-      'requiere_cedula',
-      'requiere_correo',
-      'creada_en',
-      'actualizada_en'
-    ]);
-    roomsSheet.getRange(1, 1, 1, 7).setFontWeight('bold');
-    roomsSheet.setFrozenRows(1);
+  if (!ss) {
+    throw new Error('Este script debe crearse desde una hoja de Google Sheets (Extensiones > Apps Script).');
   }
 
   let subsSheet = ss.getSheetByName(SHEET_SUBMISSIONS);
   if (!subsSheet) {
-    subsSheet = ss.insertSheet(SHEET_SUBMISSIONS);
+    subsSheet = ss.insertSheet(SHEET_SUBMISSIONS, 0);
     subsSheet.appendRow([
       'id_respuesta',
       'fecha_hora',
@@ -2568,8 +2866,24 @@ function ensureSheets_() {
       'arquetipo',
       'payload_json'
     ]);
-    subsSheet.getRange(1, 1, 1, 24).setFontWeight('bold');
+    subsSheet.getRange(1, 1, 1, 24).setFontWeight('bold').setBackground('#d9ead3');
     subsSheet.setFrozenRows(1);
+  }
+
+  let roomsSheet = ss.getSheetByName(SHEET_ROOMS);
+  if (!roomsSheet) {
+    roomsSheet = ss.insertSheet(SHEET_ROOMS, 1);
+    roomsSheet.appendRow([
+      'codigo_sala',
+      'nombre_curso',
+      'pin_hash',
+      'requiere_cedula',
+      'requiere_correo',
+      'creada_en',
+      'actualizada_en'
+    ]);
+    roomsSheet.getRange(1, 1, 1, 7).setFontWeight('bold').setBackground('#cfe2f3');
+    roomsSheet.setFrozenRows(1);
   }
 
   return { roomsSheet, subsSheet };
@@ -2595,10 +2909,11 @@ function doGet(e) {
     const action = params.action || 'getRoom';
 
     if (action === 'ping') {
+      ensureSheets_();
       return jsonResponse_({
         ok: true,
         service: 'Octalysis Students Backend',
-        version: '2.1.0'
+        version: '2.2.0'
       });
     }
 
@@ -3619,17 +3934,28 @@ function doPost(e) {
       errEl.textContent = '';
 
       const descEl = document.getElementById('teacherPinPromptDesc');
+      const demoRow = document.getElementById('demoQuickAccessRow');
       if (currentRoom.code === 'OCTA-DEMO') {
-        descEl.textContent = 'Ingresa el PIN de la sala demostrativa (1234) para explorar el panel docente.';
+        descEl.textContent = 'Estás en la sala demostrativa (OCTA-DEMO). Puedes explorar el panel con el PIN 1234 o crear tu propia sala con tu PIN personalizado.';
+        if (demoRow) demoRow.style.display = 'block';
       } else if (!currentRoom.pinHash) {
-        descEl.textContent = `Consultando configuración de la sala ${currentRoom.code}... Asegúrate de usar el enlace completo generado al crear la sala.`;
+        descEl.textContent = `Consultando configuración de la sala ${currentRoom.code}... O crea una sala nueva abajo si vas a iniciar otro curso.`;
+        if (demoRow) demoRow.style.display = 'none';
       } else {
-        descEl.textContent = `Ingresa el PIN de seguridad que definiste al crear la sala ${currentRoom.code}.`;
+        descEl.textContent = `Ingresa el PIN que definiste para la sala ${currentRoom.code}, o crea una sala nueva para otro grupo.`;
+        if (demoRow) demoRow.style.display = 'none';
       }
 
       document.getElementById('inputTeacherPin').value = '';
       openModal('modalTeacherPin');
       setTimeout(() => document.getElementById('inputTeacherPin').focus(), 100);
+    }
+
+    function enterDemoTeacherModeDirectly() {
+      if (currentRoom.code !== 'OCTA-DEMO') return;
+      sessionStorage.setItem(`auth_${currentRoom.code}`, currentRoom.pinHash);
+      closeModal('modalTeacherPin');
+      switchToTeacherDashboard();
     }
 
     async function handleTeacherPinSubmit(e) {
@@ -4186,7 +4512,8 @@ function doPost(e) {
       const ctx = canvas.getContext('2d');
 
       const parentRect = canvas.parentElement ? canvas.parentElement.getBoundingClientRect() : { width: 440 };
-      const logicalSize = Math.max(300, Math.min(parentRect.width || 440, 460));
+      const logicalSize = Math.max(290, Math.min(parentRect.width || 440, 460));
+      const isCompact = logicalSize < 380;
       const dpr = window.devicePixelRatio || 1;
 
       canvas.width = logicalSize * dpr;
@@ -4195,7 +4522,7 @@ function doPost(e) {
 
       const cx = logicalSize / 2;
       const cy = logicalSize / 2;
-      const radius = logicalSize * 0.30;
+      const radius = logicalSize * (isCompact ? 0.255 : 0.285);
 
       ctx.clearRect(0, 0, logicalSize, logicalSize);
 
@@ -4277,17 +4604,19 @@ function doPost(e) {
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Cápsula exterior con etiqueta oficial
-        const labelDist = radius + 34;
-        const lx = cx + labelDist * Math.cos(v.angleRad);
-        const ly = cy + labelDist * Math.sin(v.angleRad);
+        // Cápsula exterior con etiqueta oficial (ajustada para no cortarse en pantallas móviles)
+        const labelDist = radius + (isCompact ? 26 : 33);
+        const rawLx = cx + labelDist * Math.cos(v.angleRad);
+        const rawLy = cy + labelDist * Math.sin(v.angleRad);
 
-        ctx.font = '600 10.5px Inter, sans-serif';
+        ctx.font = isCompact ? '600 9.5px Inter, sans-serif' : '600 10.5px Inter, sans-serif';
         const textWidth = ctx.measureText(v.label).width;
-        const pillW = textWidth + 16;
-        const pillH = 22;
-        const pillX = lx - pillW / 2;
-        const pillY = ly - pillH / 2;
+        const pillW = textWidth + (isCompact ? 12 : 16);
+        const pillH = isCompact ? 20 : 22;
+        const pillX = Math.max(4, Math.min(logicalSize - pillW - 4, rawLx - pillW / 2));
+        const pillY = Math.max(4, Math.min(logicalSize - pillH - 4, rawLy - pillH / 2));
+        const lx = pillX + pillW / 2;
+        const ly = pillY + pillH / 2;
 
         // Color según hemisferio de sombrero
         let borderColor = 'rgba(148, 163, 184, 0.45)';
@@ -4304,7 +4633,7 @@ function doPost(e) {
         }
 
         // Dibujar cápsula redondeada
-        drawRoundedRect(ctx, pillX, pillY, pillW, pillH, 11);
+        drawRoundedRect(ctx, pillX, pillY, pillW, pillH, 10);
         ctx.fillStyle = isHovered ? 'rgba(30, 41, 59, 0.98)' : 'rgba(15, 23, 42, 0.9)';
         ctx.fill();
         ctx.strokeStyle = borderColor;
@@ -4328,17 +4657,19 @@ function doPost(e) {
       });
 
       // Guardar estado para eventos interactivos
-      canvas._octaState = { cdValues, hitZones, isInteractive };
+      canvas._octaState = { cdValues, hitZones, isInteractive, logicalSize };
 
       if (isInteractive && !canvas._octaEventsBound) {
         canvas._octaEventsBound = true;
 
         const findTargetCd = (clientX, clientY) => {
           const rect = canvas.getBoundingClientRect();
-          const x = clientX - rect.left;
-          const y = clientY - rect.top;
           const st = canvas._octaState;
           if (!st || !st.hitZones) return null;
+          const scaleX = (st.logicalSize || rect.width || 1) / (rect.width || 1);
+          const scaleY = (st.logicalSize || rect.height || 1) / (rect.height || 1);
+          const x = (clientX - rect.left) * scaleX;
+          const y = (clientY - rect.top) * scaleY;
 
           for (const hz of st.hitZones) {
             if (x >= hz.pillX - 4 && x <= hz.pillX + hz.pillW + 4 && y >= hz.pillY - 4 && y <= hz.pillY + hz.pillH + 4) {
@@ -4758,8 +5089,473 @@ function doPost(e) {
     }
 
     /* ==========================================================================
-       13. EXPORTADORES: EXCEL (.xlsx), PDF EJECUTIVO Y CSV (ORTOGRAFÍA ESPAÑOLA)
+       13. EXPORTADORES: PERFIL ESTUDIANTIL (PNG Y PDF) + DOCENTE (EXCEL, PDF, CSV)
        ========================================================================== */
+    function wrapCanvasText(ctx, text, maxWidth) {
+      const words = String(text || '').split(/\s+/);
+      const lines = [];
+      let currentLine = '';
+      words.forEach(word => {
+        const testLine = currentLine ? `${currentLine} ${word}` : word;
+        if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+          lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = testLine;
+        }
+      });
+      if (currentLine) lines.push(currentLine);
+      return lines;
+    }
+
+    function exportStudentProfileImage() {
+      const sub = lastSubmittedSurvey;
+      if (!sub) {
+        alert('Primero confirma tus 6 reglas y tu prioridad para generar tu perfil.');
+        return;
+      }
+
+      const archetype = determineArchetype(sub.pctWhite, sub.pctBlack, sub.pctIntrinsic, sub.pctExtrinsic);
+      const outCanvas = document.createElement('canvas');
+      const W = 1120;
+      const H = 1320;
+      const scale = 2;
+      outCanvas.width = W * scale;
+      outCanvas.height = H * scale;
+      const ctx = outCanvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      // 1. Fondo general
+      ctx.fillStyle = '#0b0f19';
+      ctx.fillRect(0, 0, W, H);
+
+      // 2. Encabezado superior
+      const headerGrad = ctx.createLinearGradient(0, 0, W, 125);
+      headerGrad.addColorStop(0, '#151d30');
+      headerGrad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = headerGrad;
+      ctx.fillRect(0, 0, W, 125);
+      ctx.strokeStyle = '#24324f';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, 125);
+      ctx.lineTo(W, 125);
+      ctx.stroke();
+
+      // Icono de marca
+      drawRoundedRect(ctx, 36, 28, 52, 52, 10);
+      const iconGrad = ctx.createLinearGradient(36, 28, 88, 80);
+      iconGrad.addColorStop(0, '#06b6d4');
+      iconGrad.addColorStop(1, '#a855f7');
+      ctx.fillStyle = iconGrad;
+      ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 26px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('⬡', 62, 54);
+
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 24px Outfit, Inter, sans-serif';
+      ctx.fillText('Tu perfil psicopedagógico de aprendizaje · Octalysis', 104, 52);
+
+      ctx.fillStyle = '#67e8f9';
+      ctx.font = '600 15px Inter, sans-serif';
+      ctx.fillText(`Estudiante: ${sub.studentName}   |   Asignatura: ${currentRoom.name} (${currentRoom.code})`, 104, 80);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '400 13px Inter, sans-serif';
+      ctx.fillText(`Generado el ${new Date(sub.timestamp || Date.now()).toLocaleDateString()} · Modelo Octalysis de Yu-kai Chou`, 104, 103);
+
+      // 3. Columna izquierda: Red octagonal (CD1 a CD8)
+      drawRoundedRect(ctx, 36, 150, 480, 520, 16);
+      ctx.fillStyle = '#151d30';
+      ctx.fill();
+      ctx.strokeStyle = '#24324f';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 18px Outfit, Inter, sans-serif';
+      ctx.fillText('1. Tu red octagonal (CD1 a CD8)', 58, 184);
+
+      // Capturar el radar en alta nitidez
+      drawOctagonRadar('studentRadarCanvas', sub.cdTotals, true, null, true);
+      const radarCanvas = document.getElementById('studentRadarCanvas');
+      if (radarCanvas) {
+        ctx.drawImage(radarCanvas, 56, 198, 440, 440);
+      }
+      drawOctagonRadar('studentRadarCanvas', sub.cdTotals, true, null, false);
+
+      // 4. Columna derecha superior: Ejes de equilibrio motivacional
+      drawRoundedRect(ctx, 538, 150, 546, 235, 16);
+      ctx.fillStyle = '#151d30';
+      ctx.fill();
+      ctx.strokeStyle = '#24324f';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 18px Outfit, Inter, sans-serif';
+      ctx.fillText('2. Tus ejes de equilibrio motivacional', 562, 184);
+
+      // Barra 1: Sombrero blanco vs. negro
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '600 13.5px Inter, sans-serif';
+      ctx.fillText('Naturaleza del impulso (eje vertical):', 562, 214);
+
+      ctx.fillStyle = '#06b6d4';
+      ctx.font = 'bold 13.5px Inter, sans-serif';
+      ctx.fillText(`Sombrero blanco: ${sub.pctWhite}%`, 562, 236);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText(`Sombrero negro: ${sub.pctBlack}%`, 1060, 236);
+      ctx.textAlign = 'left';
+
+      const barW = 498;
+      const barX = 562;
+      drawRoundedRect(ctx, barX, 246, barW, 16, 8);
+      ctx.fillStyle = '#f43f5e';
+      ctx.fill();
+      const wFill = Math.max(8, Math.min(barW, (barW * sub.pctWhite) / 100));
+      drawRoundedRect(ctx, barX, 246, wFill, 16, 8);
+      ctx.fillStyle = '#06b6d4';
+      ctx.fill();
+
+      // Barra 2: Intrínseca vs. extrínseca
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '600 13.5px Inter, sans-serif';
+      ctx.fillText('Origen de la motivación (eje horizontal):', 562, 294);
+
+      ctx.fillStyle = '#a855f7';
+      ctx.font = 'bold 13.5px Inter, sans-serif';
+      ctx.fillText(`Motivación intrínseca: ${sub.pctIntrinsic}%`, 562, 316);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#3b82f6';
+      ctx.fillText(`Motivación extrínseca: ${sub.pctExtrinsic}%`, 1060, 316);
+      ctx.textAlign = 'left';
+
+      drawRoundedRect(ctx, barX, 326, barW, 16, 8);
+      ctx.fillStyle = '#3b82f6';
+      ctx.fill();
+      const iFill = Math.max(8, Math.min(barW, (barW * sub.pctIntrinsic) / 100));
+      drawRoundedRect(ctx, barX, 326, iFill, 16, 8);
+      ctx.fillStyle = '#a855f7';
+      ctx.fill();
+
+      // 5. Columna derecha inferior: Estrategia de aprendizaje y autorregulación
+      drawRoundedRect(ctx, 538, 405, 546, 265, 16);
+      ctx.fillStyle = '#151d30';
+      ctx.fill();
+      ctx.strokeStyle = '#24324f';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#06b6d4';
+      ctx.font = 'bold 17px Outfit, Inter, sans-serif';
+      ctx.fillText(archetype.name, 562, 438);
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '400 13.2px Inter, sans-serif';
+      let textY = 464;
+      wrapCanvasText(ctx, archetype.desc, 498).forEach(line => {
+        ctx.fillText(line, 562, textY);
+        textY += 19;
+      });
+
+      textY += 8;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13.5px Inter, sans-serif';
+      ctx.fillText('Recomendaciones para tu estudio y autorregulación:', 562, textY);
+      textY += 20;
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '400 12.6px Inter, sans-serif';
+      archetype.tips.forEach(tip => {
+        const lines = wrapCanvasText(ctx, `✓ ${tip}`, 498);
+        lines.forEach(l => {
+          ctx.fillText(l, 562, textY);
+          textY += 17.5;
+        });
+        textY += 4;
+      });
+
+      // 6. Bloque inferior: Las 6 reglas seleccionadas y su priorización
+      drawRoundedRect(ctx, 36, 692, 1048, 565, 16);
+      ctx.fillStyle = '#151d30';
+      ctx.fill();
+      ctx.strokeStyle = '#24324f';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 18px Outfit, Inter, sans-serif';
+      ctx.fillText('3. Tus 6 reglas de clase seleccionadas y priorizadas', 58, 728);
+
+      const p1Id = sub.priority1?.id;
+      const p2Id = sub.priority2?.id;
+      const p3Id = sub.priority3?.id;
+
+      const orderedMechs = [...(sub.selectedMechanics || [])].sort((a, b) => {
+        const rank = id => (id === p1Id ? 1 : id === p2Id ? 2 : id === p3Id ? 3 : 4);
+        return rank(a.id) - rank(b.id);
+      });
+
+      orderedMechs.forEach((m, idx) => {
+        const fullMech = MECHANICS_DB.find(item => item.id === m.id) || m;
+        const col = idx % 2;
+        const row = Math.floor(idx / 2);
+        const cardX = 58 + col * 508;
+        const cardY = 748 + row * 162;
+        const cardW = 492;
+        const cardH = 146;
+
+        const isP1 = m.id === p1Id;
+        const isP2 = m.id === p2Id;
+        const isP3 = m.id === p3Id;
+
+        drawRoundedRect(ctx, cardX, cardY, cardW, cardH, 12);
+        ctx.fillStyle = isP1 ? 'rgba(251, 191, 36, 0.08)' : '#0b0f19';
+        ctx.fill();
+        ctx.strokeStyle = isP1 ? '#fbbf24' : (isP2 || isP3 ? '#06b6d4' : '#24324f');
+        ctx.lineWidth = isP1 ? 2 : 1.2;
+        ctx.stroke();
+
+        let badgeText = `CD${fullMech.cd} · Elegida en tus 6 reglas`;
+        let badgeColor = '#34d399';
+        if (isP1) {
+          badgeText = `🥇 PRIORIDAD 1 (REGLA DE ORO) · CD${fullMech.cd}`;
+          badgeColor = '#fbbf24';
+        } else if (isP2) {
+          badgeText = `🥈 PRIORIDAD 2 · CD${fullMech.cd}`;
+          badgeColor = '#67e8f9';
+        } else if (isP3) {
+          badgeText = `🥉 PRIORIDAD 3 · CD${fullMech.cd}`;
+          badgeColor = '#cbd5e1';
+        }
+
+        ctx.fillStyle = badgeColor;
+        ctx.font = 'bold 12px Inter, sans-serif';
+        ctx.fillText(badgeText, cardX + 16, cardY + 26);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 15.5px Outfit, Inter, sans-serif';
+        ctx.fillText(fullMech.name, cardX + 16, cardY + 50);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '400 12.5px Inter, sans-serif';
+        let descY = cardY + 72;
+        wrapCanvasText(ctx, fullMech.desc || '', cardW - 32).slice(0, 4).forEach(line => {
+          ctx.fillText(line, cardX + 16, descY);
+          descY += 17;
+        });
+      });
+
+      // Pie de imagen
+      ctx.fillStyle = '#64748b';
+      ctx.font = '400 12px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Octalysis Students · Reporte individual de preferencias y autorregulación del aprendizaje', W / 2, H - 22);
+
+      const dataUrl = outCanvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `Perfil_Octalysis_${sanitizeFileName(sub.studentName)}_${currentRoom.code}.png`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function exportStudentProfilePDF() {
+      if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF === 'undefined') {
+        alert('La librería PDF aún se está cargando. Intenta de nuevo en unos segundos.');
+        return;
+      }
+      const sub = lastSubmittedSurvey;
+      if (!sub) {
+        alert('Primero confirma tus 6 reglas y tu prioridad para generar tu perfil.');
+        return;
+      }
+
+      const archetype = determineArchetype(sub.pctWhite, sub.pctBlack, sub.pctIntrinsic, sub.pctExtrinsic);
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+      // Encabezado
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 32, 'F');
+
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(15.5);
+      doc.setTextColor(255, 255, 255);
+      doc.text("Perfil psicopedagógico de aprendizaje · Octalysis", 15, 13);
+
+      doc.setFontSize(9.5);
+      doc.setFont('Helvetica', 'normal');
+      doc.setTextColor(103, 232, 249);
+      doc.text(`Estudiante: ${sub.studentName}  |  Asignatura: ${currentRoom.name} (${currentRoom.code})`, 15, 20.5);
+
+      doc.setTextColor(203, 213, 225);
+      const extraId = [
+        sub.cedula && sub.cedula !== 'N/A' ? `Doc: ${sub.cedula}` : '',
+        sub.email && sub.email !== 'N/A' ? `Correo: ${sub.email}` : ''
+      ].filter(Boolean).join('  |  ');
+      doc.text(`Fecha: ${new Date(sub.timestamp || Date.now()).toLocaleDateString()}${extraId ? '  |  ' + extraId : ''}`, 15, 26.8);
+
+      // 1. Red Octagonal (izquierda) y Ejes de Equilibrio (derecha)
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(11.5);
+      doc.setTextColor(15, 23, 42);
+      doc.text("1. Tu red octagonal (CD1 a CD8)", 15, 41);
+      doc.text("2. Tus ejes de equilibrio motivacional", 112, 41);
+
+      drawOctagonRadar('studentRadarCanvas', sub.cdTotals, true, null, true);
+      const radarCanvas = document.getElementById('studentRadarCanvas');
+      if (radarCanvas) {
+        try {
+          const imgData = radarCanvas.toDataURL('image/png');
+          doc.addImage(imgData, 'PNG', 15, 44, 88, 88);
+        } catch (e) {
+          console.error('Error al insertar radar en PDF estudiantil:', e);
+        }
+      }
+      drawOctagonRadar('studentRadarCanvas', sub.cdTotals, true, null, false);
+
+      // Barras y métricas a la derecha
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(30, 41, 59);
+      doc.text("Naturaleza del impulso (eje vertical):", 112, 50);
+
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(6, 148, 172);
+      doc.text(`Sombrero blanco: ${sub.pctWhite}%`, 112, 55.5);
+      doc.setTextColor(225, 29, 72);
+      doc.text(`Sombrero negro: ${sub.pctBlack}%`, 160, 55.5);
+
+      // Barra gráfica sombrero
+      doc.setFillColor(244, 63, 94);
+      doc.roundedRect(112, 58, 83, 4, 2, 2, 'F');
+      const wMm = Math.max(2, (83 * sub.pctWhite) / 100);
+      doc.setFillColor(6, 182, 212);
+      doc.roundedRect(112, 58, wMm, 4, 2, 2, 'F');
+
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(30, 41, 59);
+      doc.text("Origen de la motivación (eje horizontal):", 112, 70);
+
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(126, 34, 206);
+      doc.text(`Motivación intrínseca: ${sub.pctIntrinsic}%`, 112, 75.5);
+      doc.setTextColor(37, 99, 235);
+      doc.text(`Motivación extrínseca: ${sub.pctExtrinsic}%`, 160, 75.5);
+
+      // Barra gráfica motivación
+      doc.setFillColor(59, 130, 246);
+      doc.roundedRect(112, 78, 83, 4, 2, 2, 'F');
+      const iMm = Math.max(2, (83 * sub.pctIntrinsic) / 100);
+      doc.setFillColor(168, 85, 247);
+      doc.roundedRect(112, 78, iMm, 4, 2, 2, 'F');
+
+      // Tabla compacta de puntajes CD1 a CD8
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(15, 23, 42);
+      doc.text("Puntaje por Core Drive:", 112, 91);
+
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(51, 65, 85);
+      let cdY = 96.5;
+      for (let cd = 1; cd <= 8; cd++) {
+        const score = sub.cdTotals[cd] || 0;
+        doc.text(`• CD${cd} (${CORE_DRIVES_INFO[cd].name}): ${score} pts`, 112, cdY);
+        cdY += 4.6;
+      }
+
+      // 3. Estrategia de aprendizaje y recomendaciones
+      let yPos = 141;
+      doc.setFillColor(241, 245, 249);
+      doc.roundedRect(15, yPos, 180, 47, 3, 3, 'F');
+
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(15, 23, 42);
+      const cleanArchTitle = archetype.name.replace(/[^\x20-\x7EÁÉÍÓÚáéíóúÑñÜü]/g, '').trim();
+      doc.text(`3. ${cleanArchTitle}`, 19, yPos + 7.5);
+
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(51, 65, 85);
+      const descLines = doc.splitTextToSize(archetype.desc, 172);
+      doc.text(descLines, 19, yPos + 13.5);
+
+      let tipY = yPos + 13.5 + descLines.length * 4.2 + 2.5;
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42);
+      doc.text("Recomendaciones de estudio y autorregulación:", 19, tipY);
+      tipY += 4.8;
+
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(8.6);
+      doc.setTextColor(51, 65, 85);
+      archetype.tips.forEach(tip => {
+        const wrappedTip = doc.splitTextToSize(`• ${tip}`, 170);
+        doc.text(wrappedTip, 21, tipY);
+        tipY += wrappedTip.length * 4 + 1;
+      });
+
+      // 4. Tus 6 reglas seleccionadas y priorización
+      yPos = 196;
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(11.5);
+      doc.setTextColor(15, 23, 42);
+      doc.text("4. Tus 6 reglas de clase seleccionadas y priorizadas", 15, yPos);
+      yPos += 6;
+
+      const p1Id = sub.priority1?.id;
+      const p2Id = sub.priority2?.id;
+      const p3Id = sub.priority3?.id;
+
+      const orderedMechs = [...(sub.selectedMechanics || [])].sort((a, b) => {
+        const rank = id => (id === p1Id ? 1 : id === p2Id ? 2 : id === p3Id ? 3 : 4);
+        return rank(a.id) - rank(b.id);
+      });
+
+      orderedMechs.forEach((m, idx) => {
+        const fullMech = MECHANICS_DB.find(item => item.id === m.id) || m;
+        let prefix = `${idx + 1}.`;
+        if (m.id === p1Id) prefix = `[PRIORIDAD 1 - REGLA DE ORO]`;
+        else if (m.id === p2Id) prefix = `[PRIORIDAD 2]`;
+        else if (m.id === p3Id) prefix = `[PRIORIDAD 3]`;
+
+        doc.setFont('Helvetica', 'bold');
+        doc.setFontSize(9.2);
+        doc.setTextColor(m.id === p1Id ? 180 : 15, m.id === p1Id ? 83 : 23, m.id === p1Id ? 9 : 42);
+        doc.text(`${prefix} ${fullMech.name} (CD${fullMech.cd})`, 18, yPos);
+        yPos += 4.3;
+
+        doc.setFont('Helvetica', 'normal');
+        doc.setFontSize(8.4);
+        doc.setTextColor(71, 85, 105);
+        const wrappedDesc = doc.splitTextToSize(fullMech.desc || '', 174);
+        doc.text(wrappedDesc, 22, yPos);
+        yPos += wrappedDesc.length * 3.8 + 2.5;
+      });
+
+      doc.setFontSize(8);
+      doc.setTextColor(130, 130, 130);
+      doc.text("Generado por Octalysis Students · Instrumento de diagnóstico motivacional y acuerdos de clase", 15, 287);
+
+      doc.save(`Perfil_Octalysis_${sanitizeFileName(sub.studentName)}_${currentRoom.code}.pdf`);
+    }
+
     function exportDataToExcel() {
       if (typeof XLSX === 'undefined') {
         alert('La librería de exportación a Excel aún se está cargando. Intenta de nuevo en unos segundos.');
@@ -5108,7 +5904,14 @@ function doPost(e) {
           }
 
           if (Array.isArray(data.submissions)) {
-            roomSubmissions = data.submissions;
+            const cloudById = new Map(data.submissions.map(s => [s.id, s]));
+            // Preservar respuestas locales recientes de esta misma sala que aún estén en tránsito hacia la nube
+            roomSubmissions.forEach(localSub => {
+              if (localSub && localSub.roomId === currentRoom.code && !cloudById.has(localSub.id)) {
+                cloudById.set(localSub.id, localSub);
+              }
+            });
+            roomSubmissions = Array.from(cloudById.values());
             saveSubmissionsToLocal();
             if (currentRole === 'teacher') {
               renderTeacherDashboard();

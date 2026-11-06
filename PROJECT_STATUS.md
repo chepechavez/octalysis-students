@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
-**Última actualización:** 3 de noviembre de 2026  
-**Versión actual:** `2.1.1`  
+**Última actualización:** 5 de noviembre de 2026  
+**Versión actual:** `2.2.0`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -103,6 +103,11 @@ git push origin main
 
 ## 6. Historial de cambios
 
+- **2026-11-05 (`v2.2.0`):**
+  - **Validación y optimización responsiva móvil (`320px` a `768px`):** bandeja de selección fluida en móviles (sin bloquear el área de lectura), ajuste dinámico de radio y contención de etiquetas `CD1`–`CD8` en `drawOctagonRadar()` para evitar recortes laterales en pantallas pequeñas, escalado exacto de coordenadas táctiles y adaptación de cuadrículas, tablas y modales.
+  - **Exportación individual para el estudiante (`.png` y `.pdf`):** incorporación de `exportStudentProfileImage()` (lienzo de alta densidad `2x`) y `exportStudentProfilePDF()` (`jsPDF` A4) en la sección de devolución del estudiante.
+  - **Flujo unificado de acceso docente y creación de sala:** se retiró el botón suelto `✨ Crear sala` del encabezado estudiantil y se integró el **Portal de acceso docente** dentro de `👨‍🏫 Profesor` (`#modalTeacherPin`), permitiendo tanto desbloquear la sala actual con PIN (o acceso en 1 clic a `OCTA-DEMO`) como **crear una nueva sala y definir el PIN**, además del botón `✨ Crear nueva sala` en la barra superior del panel docente.
+  - **Visibilidad inmediata de pestañas en Google Sheets (`Code.gs`):** `ensureSheets_()` inserta ahora la pestaña `Respuestas` en la primera posición (`índice 0`) con encabezado destacado para que el docente visualice los registros sin quedarse en `Hoja 1`, y `fetchCloudRoomAndSubmissions()` preserva respuestas locales recientes en tránsito.
 - **2026-11-03 (`v2.1.1`):**
   - Simplificación de la red octagonal individual: eliminación de la fila redundante de botones inferiores (`CD1 · Significado` a `CD8 · Evitación`) y limpieza de estilos CSS, manteniendo la interactividad directamente en las 8 etiquetas periféricas y vértices del octágono en Canvas.
   - Corrección de renderizado en el cuadrante 2D: reemplazo del operador `|| 50` por `Number.isFinite(...)` en el cálculo de coordenadas y color de nodo para evitar que valores válidos de `0%` (sombrero blanco o intrínseca) colapsen falsamente al punto medio (`50%`) y se pinten en cian.
