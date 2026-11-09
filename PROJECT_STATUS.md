@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
 **Última actualización:** 9 de noviembre de 2026  
-**Versión actual:** `2.3.0`  
+**Versión actual:** `2.3.1`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.0`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En esta tercera iteración (`v2.3.0`) se implementó el nuevo flujo de entrada en 4 pasos, la búsqueda de salas por nombre o código con prevención de duplicados, el recordatorio descargable de credenciales docentes y el sistema de temas (oscuro mejorado + tema claro de alto contraste sobre fondo blanco para tableros digitales y proyectores).
+La plataforma **Octalysis Students (`v2.3.1`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En esta iteración (`v2.3.1`) se llevó a cabo el rediseño visual de alto nivel de las pantallas de bienvenida y acceso (`#viewWelcome`), resolviendo la disparidad de clases CSS, unificando los estilos con el sistema de diseño oscuro y claro de la app, equilibrando la cuadrícula del portal docente en 3 columnas y añadiendo tarjetas de asistencia contextual, visualización de salas recientes y conmutador de visibilidad de PIN.
 
 ---
 
@@ -98,6 +98,15 @@ git push origin main
 ---
 
 ## 6. Historial de cambios
+
+- **2026-11-09 (`v2.3.1`):**
+  - **Rediseño estético y unificación visual del flujo de bienvenida (`#viewWelcome`):**
+    - Corrección integral de la discrepancia de nombres entre clases CSS y marcado HTML (contenedores, tarjetas de rol, opciones docentes e indicadores).
+    - **Paso 1 (Selección de rol):** tarjetas interactivas de rol (`Soy estudiante` y `Soy profesor`) con micro-interacciones hover, íconos iluminados, viñetas explicativas de características (`🎯 6 reglas`, `🕸️ Octágono`, `📊 Tablero vivo`, `🧭 Cuadrante 2D`) y botones CTA estilizados.
+    - **Paso 2A (Acceso estudiante):** diseño centrado en tarjeta enmarcada, campo de búsqueda con foco radiante, tarjeta de asistencia contextual para códigos QR y enlaces directos, y contenedor de chips interactivos para salas recientes.
+    - **Paso 2B (Portal docente):** reestructuración en cuadrícula balanceada de 3 columnas de altura uniforme (`👀 Ver sala demo`, `🔓 Entrar a mi sala`, `✨ Crear sala nueva`), lista de beneficios con viñetas de verificación, botón para alternar visibilidad de PIN (`👁️`/`🙈`) y cuadro de advertencia de seguridad unificado.
+    - **Prevención de parpadeo de tema (FOUC):** script síncrono ultra-rápido en `<head>` para cargar de inmediato el tema guardado en `localStorage` o solicitado vía URL (`?tema=claro` / `?tema=oscuro`), asegurando contrastes idénticos en tableros digitales y pantallas de alta densidad.
+    - **Optimización responsiva móvil (`360px` a `768px`):** adaptación fluida de tarjetas, botón de tema con modo icono compacto en pantallas angostas y eliminación de cualquier desbordamiento horizontal.
 
 - **2026-11-09 (`v2.3.0`):**
   - **Nuevo flujo de entrada paso a paso (`#viewWelcome`):**

@@ -1,7 +1,7 @@
 # ⬡ Octalysis Students
 > **Plataforma web de sondeo motivacional y cocreación de acuerdos de clase basada en el modelo Octalysis.**
 
-![Versión](https://img.shields.io/badge/versión-2.3.0-cyan.svg)
+![Versión](https://img.shields.io/badge/versión-2.3.1-cyan.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-purple.svg)
 ![Despliegue](https://img.shields.io/badge/GitHub%20Pages-listo-emerald.svg)
 
@@ -17,11 +17,17 @@ Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan 
 
 ## ✨ Características principales
 
-### 🚪 Flujo de entrada guiado y sin fricción (`v2.3.0`)
-1. **Selección inicial de perfil:** al abrir la URL principal, la plataforma pregunta primero de forma limpia si ingresas como **🎒 Soy estudiante** o **👨‍🏫 Soy profesor**.
-2. **Ingreso de estudiante por nombre o código:** si el estudiante entra por la página principal, escribe el **nombre de la sala/asignatura** o el **código** (`OCTA-XXX`), con lista de desambiguación si existen grupos con nombres similares.
-3. **Llegada directa por enlace o QR (`?sala=...`):** cuando el profesor comparte el enlace directo o proyecta el código QR en clase, los estudiantes **omiten los pasos anteriores** y aterrizan directamente en el registro de su sala.
-4. **Portal docente con 3 opciones y resguardo de credenciales:** el profesor puede **👀 Ver sala demo (`OCTA-DEMO`)**, **🔓 Entrar a su sala existente** (indicando nombre/código y su PIN) o **✨ Crear una sala nueva**, con validación de nombres duplicados, advertencia visible sobre la importancia de guardar el nombre/código y el PIN, y descarga en 1 clic de un **recordatorio `.txt`** con sus credenciales.
+### 🎨 Rediseño visual del flujo de bienvenida y acceso (`v2.3.1`)
+1. **Selección inicial de perfil estilizada:** tarjetas interactivas de alto impacto visual para elegir entre **🎒 Soy estudiante** y **👨‍🏫 Soy profesor**, con micro-interacciones hover, íconos luminosos y viñetas pedagógicas de características clave.
+2. **Acceso de estudiante centrado y salas recientes:** buscador estilizado con foco activo, tarjeta de asistencia contextual para códigos QR y enlaces directos, junto con chips de acceso rápido a salas visitadas recientemente guardadas en el navegador.
+3. **Portal docente simétrico en 3 columnas:** distribución equilibrada para **👀 Ver sala demo (`OCTA-DEMO`)**, **🔓 Entrar a mi sala** y **✨ Crear sala nueva**, con visualizador/ocultador interactivo de PIN (`👁️`/`🙈`) y cuadro de advertencias de seguridad unificado.
+4. **Prevención de parpadeo de tema (Anti-FOUC):** carga síncrona inmediata en `<head>` para garantizar que la transición entre tema claro y oscuro sea instantánea sin saltos cromáticos.
+
+### 📱 Diseño 100 % responsivo y adaptabilidad multi-pantalla
+- **Móviles (desde 320px):** cabecera compacta con auto-ocultación de etiquetas de texto secundarias, rejilla fluida para las 24 tarjetas del catálogo, bandeja de selección flotante que pasa a flujo natural (`relative`) para no obstruir la lectura, botones de exportación a ancho completo (`100%`) y modales con salto de línea seguro.
+- **Gráficos vectoriales auto-escalables:** el octágono analítico (`drawOctagonRadar`) y el cuadrante de dispersión 2D (`drawClassQuadrant`) recalculan dinámicamente sus dimensiones lógicas y físicas (Canvas responsive con soporte HiDPI/Retina) sin desbordamiento horizontal.
+- **Tablets y portátiles:** disposición en cuadrículas fluidas de 2 columnas con navegación lateral y barras de balance motivacional proporcionales.
+- **Tableros digitales y videobeams:** modo claro en blanco puro (`#ffffff`) con contraste tipográfico reforzado para legibilidad óptima en aulas iluminadas.
 
 ### ☀️ Tema claro de alto contraste para tableros digitales y proyectores
 - Incluye el botón **☀️ Tema claro / 🌙 Tema oscuro** en la barra superior (con el tema oscuro como predeterminado y persistencia en el navegador).

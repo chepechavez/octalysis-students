@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Octalysis Students | Sondeo motivacional de reglas de clase</title>
 
+  <!-- Script de prevención de parpadeo de tema (evita salto de contraste al cargar) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('octalysis_theme');
+        var u = new URLSearchParams(window.location.search);
+        var q = (u.get('tema') || u.get('theme') || '').toLowerCase();
+        if (q === 'light' || q === 'claro' || (!q && t === 'light')) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Tipografía Google: Outfit e Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -327,272 +341,730 @@
     /* ==========================================================================
        VISTA 0: FLUJO DE ENTRADA Y BIENVENIDA POR ROLES (#viewWelcome)
        ========================================================================== */
-    .welcome-wrapper {
-      max-width: 880px;
-      margin: 1.25rem auto 2.5rem auto;
+    #viewWelcome {
+      min-height: calc(85vh - 80px);
+      display: none;
     }
 
-    .welcome-hero-card {
+    #viewWelcome.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .welcome-shell {
+      max-width: 1080px;
+      width: 100%;
+      margin: 1.5rem auto 3rem auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .welcome-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 2.25rem 2rem;
+      padding: 2.75rem 2.25rem;
       box-shadow: var(--shadow-card);
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      animation: fadeIn 0.25s ease-out;
     }
 
-    .welcome-header {
-      text-align: center;
-      margin-bottom: 2rem;
+    .welcome-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--white-hat), var(--extrinsic), var(--intrinsic));
     }
 
-    .welcome-header .welcome-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(6, 182, 212, 0.14);
-      border: 1px solid var(--white-hat);
-      color: var(--white-hat);
-      padding: 0.3rem 0.85rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 0.85rem;
-    }
-
-    .welcome-header h2 {
-      font-family: var(--font-heading);
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: var(--text-heading);
-      margin-bottom: 0.5rem;
-      line-height: 1.2;
-    }
-
-    .welcome-header p {
-      font-size: 0.98rem;
-      color: var(--text-muted);
+    .welcome-card.student-welcome {
       max-width: 620px;
       margin: 0 auto;
     }
 
-    .role-choice-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.35rem;
+    .welcome-card.teacher-welcome {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.85rem 1.85rem;
     }
 
-    .role-choice-card {
-      background: var(--bg-main);
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1.75rem 1.5rem;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.22s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 1rem;
+    .teacher-welcome .welcome-hero {
+      margin-bottom: 1.25rem;
     }
 
-    .role-choice-card:hover {
-      border-color: var(--white-hat);
-      background: var(--bg-card-hover);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-glow);
+    .teacher-welcome .welcome-hero h2 {
+      font-size: 1.95rem;
+      margin-bottom: 0.35rem;
     }
 
-    .role-choice-card.teacher-role:hover {
-      border-color: var(--extrinsic);
+    .teacher-welcome .welcome-hero p {
+      font-size: 0.95rem;
     }
 
-    .role-icon-circle {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
+    .teacher-welcome .welcome-back-row {
+      margin-bottom: 1.15rem;
+      padding-bottom: 0.75rem;
+    }
+
+    /* ENCABEZADO DE CADA PASO DE BIENVENIDA */
+    .welcome-hero {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      color: var(--white-hat);
+      padding: 0.35rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(6, 182, 212, 0.15);
+    }
+
+    .welcome-hero h2 {
+      font-family: var(--font-heading);
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      margin-bottom: 0.65rem;
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+    }
+
+    .welcome-hero p {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    .student-hero-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      margin: 0 auto 1rem auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.75rem;
-      background: rgba(6, 182, 212, 0.15);
-      border: 1px solid var(--white-hat);
-      margin-bottom: 0.35rem;
+      font-size: 1.9rem;
+      background: rgba(6, 182, 212, 0.14);
+      border: 1.5px solid var(--white-hat);
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.22);
     }
 
-    .role-choice-card.teacher-role .role-icon-circle {
-      background: rgba(59, 130, 246, 0.15);
+    /* PASO 1: CUADRÍCULA DE SELECCIÓN DE ROL */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 720px) {
+      .role-grid {
+        grid-template-columns: 1fr;
+      }
+      .welcome-card {
+        padding: 1.75rem 1.25rem;
+      }
+      .welcome-hero h2 {
+        font-size: 1.75rem;
+      }
+    }
+
+    .role-option-card {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--bg-main);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 2.1rem 1.75rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.35rem;
+      width: 100%;
+      position: relative;
+      outline: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      font-family: var(--font-body);
+    }
+
+    .role-option-card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-card-hover);
+    }
+
+    .role-option-card.student-role {
+      border-top: 3.5px solid var(--white-hat);
+    }
+
+    .role-option-card.student-role:hover {
+      border-color: var(--white-hat);
+      box-shadow: 0 14px 34px -8px rgba(6, 182, 212, 0.32);
+    }
+
+    .role-option-card.teacher-role {
+      border-top: 3.5px solid var(--extrinsic);
+    }
+
+    .role-option-card.teacher-role:hover {
       border-color: var(--extrinsic);
+      box-shadow: 0 14px 34px -8px rgba(59, 130, 246, 0.32);
     }
 
-    .role-choice-card h3 {
+    .role-card-top {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .role-icon-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.95rem;
+      margin-bottom: 0.4rem;
+      transition: transform 0.22s ease;
+      flex-shrink: 0;
+    }
+
+    .role-option-card.student-role .role-icon-box {
+      background: rgba(6, 182, 212, 0.15);
+      border: 1.5px solid var(--white-hat);
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.22);
+    }
+
+    .role-option-card.teacher-role .role-icon-box {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1.5px solid var(--extrinsic);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.22);
+    }
+
+    .role-option-card:hover .role-icon-box {
+      transform: scale(1.08) rotate(-3deg);
+    }
+
+    .role-card-title {
       font-family: var(--font-heading);
-      font-size: 1.35rem;
+      font-size: 1.45rem;
       font-weight: 800;
       color: var(--text-heading);
-      margin-bottom: 0.35rem;
-    }
-
-    .role-choice-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.48;
-    }
-
-    .role-cta-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--white-hat);
-    }
-
-    .role-choice-card.teacher-role .role-cta-pill {
-      color: var(--extrinsic);
-    }
-
-    .welcome-step-nav {
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.85rem;
+    }
+
+    .role-card-arrow {
+      font-size: 1.25rem;
+      opacity: 0.6;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .role-option-card:hover .role-card-arrow {
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    .role-card-desc {
+      font-family: var(--font-body);
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .role-card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.35rem;
+    }
+
+    .role-feature-pill {
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.24rem 0.6rem;
+      border-radius: 999px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .role-card-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-heading);
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 0.75rem 1.15rem;
+      border-radius: var(--radius-sm);
+      margin-top: 0.65rem;
+      transition: all 0.2s ease;
+    }
+
+    .role-option-card.student-role .role-card-cta {
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--white-hat);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+    }
+
+    .role-option-card.teacher-role .role-card-cta {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--extrinsic);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+
+    .role-option-card.student-role:hover .role-card-cta {
+      background: var(--white-hat);
+      color: #ffffff;
+      border-color: var(--white-hat);
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+    }
+
+    .role-option-card.teacher-role:hover .role-card-cta {
+      background: var(--extrinsic);
+      color: #ffffff;
+      border-color: var(--extrinsic);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+    }
+
+    /* FILA SUPERIOR DE NAVEGACIÓN EN PASOS 2A Y 2B */
+    .welcome-back-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      padding-bottom: 0.95rem;
       border-bottom: 1px solid var(--border-color);
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.75rem;
     }
 
     .btn-back-step {
-      background: transparent;
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      padding: 0.42rem 0.85rem;
+      padding: 0.45rem 0.95rem;
       border-radius: var(--radius-sm);
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       font-weight: 600;
+      font-family: var(--font-body);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
       transition: all 0.2s ease;
     }
 
     .btn-back-step:hover {
       border-color: var(--white-hat);
       color: var(--white-hat);
-      background: var(--bg-surface);
+      background: var(--bg-card-hover);
+      transform: translateX(-2px);
     }
 
-    .room-matches-list {
+    /* PASO 2A: ENTRADA ESTUDIANTIL */
+    .student-entry-form {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .student-room-input {
+      font-size: 1.05rem !important;
+      padding: 0.9rem 1.15rem !important;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border-color);
+      background: var(--bg-input);
+      color: var(--text-main);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .student-room-input:focus {
+      border-color: var(--white-hat);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+    }
+
+    .student-submit-btn {
+      margin-top: 0.35rem;
+      padding: 0.85rem 1.25rem !important;
+      font-size: 1rem !important;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .student-submit-btn:hover {
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .student-hint-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.2rem;
+      margin-top: 1.75rem;
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .student-hint-icon {
+      font-size: 1.45rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .student-hint-card strong {
+      display: block;
+      color: var(--text-heading);
+      font-size: 0.84rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .student-hint-card p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.42;
+    }
+
+    /* LISTA DE DESAMBIGUACIÓN DE SALAS */
+    .room-disambiguation-list {
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
-      margin-top: 1rem;
+      margin-top: 0.4rem;
     }
 
     .room-match-item {
       background: var(--bg-main);
-      border: 1px solid var(--border-color);
+      border: 1.5px solid var(--border-color);
       border-radius: var(--radius-sm);
-      padding: 0.85rem 1rem;
+      padding: 0.85rem 1.15rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
       cursor: pointer;
       transition: all 0.18s ease;
-      flex-wrap: wrap;
+      color: var(--text-main);
+      text-align: left;
+      width: 100%;
     }
 
     .room-match-item:hover {
       border-color: var(--white-hat);
       background: var(--bg-card-hover);
+      transform: translateX(3px);
     }
 
-    .teacher-options-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 1.35rem;
-      align-items: stretch;
-    }
-
-    @media (max-width: 780px) {
-      .teacher-options-grid {
-        grid-template-columns: 1fr;
-      }
-      .welcome-hero-card {
-        padding: 1.4rem 1.15rem;
-      }
-    }
-
-    .teacher-option-box {
-      background: var(--bg-main);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 1.35rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 0.9rem;
-    }
-
-    .teacher-option-box h4 {
-      font-family: var(--font-heading);
-      font-size: 1.15rem;
+    .room-match-name {
       font-weight: 700;
+      font-size: 0.92rem;
       color: var(--text-heading);
-      margin-bottom: 0.25rem;
+    }
+
+    .room-match-meta {
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      margin-top: 0.15rem;
+    }
+
+    .room-match-code {
+      font-family: monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--white-hat);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    /* SALAS RECIENTES */
+    .recent-rooms-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      margin-bottom: 0.45rem;
       display: flex;
       align-items: center;
-      gap: 0.45rem;
-    }
-
-    .teacher-option-box p {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      line-height: 1.45;
+      gap: 0.4rem;
     }
 
     .recent-rooms-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.4rem;
+      gap: 0.45rem;
     }
 
     .recent-room-pill {
-      background: var(--bg-card);
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       color: var(--text-main);
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      padding: 0.25rem 0.65rem;
+      padding: 0.3rem 0.75rem;
       border-radius: 999px;
       cursor: pointer;
       transition: all 0.18s ease;
+      font-family: var(--font-body);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
     .recent-room-pill:hover {
       border-color: var(--white-hat);
       color: var(--white-hat);
+      background: var(--bg-card-hover);
+      transform: translateY(-1px);
     }
 
-    .important-pin-warning {
+    /* PASO 2B: PORTAL DOCENTE (3 OPCIONES EQUILIBRADAS) */
+    .teacher-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.35rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 980px) {
+      .teacher-options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .teacher-option-card {
+      background: var(--bg-main);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.35rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      text-align: left;
+    }
+
+    .teacher-option-card:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .teacher-option-card.demo-card {
+      border-top: 3.5px solid var(--white-hat);
+    }
+
+    .teacher-option-card.login-card {
+      border-top: 3.5px solid var(--extrinsic);
+    }
+
+    .teacher-option-card.create-card {
+      border-top: 3.5px solid #10b981;
+    }
+
+    .teacher-option-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      margin: 0.35rem 0 0.35rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .teacher-option-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.48;
+      margin: 0;
+    }
+
+    .option-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .option-badge.demo {
+      background: rgba(6, 182, 212, 0.14);
+      color: var(--white-hat);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+    }
+
+    .option-badge.login {
+      background: rgba(59, 130, 246, 0.14);
+      color: var(--extrinsic);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .option-badge.create {
+      background: rgba(16, 185, 129, 0.14);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .teacher-card-feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.65rem 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+    }
+
+    .teacher-card-feature-list li {
+      font-size: 0.79rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .teacher-card-feature-list li span.check-icon {
+      color: var(--success);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .btn-demo-access {
+      width: 100%;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1.5px solid var(--white-hat);
+      color: var(--white-hat);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+    }
+
+    .btn-demo-access:hover {
+      background: var(--white-hat);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-create-room-welcome {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      border: none;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.78rem 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-create-room-welcome:hover {
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .pin-warning-note {
       background: var(--bg-alert-warn);
       border: 1.5px solid var(--border-alert-warn);
       color: var(--text-alert-warn);
       border-radius: var(--radius-sm);
-      padding: 0.85rem 1rem;
-      margin-bottom: 1rem;
-      font-size: 0.82rem;
-      line-height: 1.45;
-      text-align: left;
+      padding: 0.65rem 0.8rem;
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+      margin: 0.65rem 0;
+      font-size: 0.76rem;
+      line-height: 1.4;
     }
 
-    .important-pin-warning strong {
+    .pin-warning-note .warn-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+
+    .pin-warning-note strong {
       display: block;
-      font-size: 0.86rem;
-      margin-bottom: 0.2rem;
+      font-size: 0.82rem;
+      margin-bottom: 0.15rem;
+      color: inherit;
+    }
+
+    .btn-toggle-pin-inline {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 6px;
+      font-size: 1.05rem;
+      line-height: 1;
+      opacity: 0.75;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .btn-toggle-pin-inline:hover {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
     }
 
     .teacher-credentials-summary {
@@ -2235,6 +2707,51 @@
         gap: 0.4rem;
       }
 
+      #themeToggleText {
+        display: none;
+      }
+
+      .btn-theme-toggle {
+        padding: 0.42rem 0.65rem;
+        font-size: 0.95rem;
+      }
+
+      .welcome-shell {
+        margin: 0.75rem auto 1.5rem auto;
+      }
+
+      .welcome-card {
+        padding: 1.5rem 1.15rem;
+        border-radius: var(--radius-md);
+      }
+
+      .welcome-hero {
+        margin-bottom: 1.35rem;
+      }
+
+      .welcome-hero h2 {
+        font-size: 1.55rem;
+      }
+
+      .role-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .role-option-card {
+        padding: 1.5rem 1.25rem;
+        gap: 1rem;
+      }
+
+      .teacher-options-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .teacher-option-card {
+        padding: 1.25rem 1.15rem;
+      }
+
       .btn-tab, .btn-create-room {
         padding: 0.42rem 0.72rem;
         font-size: 0.8rem;
@@ -2414,6 +2931,42 @@
       }
     }
 
+    @media (max-width: 580px) {
+      .header-container {
+        gap: 0.45rem;
+      }
+
+      .brand-text h1 {
+        font-size: 0.95rem;
+      }
+
+      #headerCourseName {
+        max-width: 130px !important;
+      }
+
+      .btn-tab {
+        padding: 0.35rem 0.55rem;
+        font-size: 0.76rem;
+      }
+
+      .student-export-actions button,
+      .export-button-group button {
+        flex: 1 1 100% !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-box {
+        padding: 1.15rem 0.85rem;
+      }
+
+      .modal-box h3 {
+        font-size: 1.15rem;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+    }
+
     @media (max-width: 440px) {
       .tray-cards-grid {
         grid-template-columns: 1fr;
@@ -2484,7 +3037,7 @@
       <div class="welcome-shell">
 
         <!-- PASO 1: ELEGIR SI ERES PROFESOR O ESTUDIANTE -->
-        <div class="welcome-card" id="welcomeStepRole">
+        <div class="welcome-card" id="welcomeStepRole" style="max-width: 860px; margin: 0 auto;">
           <div class="welcome-hero">
             <div class="welcome-badge">⬡ Marco de gamificación Octalysis</div>
             <h2>¿Cómo deseas ingresar hoy?</h2>
@@ -2493,23 +3046,49 @@
 
           <div class="role-grid">
             <button type="button" class="role-option-card student-role" onclick="showWelcomeStep('student')">
-              <div class="role-icon-box">🎒</div>
-              <div class="role-card-title">Soy estudiante</div>
-              <p class="role-card-desc">Entra a la sala de tu asignatura para elegir las 6 reglas del curso y descubrir tu perfil de aprendizaje.</p>
-              <span class="role-card-cta">Ingresar a una sala →</span>
+              <div class="role-card-top">
+                <div class="role-icon-box">🎒</div>
+                <div class="role-card-title">
+                  <span>Soy estudiante</span>
+                  <span class="role-card-arrow">→</span>
+                </div>
+                <p class="role-card-desc">Entra a la sala de tu asignatura para elegir las 6 reglas del curso y descubrir tu perfil de aprendizaje.</p>
+                <div class="role-card-features">
+                  <span class="role-feature-pill">🎯 6 reglas</span>
+                  <span class="role-feature-pill">🕸️ Octágono</span>
+                  <span class="role-feature-pill">💡 Devolución</span>
+                </div>
+              </div>
+              <div class="role-card-cta">
+                <span>Ingresar a una sala</span>
+                <span>→</span>
+              </div>
             </button>
 
             <button type="button" class="role-option-card teacher-role" onclick="showWelcomeStep('teacher')">
-              <div class="role-icon-box">👨‍🏫</div>
-              <div class="role-card-title">Soy profesor</div>
-              <p class="role-card-desc">Explora la sala demostrativa, entra a tu sala existente con tu PIN o crea una sala nueva para tus estudiantes.</p>
-              <span class="role-card-cta">Ir al portal docente →</span>
+              <div class="role-card-top">
+                <div class="role-icon-box">👨‍🏫</div>
+                <div class="role-card-title">
+                  <span>Soy profesor</span>
+                  <span class="role-card-arrow">→</span>
+                </div>
+                <p class="role-card-desc">Explora la sala demostrativa, entra a tu sala existente con tu PIN o crea una sala nueva para tus estudiantes.</p>
+                <div class="role-card-features">
+                  <span class="role-feature-pill">📊 Tablero vivo</span>
+                  <span class="role-feature-pill">🧭 Cuadrante 2D</span>
+                  <span class="role-feature-pill">📥 Excel y PDF</span>
+                </div>
+              </div>
+              <div class="role-card-cta">
+                <span>Ir al portal docente</span>
+                <span>→</span>
+              </div>
             </button>
           </div>
         </div>
 
         <!-- PASO 2A: FLUJO ESTUDIANTE (BUSCAR SALA POR NOMBRE O CÓDIGO) -->
-        <div class="welcome-card" id="welcomeStepStudent" style="display: none;">
+        <div class="welcome-card student-welcome" id="welcomeStepStudent" style="display: none; max-width: 620px; margin: 0 auto;">
           <div class="welcome-back-row">
             <button type="button" class="btn-back-step" onclick="showWelcomeStep('role')">
               ← Volver a elegir perfil
@@ -2517,32 +3096,50 @@
             <span class="cd-pill white">🎒 Acceso de estudiante</span>
           </div>
 
-          <div class="welcome-hero" style="margin-bottom: 1.35rem;">
+          <div class="welcome-hero" style="margin-bottom: 1.5rem;">
+            <div class="student-hero-icon">🎒</div>
             <h2>Ingresa a la sala de tu clase</h2>
             <p>Escribe el <strong>nombre de la sala o asignatura</strong> o el <strong>código</strong> (ej. <code>OCTA-798</code>) que te indicó tu profesor.</p>
           </div>
 
-          <form onsubmit="handleStudentRoomLookup(event)" style="max-width: 520px; margin: 0 auto;">
-            <div class="form-group">
+          <form onsubmit="handleStudentRoomLookup(event)" class="student-entry-form">
+            <div class="form-group" style="margin-bottom: 1rem;">
               <label class="form-label" for="studentRoomSearchInput">Nombre de la sala, código o enlace *</label>
-              <input type="text" id="studentRoomSearchInput" class="form-input" placeholder="Ej. Narrativa digital G1  o  OCTA-798" required autocomplete="off" style="font-size: 1rem; padding: 0.85rem 1rem;">
+              <input type="text" id="studentRoomSearchInput" class="form-input student-room-input" placeholder="Ej. Narrativa digital G1  o  OCTA-798" required autocomplete="off">
             </div>
-            <div id="studentLookupFeedback" style="font-size: 0.84rem; font-weight: 600; margin-bottom: 0.75rem; display: none;"></div>
+            <div id="studentLookupFeedback" style="font-size: 0.86rem; font-weight: 600; margin-bottom: 0.85rem; display: none;"></div>
 
             <!-- Lista de desambiguación si coinciden varias salas con nombre parecido -->
             <div id="studentRoomMatchesContainer" style="display: none; margin-bottom: 1rem;">
-              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">Se encontraron varias salas. Selecciona la de tu grupo:</div>
+              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.45rem;">Se encontraron varias salas. Selecciona la de tu grupo:</div>
               <div class="room-disambiguation-list" id="studentRoomMatchesList"></div>
             </div>
 
-            <button type="submit" class="form-submit-btn" id="btnStudentLookupSubmit" style="margin-top: 0.25rem;">
+            <button type="submit" class="form-submit-btn student-submit-btn" id="btnStudentLookupSubmit">
               🚀 Buscar e ingresar a la sala →
             </button>
+
+            <!-- Salas recientes para estudiantes en este equipo -->
+            <div id="studentRecentRoomsContainer" style="display: none; margin-top: 1.35rem;">
+              <div class="recent-rooms-title">
+                <span>🕒</span> <span>Salas recientes en este equipo:</span>
+              </div>
+              <div class="recent-rooms-pills" id="studentRecentRoomsPills"></div>
+            </div>
           </form>
+
+          <!-- Tarjeta de ayuda para QR y enlace directo -->
+          <div class="student-hint-card">
+            <div class="student-hint-icon">📱</div>
+            <div>
+              <strong>¿Tu profesor proyectó un código QR o te compartió un enlace?</strong>
+              <p>Puedes escanear el QR directamente con la cámara de tu celular o abrir el enlace de WhatsApp o Teams para ingresar a la sala de inmediato sin digitar el nombre.</p>
+            </div>
+          </div>
         </div>
 
         <!-- PASO 2B: FLUJO PROFESOR (3 OPCIONES: DEMO, ENTRAR A MI SALA CON PIN, CREAR SALA NUEVA) -->
-        <div class="welcome-card" id="welcomeStepTeacher" style="display: none; max-width: 920px;">
+        <div class="welcome-card teacher-welcome" id="welcomeStepTeacher" style="display: none; max-width: 1060px; margin: 0 auto;">
           <div class="welcome-back-row">
             <button type="button" class="btn-back-step" onclick="showWelcomeStep('role')">
               ← Volver a elegir perfil
@@ -2550,71 +3147,95 @@
             <span class="cd-pill intrinsic">👨‍🏫 Portal del profesor</span>
           </div>
 
-          <div class="welcome-hero" style="margin-bottom: 1.5rem;">
+          <div class="welcome-hero" style="margin-bottom: 1.75rem;">
             <h2>Gestión docente de salas Octalysis</h2>
             <p>Elige una de las tres opciones para proyectar en clase, revisar resultados en vivo o iniciar un nuevo grupo.</p>
           </div>
 
           <div class="teacher-options-grid">
             <!-- OPCIÓN 1: VER DEMO -->
-            <div class="teacher-option-card">
+            <div class="teacher-option-card demo-card">
               <div>
                 <span class="option-badge demo">Opción 1 · Explorar</span>
                 <h3>👀 Ver sala demo</h3>
                 <p>Ingresa de inmediato al panel docente de la sala demostrativa con datos simulados para conocer las gráficas, el cuadrante 2D y los reportes.</p>
+
+                <ul class="teacher-card-feature-list">
+                  <li><span class="check-icon">✓</span> 24 estudiantes simulados cargados</li>
+                  <li><span class="check-icon">✓</span> Red octagonal y cuadrante 2D interactivos</li>
+                  <li><span class="check-icon">✓</span> Reportes y exportación Excel/PDF listos</li>
+                </ul>
               </div>
               <div>
-                <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.65rem;">
-                  Sala: <strong>OCTA-DEMO</strong> · PIN: <code>1234</code>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; background: var(--bg-surface); padding: 0.45rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: center;">
+                  Sala: <strong style="color: var(--white-hat);">OCTA-DEMO</strong> · PIN: <code>1234</code>
                 </div>
-                <button type="button" class="btn-tab" style="width: 100%; justify-content: center; border-color: var(--white-hat); color: var(--white-hat); font-weight: 700; padding: 0.7rem 1rem;" onclick="enterDemoTeacherModeDirectly()">
+                <button type="button" class="btn-demo-access" onclick="enterDemoTeacherModeDirectly()">
                   👀 Abrir panel demostrativo →
                 </button>
               </div>
             </div>
 
             <!-- OPCIÓN 2: ENTRAR A MI SALA CON PIN -->
-            <div class="teacher-option-card">
+            <div class="teacher-option-card login-card">
               <div>
                 <span class="option-badge login">Opción 2 · Sala existente</span>
                 <h3>🔓 Entrar a mi sala</h3>
                 <p>Escribe el nombre o código de tu sala junto con tu PIN de profesor para abrir el tablero en vivo o descargar reportes.</p>
 
-                <form onsubmit="handleWelcomeTeacherLogin(event)">
-                  <div class="form-group" style="margin-bottom: 0.65rem;">
+                <form onsubmit="handleWelcomeTeacherLogin(event)" style="margin-top: 0.85rem;">
+                  <div class="form-group" style="margin-bottom: 0.75rem;">
                     <label class="form-label" for="welcomeTeacherRoomInput">Nombre o código de tu sala *</label>
                     <input type="text" id="welcomeTeacherRoomInput" class="form-input" placeholder="Ej. Narrativa digital G1 o OCTA-798" required autocomplete="off">
                   </div>
-                  <div class="form-group" style="margin-bottom: 0.65rem;">
+                  <div class="form-group" style="margin-bottom: 0.75rem;">
                     <label class="form-label" for="welcomeTeacherPinInput">PIN del profesor *</label>
-                    <input type="password" id="welcomeTeacherPinInput" class="form-input" placeholder="Tu PIN (4 a 6 caracteres)" maxlength="6" required>
+                    <div style="position: relative;">
+                      <input type="password" id="welcomeTeacherPinInput" class="form-input" placeholder="Tu PIN (4 a 6 caracteres)" maxlength="6" required style="padding-right: 2.75rem;">
+                      <button type="button" class="btn-toggle-pin-inline" id="btnToggleWelcomePin" onclick="toggleWelcomeTeacherPinVisibility()" title="Mostrar u ocultar PIN" tabindex="-1">👁️</button>
+                    </div>
                   </div>
-                  <div id="welcomeTeacherLoginError" style="color: var(--black-hat); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.55rem; display: none;"></div>
-                  <div id="welcomeTeacherMatchesBox" style="display: none; margin-bottom: 0.65rem;">
-                    <div style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.25rem;">Elige cuál de estas salas es la tuya:</div>
+                  <div id="welcomeTeacherLoginError" style="color: var(--black-hat); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.65rem; display: none;"></div>
+                  <div id="welcomeTeacherMatchesBox" style="display: none; margin-bottom: 0.75rem;">
+                    <div style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">Elige cuál de estas salas es la tuya:</div>
                     <div class="room-disambiguation-list" id="welcomeTeacherMatchesList"></div>
                   </div>
-                  <button type="submit" class="form-submit-btn" id="btnWelcomeTeacherLogin" style="margin-top: 0.2rem; padding: 0.7rem 1rem;">
+                  <button type="submit" class="form-submit-btn" id="btnWelcomeTeacherLogin" style="margin-top: 0.25rem; padding: 0.75rem 1rem;">
                     🔓 Entrar a mi sala →
                   </button>
+
+                  <!-- Salas recientes gestionadas por el docente -->
+                  <div id="teacherRecentRoomsContainer" style="display: none; margin-top: 1rem;">
+                    <div class="recent-rooms-title" style="font-size: 0.74rem;">
+                      <span>🕒</span> <span>Tus salas recientes en este equipo:</span>
+                    </div>
+                    <div class="recent-rooms-pills" id="teacherRecentRoomsPills"></div>
+                  </div>
                 </form>
               </div>
             </div>
 
             <!-- OPCIÓN 3: CREAR SALA NUEVA -->
-            <div class="teacher-option-card">
+            <div class="teacher-option-card create-card">
               <div>
                 <span class="option-badge create">Opción 3 · Nuevo curso</span>
                 <h3>✨ Crear sala nueva</h3>
                 <p>Configura una sala para tu asignatura o grupo en segundos, define tu PIN privado y obtén el enlace directo y código QR para tus estudiantes.</p>
-                <div class="pin-warning-note" style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: 0.65rem 0.75rem;">
-                  <span class="warn-icon">⚠️</span>
-                  <div style="font-size: 0.76rem;">
-                    <strong>Importante:</strong> al crear tu sala recuerda guardar el nombre/código y tu PIN. Por privacidad no existen cuentas ni recuperación de PIN.
+
+                <ul class="teacher-card-feature-list">
+                  <li><span class="check-icon">✓</span> Enlace directo y QR proyectable</li>
+                  <li><span class="check-icon">✓</span> Sin registro previo para tus estudiantes</li>
+                  <li><span class="check-icon">✓</span> Respuestas en vivo y métricas en aula</li>
+                </ul>
+
+                <div class="pin-warning-note">
+                  <span class="warn-icon">🔐</span>
+                  <div>
+                    <strong>Recuerda resguardar tu PIN:</strong> al crear tu sala no hay cuentas ni recuperación de clave. Descarga el recordatorio o cópialo.
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn-create-room" style="width: 100%; justify-content: center; padding: 0.75rem 1rem; font-size: 0.92rem;" onclick="openCreateRoomModal()">
+              <button type="button" class="btn-create-room-welcome" onclick="openCreateRoomModal()">
                 ✨ Crear nueva sala →
               </button>
             </div>
@@ -4162,8 +4783,15 @@ function doPost(e) {
     }
 
     function initTheme() {
-      const saved = localStorage.getItem('octalysis_theme') || 'dark';
-      applyTheme(saved);
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlTheme = (urlParams.get('tema') || urlParams.get('theme') || '').toLowerCase();
+      let themeToApply = localStorage.getItem('octalysis_theme') || 'dark';
+      if (urlTheme === 'light' || urlTheme === 'claro') {
+        themeToApply = 'light';
+      } else if (urlTheme === 'dark' || urlTheme === 'oscuro') {
+        themeToApply = 'dark';
+      }
+      applyTheme(themeToApply);
     }
 
     function toggleTheme() {
@@ -4236,6 +4864,81 @@ function doPost(e) {
       if (navGroupEl) navGroupEl.style.display = visible ? 'flex' : 'none';
     }
 
+    function toggleWelcomeTeacherPinVisibility() {
+      const pinInput = document.getElementById('welcomeTeacherPinInput');
+      const toggleBtn = document.getElementById('btnToggleWelcomePin');
+      if (!pinInput) return;
+      if (pinInput.type === 'password') {
+        pinInput.type = 'text';
+        if (toggleBtn) toggleBtn.textContent = '🙈';
+      } else {
+        pinInput.type = 'password';
+        if (toggleBtn) toggleBtn.textContent = '👁️';
+      }
+    }
+
+    function renderWelcomeRecentRooms() {
+      const studentContainer = document.getElementById('studentRecentRoomsContainer');
+      const studentPills = document.getElementById('studentRecentRoomsPills');
+      const teacherContainer = document.getElementById('teacherRecentRoomsContainer');
+      const teacherPills = document.getElementById('teacherRecentRoomsPills');
+
+      if (typeof getSavedLocalRooms !== 'function') return;
+      const savedRooms = getSavedLocalRooms();
+      const validRooms = (savedRooms || [])
+        .filter(r => r && r.code && r.code !== 'OCTA-INDEX')
+        .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+        .slice(0, 5);
+
+      if (studentContainer && studentPills) {
+        studentPills.innerHTML = '';
+        if (validRooms.length > 0) {
+          validRooms.forEach(rm => {
+            const pill = document.createElement('button');
+            pill.type = 'button';
+            pill.className = 'recent-room-pill';
+            pill.title = `Ingresar a la sala ${rm.name} (${rm.code})`;
+            pill.innerHTML = `<strong>${escapeHtml(rm.name)}</strong> <span style="opacity: 0.75; font-family: monospace;">${escapeHtml(rm.code)}</span>`;
+            pill.onclick = () => {
+              const input = document.getElementById('studentRoomSearchInput');
+              if (input) {
+                input.value = rm.code;
+                handleStudentRoomLookup(new Event('submit'));
+              }
+            };
+            studentPills.appendChild(pill);
+          });
+          studentContainer.style.display = 'block';
+        } else {
+          studentContainer.style.display = 'none';
+        }
+      }
+
+      if (teacherContainer && teacherPills) {
+        teacherPills.innerHTML = '';
+        const teacherRooms = validRooms.filter(r => r.code !== 'OCTA-DEMO');
+        if (teacherRooms.length > 0) {
+          teacherRooms.forEach(rm => {
+            const pill = document.createElement('button');
+            pill.type = 'button';
+            pill.className = 'recent-room-pill';
+            pill.title = `Seleccionar sala ${rm.name} (${rm.code})`;
+            pill.innerHTML = `<strong>${escapeHtml(rm.name)}</strong> <span style="opacity: 0.75; font-family: monospace;">${escapeHtml(rm.code)}</span>`;
+            pill.onclick = () => {
+              const input = document.getElementById('welcomeTeacherRoomInput');
+              const pinInput = document.getElementById('welcomeTeacherPinInput');
+              if (input) input.value = rm.code;
+              if (pinInput) pinInput.focus();
+            };
+            teacherPills.appendChild(pill);
+          });
+          teacherContainer.style.display = 'block';
+        } else {
+          teacherContainer.style.display = 'none';
+        }
+      }
+    }
+
     function showWelcomeStep(stepName) {
       const roleCard = document.getElementById('welcomeStepRole');
       const studentCard = document.getElementById('welcomeStepStudent');
@@ -4264,6 +4967,7 @@ function doPost(e) {
           }
         }
       }
+      renderWelcomeRecentRooms();
     }
 
     function goToWelcomeScreen() {
