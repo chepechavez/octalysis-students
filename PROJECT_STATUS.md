@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
-**Última actualización:** 5 de noviembre de 2026  
-**Versión actual:** `2.2.0`  
+**Última actualización:** 9 de noviembre de 2026  
+**Versión actual:** `2.3.0`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students** se encuentra **100 % funcional, verificada con pruebas automatizadas extremo a extremo (Chrome Headless CDP) y lista para uso en aula**. En esta segunda iteración se resolvieron los 6 ajustes pedagógicos, gráficos, ortográficos y de seguridad solicitados tras la primera prueba de campo.
+La plataforma **Octalysis Students (`v2.3.0`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En esta tercera iteración (`v2.3.0`) se implementó el nuevo flujo de entrada en 4 pasos, la búsqueda de salas por nombre o código con prevención de duplicados, el recordatorio descargable de credenciales docentes y el sistema de temas (oscuro mejorado + tema claro de alto contraste sobre fondo blanco para tableros digitales y proyectores).
 
 ---
 
@@ -67,21 +67,17 @@ La plataforma **Octalysis Students** se encuentra **100 % funcional, verificada 
 
 | Archivo | Estado | Descripción |
 | :--- | :--- | :--- |
-| [`index.html`](index.html) | ✅ Completo y verificado | Aplicación SPA completa (`v2.1.1`) para estudiantes y docentes |
-| [`google-apps-script/Code.gs`](google-apps-script/Code.gs) | ✅ Nuevo y listo para desplegar | Backend multi-sala para Google Sheets (`Salas` y `Respuestas`) |
+| [`index.html`](index.html) | ✅ Completo y verificado | Aplicación SPA completa (`v2.3.0`) con flujo de bienvenida, tema claro/oscuro y `MASTER_WEBHOOK_URL` activo |
+| [`google-apps-script/Code.gs`](google-apps-script/Code.gs) | ✅ Actualizado (`v2.3.0`) | Backend multi-sala para Google Sheets (`Salas` y `Respuestas`) con búsqueda por nombre/código y validación de duplicados |
 | [`README.md`](README.md) | ✅ Actualizado | Documentación de uso pedagógico, despliegue en GitHub Pages y Apps Script |
 | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) | ✅ Actualizado | Bitácora técnica viva para continuidad entre equipos |
 
 ---
 
-## 4. Paso opcional pendiente para el administrador (configuración de 1 minuto)
+## 4. Sincronización maestra en la nube (`MASTER_WEBHOOK_URL`)
 
-La validación de PIN personalizado, la configuración de la sala, el catálogo sin sesgos, los gráficos y las exportaciones ya funcionan de inmediato gracias a la firma `&cfg=` en la URL y a la opción **Usar mi propio Google Sheet**.
-
-Para activar además el **Modo rápido** centralizado entre múltiples dispositivos sin que cada profesor cree su propia hoja:
-1. Crea un Google Sheet vacío en tu Google Drive (ej. `Octalysis Students - Base Maestra`).
-2. Ve a **Extensiones > Apps Script**, pega el código de [`google-apps-script/Code.gs`](google-apps-script/Code.gs) y publícalo como **Aplicación web** (*Ejecutar como: Yo* / *Quién tiene acceso: Cualquier persona*).
-3. Pega la URL `/exec` resultante dentro de `const MASTER_WEBHOOK_URL = "";` en [`index.html`](index.html) (línea `2213`), haz commit y sube a `main`.
+- **Estado:** ✅ **Configurada y activa** en [`index.html`](index.html) (`const MASTER_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwwy2VY46pqlMKBpdpdqN4fwRh1B9JA1Nfq4e64vW8Kw_VD3ZiqYRo9craxWi99NP7E/exec";`).
+- **Compatibilidad retroactiva:** el frontend mantiene simultáneamente un registro de índice en la fila `OCTA-INDEX` de la pestaña `Salas`, por lo que la búsqueda de salas por nombre y la validación de nombres duplicados funcionan de inmediato tanto con la implementación actual del webhook como al actualizar el código de Apps Script a `v2.3.0`.
 
 ---
 
@@ -103,6 +99,15 @@ git push origin main
 
 ## 6. Historial de cambios
 
+- **2026-11-09 (`v2.3.0`):**
+  - **Nuevo flujo de entrada paso a paso (`#viewWelcome`):**
+    1. Pantalla inicial limpia que pregunta primero si el usuario es **🎒 Soy estudiante** o **👨‍🏫 Soy profesor** cuando se ingresa sin parámetro `?sala=`.
+    2. Paso para **estudiantes** con búsqueda por **nombre de la sala/asignatura**, **código (`OCTA-XXX`)** o enlace completo, incluyendo lista de desambiguación si coinciden varias salas.
+    3. **Entrada directa por enlace o QR (`?sala=...`):** los estudiantes que abren el enlace compartido por su docente omiten la pantalla de bienvenida y llegan directo a la sala de su curso.
+    4. **Portal del profesor con 3 opciones:** **👀 Ver sala demo (`OCTA-DEMO`)**, **🔓 Entrar a mi sala** (ingresando nombre/código + PIN) y **✨ Crear sala nueva**.
+  - **Prevención de nombres duplicados y resguardo del PIN docente:** validación al crear sala para evitar que dos salas se llamen igual (sugiriendo agregar el grupo o semestre, ej. *«Narrativa digital G1»*), nota de advertencia de alta visibilidad en el formulario de creación y cuadro de credenciales en el modal QR con botones para **copiar datos de acceso** o **descargar recordatorio (`.txt`)**.
+  - **Selector de tema Claro / Oscuro y mejora de contrastes para tableros digitales:** se mantiene el tema oscuro como predeterminado (con contraste mejorado en textos secundarios y bordes) y se añade el botón **☀️ Tema claro / 🌙 Tema oscuro** en el encabezado, activando una paleta sobre fondo blanco (`#ffffff`) con textos oscuros (`#0f172a`) y redibujado automático de los gráficos Canvas (`drawOctagonRadar` y `drawClassQuadrant`) para máxima legibilidad en proyectores y tableros digitales con el salón iluminado.
+  - **Auditoría y corrección de errores:** conexión de `MASTER_WEBHOOK_URL`, inclusión del campo de nombre/código de sala en `#modalTeacherPin`, limpieza de estado estudiantil en memoria al cambiar de sala (`resetStudentSurveyStateForRoom`) y eliminación de colores `#fff` fijos en estilos en línea.
 - **2026-11-05 (`v2.2.0`):**
   - **Validación y optimización responsiva móvil (`320px` a `768px`):** bandeja de selección fluida en móviles (sin bloquear el área de lectura), ajuste dinámico de radio y contención de etiquetas `CD1`–`CD8` en `drawOctagonRadar()` para evitar recortes laterales en pantallas pequeñas, escalado exacto de coordenadas táctiles y adaptación de cuadrículas, tablas y modales.
   - **Exportación individual para el estudiante (`.png` y `.pdf`):** incorporación de `exportStudentProfileImage()` (lienzo de alta densidad `2x`) y `exportStudentProfilePDF()` (`jsPDF` A4) en la sección de devolución del estudiante.

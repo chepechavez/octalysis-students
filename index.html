@@ -18,21 +18,31 @@
 
   <style>
     /* ==========================================================================
-       VARIABLES Y TOKENS DE DISEÑO (Tema tecno-pedagógico oscuro)
+       VARIABLES Y TOKENS DE DISEÑO (Tema oscuro por defecto + Tema claro de aula)
        ========================================================================== */
     :root {
       --bg-main: #0b0f19;
       --bg-card: #151d30;
-      --bg-card-hover: #1c2742;
+      --bg-card-hover: #1e2942;
       --bg-input: #090d16;
-      --border-color: #24324f;
+      --bg-header: rgba(17, 24, 39, 0.95);
+      --bg-surface: rgba(9, 13, 22, 0.82);
+      --bg-banner: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.96));
+      --bg-floating: rgba(21, 29, 48, 0.96);
+      --bg-subtle: rgba(21, 29, 48, 0.65);
+      --bg-track: #1e293b;
+      --bg-table-head: #0f172a;
+      --bg-footer: rgba(11, 15, 25, 0.92);
+
+      --border-color: #2e4064;
       --border-accent: #3b82f6;
 
+      --text-heading: #ffffff;
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
+      --text-muted: #cbd5e1;
+      --text-dim: #94a3b8;
 
-      /* Colores Octalysis */
+      /* Colores Octalysis con alto contraste sobre fondo oscuro */
       --white-hat: #06b6d4;      /* Cian / hemisferio superior */
       --black-hat: #f43f5e;      /* Carmín / hemisferio inferior */
       --black-hat-alt: #f59e0b;  /* Ámbar */
@@ -40,6 +50,15 @@
       --extrinsic: #3b82f6;      /* Azul / hemisferio izquierdo */
       --success: #10b981;        /* Verde esmeralda */
       --gold: #fbbf24;           /* Oro para prioridad 1 */
+      --silver: #cbd5e1;
+      --bronze: #f59e0b;
+
+      --text-callout: #bae6fd;
+      --text-axis-btn: #93c5fd;
+      --text-alert-danger: #fda4af;
+      --text-alert-warn: #fde68a;
+      --bg-alert-warn: rgba(245, 158, 11, 0.14);
+      --border-alert-warn: rgba(245, 158, 11, 0.55);
 
       --radius-sm: 8px;
       --radius-md: 14px;
@@ -49,6 +68,51 @@
 
       --font-heading: 'Outfit', sans-serif;
       --font-body: 'Inter', sans-serif;
+    }
+
+    /* TEMA CLARO (BLANCO DE ALTO CONTRASTE PARA TABLERO DIGITAL Y PROYECTOR EN AULA) */
+    html[data-theme="light"] {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-input: #ffffff;
+      --bg-header: rgba(255, 255, 255, 0.97);
+      --bg-surface: #f1f5f9;
+      --bg-banner: linear-gradient(135deg, #e0f2fe, #eef2ff);
+      --bg-floating: rgba(255, 255, 255, 0.98);
+      --bg-subtle: #f1f5f9;
+      --bg-track: #cbd5e1;
+      --bg-table-head: #e2e8f0;
+      --bg-footer: #f1f5f9;
+
+      --border-color: #94a3b8;
+      --border-accent: #1d4ed8;
+
+      --text-heading: #0f172a;
+      --text-main: #0f172a;
+      --text-muted: #1e293b;
+      --text-dim: #475569;
+
+      /* Colores Octalysis oscurecidos para máximo contraste sobre blanco (WCAG AA/AAA) */
+      --white-hat: #0284c7;
+      --black-hat: #e11d48;
+      --black-hat-alt: #d97706;
+      --intrinsic: #7e22ce;
+      --extrinsic: #1d4ed8;
+      --success: #047857;
+      --gold: #b45309;
+      --silver: #334155;
+      --bronze: #9a3412;
+
+      --text-callout: #0c4a6e;
+      --text-axis-btn: #1e40af;
+      --text-alert-danger: #9f1239;
+      --text-alert-warn: #78350f;
+      --bg-alert-warn: #fef3c7;
+      --border-alert-warn: #d97706;
+
+      --shadow-glow: 0 4px 20px rgba(2, 132, 199, 0.16);
+      --shadow-card: 0 8px 24px -6px rgba(15, 23, 42, 0.12);
     }
 
     * {
@@ -66,11 +130,12 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     /* ENCABEZADO Y NAVEGACIÓN */
     header {
-      background: rgba(21, 29, 48, 0.92);
+      background: var(--bg-header);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       position: sticky;
@@ -117,7 +182,7 @@
       font-weight: 700;
       font-family: var(--font-heading);
       letter-spacing: -0.02em;
-      color: #fff;
+      color: var(--text-heading);
     }
 
     .brand-text p {
@@ -129,7 +194,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      background: rgba(9, 13, 22, 0.75);
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       padding: 0.4rem 0.85rem;
       border-radius: var(--radius-md);
@@ -140,7 +205,7 @@
       align-items: center;
       gap: 0.4rem;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--white-hat);
     }
 
@@ -167,13 +232,13 @@
     }
 
     .btn-tab {
-      background: transparent;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
-      color: var(--text-muted);
+      color: var(--text-main);
       padding: 0.5rem 0.9rem;
       border-radius: var(--radius-sm);
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       font-family: var(--font-body);
       cursor: pointer;
       transition: all 0.2s ease;
@@ -183,8 +248,8 @@
     }
 
     .btn-tab:hover {
-      background: var(--bg-card);
-      color: var(--text-main);
+      background: var(--bg-card-hover);
+      color: var(--text-heading);
       border-color: var(--border-accent);
     }
 
@@ -192,6 +257,27 @@
       background: var(--border-accent);
       color: #fff;
       border-color: var(--border-accent);
+    }
+
+    .btn-theme-toggle {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-heading);
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.83rem;
+      font-weight: 700;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-theme-toggle:hover {
+      border-color: var(--white-hat);
+      background: var(--bg-card-hover);
     }
 
     .btn-create-room {
@@ -239,10 +325,291 @@
     }
 
     /* ==========================================================================
+       VISTA 0: FLUJO DE ENTRADA Y BIENVENIDA POR ROLES (#viewWelcome)
+       ========================================================================== */
+    .welcome-wrapper {
+      max-width: 880px;
+      margin: 1.25rem auto 2.5rem auto;
+    }
+
+    .welcome-hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem 2rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .welcome-header .welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(6, 182, 212, 0.14);
+      border: 1px solid var(--white-hat);
+      color: var(--white-hat);
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+    }
+
+    .welcome-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .welcome-header p {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .role-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.35rem;
+    }
+
+    .role-choice-card {
+      background: var(--bg-main);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.75rem 1.5rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .role-choice-card:hover {
+      border-color: var(--white-hat);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .role-choice-card.teacher-role:hover {
+      border-color: var(--extrinsic);
+    }
+
+    .role-icon-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid var(--white-hat);
+      margin-bottom: 0.35rem;
+    }
+
+    .role-choice-card.teacher-role .role-icon-circle {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--extrinsic);
+    }
+
+    .role-choice-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      margin-bottom: 0.35rem;
+    }
+
+    .role-choice-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.48;
+    }
+
+    .role-cta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--white-hat);
+    }
+
+    .role-choice-card.teacher-role .role-cta-pill {
+      color: var(--extrinsic);
+    }
+
+    .welcome-step-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn-back-step {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.42rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back-step:hover {
+      border-color: var(--white-hat);
+      color: var(--white-hat);
+      background: var(--bg-surface);
+    }
+
+    .room-matches-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .room-match-item {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      flex-wrap: wrap;
+    }
+
+    .room-match-item:hover {
+      border-color: var(--white-hat);
+      background: var(--bg-card-hover);
+    }
+
+    .teacher-options-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.35rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 780px) {
+      .teacher-options-grid {
+        grid-template-columns: 1fr;
+      }
+      .welcome-hero-card {
+        padding: 1.4rem 1.15rem;
+      }
+    }
+
+    .teacher-option-box {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.9rem;
+    }
+
+    .teacher-option-box h4 {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .teacher-option-box p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .recent-rooms-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .recent-room-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .recent-room-pill:hover {
+      border-color: var(--white-hat);
+      color: var(--white-hat);
+    }
+
+    .important-pin-warning {
+      background: var(--bg-alert-warn);
+      border: 1.5px solid var(--border-alert-warn);
+      color: var(--text-alert-warn);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      text-align: left;
+    }
+
+    .important-pin-warning strong {
+      display: block;
+      font-size: 0.86rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .teacher-credentials-summary {
+      background: var(--bg-main);
+      border: 1.5px solid var(--border-alert-warn);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.15rem;
+      width: 100%;
+      text-align: left;
+      margin-top: 0.35rem;
+    }
+
+    /* ==========================================================================
        VISTA 1: FLUJO DEL ESTUDIANTE
        ========================================================================== */
     .banner-course {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      background: var(--bg-banner);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 1.25rem 1.5rem;
@@ -257,7 +624,7 @@
     .banner-course-info h2 {
       font-family: var(--font-heading);
       font-size: 1.4rem;
-      color: #fff;
+      color: var(--text-heading);
       margin-bottom: 0.25rem;
       display: flex;
       align-items: center;
@@ -283,7 +650,7 @@
 
     /* BANDEJA DE SELECCIÓN (PRESUPUESTO EXACTO DE 6) */
     .tray-container {
-      background: rgba(21, 29, 48, 0.94);
+      background: var(--bg-floating);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 1.15rem 1.25rem;
@@ -311,7 +678,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: #fff;
+      color: var(--text-heading);
     }
 
     .budget-badge {
@@ -347,7 +714,7 @@
       justify-content: space-between;
       gap: 0.4rem;
       font-size: 0.8rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-main);
       animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -422,7 +789,7 @@
       padding: 0.5rem 0.95rem;
       border-radius: var(--radius-sm);
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: var(--font-body);
       cursor: pointer;
       display: inline-flex;
@@ -460,14 +827,15 @@
     .card-mechanic:hover {
       transform: translateY(-3px);
       border-color: var(--border-accent);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+      box-shadow: var(--shadow-card);
       background: var(--bg-card-hover);
     }
 
     .card-mechanic.selected {
       border-color: var(--white-hat);
-      background: rgba(6, 182, 212, 0.09);
-      box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+      border-width: 2px;
+      background: rgba(6, 182, 212, 0.1);
+      box-shadow: var(--shadow-glow);
     }
 
     .card-header-meta {
@@ -480,7 +848,7 @@
     }
 
     .cd-pill {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 700;
       padding: 0.2rem 0.55rem;
       border-radius: 999px;
@@ -492,19 +860,19 @@
     .cd-pill.intrinsic { background: rgba(168, 85, 247, 0.15); color: var(--intrinsic); border: 1px solid var(--intrinsic); }
     .cd-pill.extrinsic { background: rgba(59, 130, 246, 0.15); color: var(--extrinsic); border: 1px solid var(--extrinsic); }
     .cd-pill.chosen-gold { background: rgba(251, 191, 36, 0.18); color: var(--gold); border: 1px solid var(--gold); }
-    .cd-pill.chosen-cyan { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid var(--success); }
+    .cd-pill.chosen-cyan { background: rgba(16, 185, 129, 0.18); color: var(--success); border: 1px solid var(--success); }
 
     .card-title {
       font-family: var(--font-heading);
       font-size: 1.05rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--text-heading);
       margin-bottom: 0.45rem;
       line-height: 1.3;
     }
 
     .card-desc {
-      font-size: 0.86rem;
+      font-size: 0.87rem;
       color: var(--text-muted);
       line-height: 1.48;
       margin-bottom: 1rem;
@@ -515,20 +883,21 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid var(--border-color);
       padding-top: 0.75rem;
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       color: var(--text-dim);
+      font-weight: 500;
     }
 
     .btn-select-card {
-      background: transparent;
+      background: var(--bg-main);
       border: 1px solid var(--border-color);
       color: var(--text-main);
       padding: 0.35rem 0.8rem;
       border-radius: var(--radius-sm);
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: var(--font-body);
       cursor: pointer;
       transition: all 0.2s ease;
@@ -536,7 +905,7 @@
 
     .card-mechanic.selected .btn-select-card {
       background: var(--white-hat);
-      color: #0b0f19;
+      color: #ffffff;
       border-color: var(--white-hat);
     }
 
@@ -545,13 +914,13 @@
       position: sticky;
       bottom: 18px;
       z-index: 90;
-      background: rgba(21, 29, 48, 0.96);
+      background: var(--bg-floating);
       backdrop-filter: blur(15px);
-      border: 1px solid var(--border-accent);
+      border: 1.5px solid var(--border-accent);
       border-radius: var(--radius-md);
       padding: 1rem 1.5rem;
       margin-bottom: 2rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), var(--shadow-glow);
+      box-shadow: var(--shadow-card), var(--shadow-glow);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -565,8 +934,8 @@
     }
 
     .btn-prioritize {
-      background: linear-gradient(135deg, var(--white-hat), #0284c7);
-      color: #0b0f19;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
       font-family: var(--font-heading);
       font-weight: 800;
       font-size: 0.95rem;
@@ -586,7 +955,7 @@
     }
 
     .btn-prioritize:disabled {
-      opacity: 0.4;
+      opacity: 0.45;
       cursor: not-allowed;
       background: var(--border-color);
       color: var(--text-dim);
@@ -612,7 +981,7 @@
     .prioritize-header h3 {
       font-family: var(--font-heading);
       font-size: 1.45rem;
-      color: #fff;
+      color: var(--text-heading);
       margin-bottom: 0.4rem;
     }
 
@@ -645,12 +1014,12 @@
     .priority-slot-card.filled {
       border-style: solid;
       border-color: var(--border-accent);
-      background: rgba(30, 41, 59, 0.5);
+      background: var(--bg-subtle);
     }
 
     .priority-slot-card.gold.filled {
       border-color: var(--gold);
-      background: rgba(251, 191, 36, 0.06);
+      background: rgba(251, 191, 36, 0.08);
     }
 
     .slot-badge {
@@ -663,8 +1032,8 @@
     }
 
     .slot-badge.p1 { color: var(--gold); }
-    .slot-badge.p2 { color: #cbd5e1; }
-    .slot-badge.p3 { color: #d97706; }
+    .slot-badge.p2 { color: var(--silver); }
+    .slot-badge.p3 { color: var(--bronze); }
 
     .slot-select {
       width: 100%;
@@ -734,14 +1103,14 @@
     .canvas-card h4 {
       font-family: var(--font-heading);
       font-size: 1.05rem;
-      color: #fff;
+      color: var(--text-heading);
       margin-bottom: 0.5rem;
     }
 
     .interactive-callout {
-      background: rgba(6, 182, 212, 0.1);
-      border: 1px solid rgba(6, 182, 212, 0.35);
-      color: #bae6fd;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid var(--white-hat);
+      color: var(--text-callout);
       font-size: 0.78rem;
       padding: 0.45rem 0.85rem;
       border-radius: var(--radius-sm);
@@ -782,7 +1151,7 @@
     .balance-box h4 {
       font-family: var(--font-heading);
       font-size: 1.05rem;
-      color: #fff;
+      color: var(--text-heading);
       margin-bottom: 0.35rem;
       display: flex;
       align-items: center;
@@ -798,8 +1167,8 @@
     .bar-group {
       margin-bottom: 1.25rem;
       padding: 0.85rem;
-      background: rgba(21, 29, 48, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
     }
 
@@ -818,16 +1187,16 @@
 
     .axis-name {
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-main);
     }
 
     .btn-axis-info {
       background: rgba(59, 130, 246, 0.14);
-      border: 1px solid rgba(59, 130, 246, 0.45);
-      color: #93c5fd;
+      border: 1px solid var(--extrinsic);
+      color: var(--text-axis-btn);
       font-size: 0.73rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: var(--font-body);
       padding: 0.22rem 0.6rem;
       border-radius: 999px;
@@ -846,7 +1215,8 @@
     .bar-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 600;
       margin-bottom: 0.4rem;
       gap: 0.5rem;
     }
@@ -863,11 +1233,11 @@
 
     .progress-track {
       height: 14px;
-      background: #1e293b;
+      background: var(--bg-track);
       border-radius: 999px;
       overflow: hidden;
       display: flex;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
     }
 
     .progress-fill-left-cyan {
@@ -930,7 +1300,7 @@
     }
 
     .study-tips-list li {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
       display: flex;
       align-items: flex-start;
@@ -951,9 +1321,9 @@
 
     .btn-toggle-full-catalog {
       width: 100%;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid var(--border-accent);
-      color: #fff;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-accent);
+      color: var(--text-heading);
       padding: 1rem 1.25rem;
       border-radius: var(--radius-md);
       font-family: var(--font-heading);
@@ -985,7 +1355,7 @@
 
     .cd-group-block {
       margin-bottom: 1.75rem;
-      background: rgba(9, 13, 22, 0.65);
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 1.25rem;
@@ -1003,12 +1373,12 @@
     .cd-group-header h5 {
       font-family: var(--font-heading);
       font-size: 1.08rem;
-      color: #fff;
+      color: var(--text-heading);
       cursor: pointer;
     }
 
     .cd-group-desc {
-      font-size: 0.83rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
       margin-bottom: 1rem;
     }
@@ -1031,11 +1401,13 @@
 
     .reveal-card.was-chosen {
       border-color: var(--white-hat);
+      border-width: 1.5px;
       background: rgba(6, 182, 212, 0.08);
     }
 
     .reveal-card.was-p1 {
       border-color: var(--gold);
+      border-width: 2px;
       background: rgba(251, 191, 36, 0.08);
     }
 
@@ -1058,7 +1430,7 @@
     .teacher-room-info h2 {
       font-family: var(--font-heading);
       font-size: 1.35rem;
-      color: #fff;
+      color: var(--text-heading);
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -1080,7 +1452,7 @@
       padding: 0.52rem 0.95rem;
       border-radius: var(--radius-sm);
       font-size: 0.84rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: var(--font-body);
       cursor: pointer;
       border: 1px solid transparent;
@@ -1091,20 +1463,20 @@
     }
 
     .btn-excel {
-      background: rgba(16, 185, 129, 0.15);
+      background: rgba(16, 185, 129, 0.14);
       border-color: var(--success);
-      color: #34d399;
+      color: var(--success);
     }
 
     .btn-excel:hover {
       background: var(--success);
-      color: #0b0f19;
+      color: #fff;
     }
 
     .btn-pdf {
-      background: rgba(244, 63, 94, 0.15);
+      background: rgba(244, 63, 94, 0.14);
       border-color: var(--black-hat);
-      color: #fb7185;
+      color: var(--black-hat);
     }
 
     .btn-pdf:hover {
@@ -1113,9 +1485,9 @@
     }
 
     .btn-csv {
-      background: rgba(59, 130, 246, 0.15);
+      background: rgba(59, 130, 246, 0.14);
       border-color: var(--extrinsic);
-      color: #60a5fa;
+      color: var(--extrinsic);
     }
 
     .btn-csv:hover {
@@ -1185,7 +1557,7 @@
     .dash-box-header h3 {
       font-family: var(--font-heading);
       font-size: 1.1rem;
-      color: #fff;
+      color: var(--text-heading);
       display: flex;
       align-items: center;
       gap: 0.4rem;
@@ -1227,8 +1599,8 @@
     }
 
     .ranking-item:nth-child(1) .rank-number { color: var(--gold); }
-    .ranking-item:nth-child(2) .rank-number { color: #cbd5e1; }
-    .ranking-item:nth-child(3) .rank-number { color: #cd7f32; }
+    .ranking-item:nth-child(2) .rank-number { color: var(--silver); }
+    .ranking-item:nth-child(3) .rank-number { color: var(--bronze); }
 
     .rank-info {
       flex: 1;
@@ -1236,12 +1608,12 @@
     }
 
     .rank-name {
-      font-weight: 600;
-      color: #fff;
+      font-weight: 700;
+      color: var(--text-heading);
     }
 
     .rank-cd {
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
     }
 
@@ -1265,11 +1637,11 @@
     .badge-votes {
       background: rgba(59, 130, 246, 0.15);
       border: 1px solid var(--extrinsic);
-      color: #60a5fa;
+      color: var(--extrinsic);
       padding: 0.15rem 0.5rem;
       border-radius: 999px;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .debate-card {
@@ -1283,7 +1655,7 @@
     .debate-card h3 {
       font-family: var(--font-heading);
       font-size: 1.15rem;
-      color: #fff;
+      color: var(--text-heading);
       margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
@@ -1323,10 +1695,10 @@
     }
 
     thead th {
-      background: #0f172a;
+      background: var(--bg-table-head);
       color: var(--text-muted);
       padding: 0.75rem 1rem;
-      font-weight: 600;
+      font-weight: 700;
       position: sticky;
       top: 0;
       border-bottom: 1px solid var(--border-color);
@@ -1340,7 +1712,7 @@
     }
 
     tbody tr:hover {
-      background: rgba(255, 255, 255, 0.02);
+      background: var(--bg-card-hover);
     }
 
     /* ==========================================================================
@@ -1375,7 +1747,7 @@
       max-height: 90vh;
       overflow-y: auto;
       padding: 1.85rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
       position: relative;
     }
 
@@ -1390,12 +1762,12 @@
       cursor: pointer;
     }
 
-    .modal-close-btn:hover { color: #fff; }
+    .modal-close-btn:hover { color: var(--text-heading); }
 
     .modal-box h3 {
       font-family: var(--font-heading);
       font-size: 1.35rem;
-      color: #fff;
+      color: var(--text-heading);
       margin-bottom: 0.45rem;
     }
 
@@ -1422,7 +1794,7 @@
     .form-label {
       display: block;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-muted);
       margin-bottom: 0.35rem;
     }
@@ -1431,7 +1803,7 @@
       width: 100%;
       background: var(--bg-input);
       border: 1px solid var(--border-color);
-      color: #fff;
+      color: var(--text-main);
       padding: 0.65rem 0.9rem;
       border-radius: var(--radius-sm);
       font-size: 0.9rem;
@@ -1489,7 +1861,7 @@
 
     .help-card-header strong {
       display: block;
-      color: #fff;
+      color: var(--text-heading);
       font-size: 0.82rem;
       margin-bottom: 0.15rem;
     }
@@ -1508,11 +1880,11 @@
     }
 
     .btn-help-guide {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(2, 132, 199, 0.22));
+      background: rgba(6, 182, 212, 0.16);
       border: 1px solid var(--white-hat);
-      color: #e0f2fe;
+      color: var(--white-hat);
       font-size: 0.76rem;
-      font-weight: 600;
+      font-weight: 700;
       padding: 0.42rem 0.85rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
@@ -1524,14 +1896,15 @@
 
     .btn-help-guide:hover {
       background: var(--white-hat);
-      color: #0b0f19;
+      color: #fff;
     }
 
     .btn-copy-code-fast {
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       color: var(--text-main);
       font-size: 0.76rem;
+      font-weight: 600;
       padding: 0.42rem 0.85rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
@@ -1542,7 +1915,7 @@
     }
 
     .btn-copy-code-fast:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background: var(--bg-card-hover);
       border-color: var(--text-muted);
     }
 
@@ -1558,7 +1931,7 @@
     }
 
     .guide-step-card {
-      background: rgba(15, 23, 42, 0.65);
+      background: var(--bg-surface);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
       padding: 0.95rem 1.05rem;
@@ -1572,7 +1945,7 @@
       height: 26px;
       border-radius: 50%;
       background: var(--white-hat);
-      color: #0b0f19;
+      color: #fff;
       font-weight: 800;
       font-size: 0.82rem;
       display: flex;
@@ -1590,7 +1963,7 @@
     }
 
     .guide-step-body strong {
-      color: #fff;
+      color: var(--text-heading);
       display: block;
       font-size: 0.88rem;
       margin-bottom: 0.2rem;
@@ -1615,7 +1988,7 @@
       border: 1px solid var(--white-hat);
       color: var(--white-hat);
       font-size: 0.76rem;
-      font-weight: 600;
+      font-weight: 700;
       padding: 0.38rem 0.8rem;
       border-radius: 6px;
       text-decoration: none;
@@ -1628,7 +2001,7 @@
 
     .btn-step-action:hover {
       background: var(--white-hat);
-      color: #0b0f19;
+      color: #fff;
     }
 
     .guide-alert-box {
@@ -1638,13 +2011,13 @@
       padding: 0.6rem 0.75rem;
       margin-top: 0.5rem;
       font-size: 0.76rem;
-      color: #fda4af;
+      color: var(--text-alert-danger);
       line-height: 1.35;
     }
 
     .code-preview-details {
       margin-top: 0.65rem;
-      background: rgba(0, 0, 0, 0.4);
+      background: var(--bg-main);
       border: 1px solid var(--border-color);
       border-radius: 6px;
       padding: 0.55rem 0.75rem;
@@ -1691,8 +2064,8 @@
 
     .form-submit-btn {
       width: 100%;
-      background: linear-gradient(135deg, var(--white-hat), #0284c7);
-      color: #0b0f19;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
       font-family: var(--font-heading);
       font-weight: 700;
       font-size: 0.95rem;
@@ -1711,11 +2084,11 @@
     .btn-danger-outline {
       background: rgba(244, 63, 94, 0.1);
       border: 1px solid var(--black-hat);
-      color: #fb7185;
+      color: var(--black-hat);
       padding: 0.55rem 0.9rem;
       border-radius: var(--radius-sm);
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
     }
@@ -1737,6 +2110,7 @@
       background: #fff;
       padding: 1rem;
       border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
       display: inline-block;
     }
 
@@ -1764,7 +2138,7 @@
       text-align: center;
       font-size: 0.8rem;
       color: var(--text-dim);
-      background: rgba(11, 15, 25, 0.85);
+      background: var(--bg-footer);
       margin-top: auto;
     }
 
@@ -1777,14 +2151,14 @@
     }
 
     .btn-export-img {
-      background: rgba(6, 182, 212, 0.15);
+      background: rgba(6, 182, 212, 0.14);
       border: 1px solid var(--white-hat);
-      color: #67e8f9;
+      color: var(--white-hat);
     }
 
     .btn-export-img:hover {
       background: var(--white-hat);
-      color: #0b0f19;
+      color: #fff;
     }
 
     .teacher-portal-divider {
@@ -1794,7 +2168,7 @@
       margin: 1.35rem 0 1.1rem 0;
       color: var(--text-dim);
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
@@ -2063,7 +2437,7 @@
        ========================================================================== -->
   <header>
     <div class="header-container">
-      <div class="brand" onclick="goToHome()">
+      <div class="brand" onclick="goToHome()" title="Volver a la pantalla de inicio">
         <div class="brand-icon">⬡</div>
         <div class="brand-text">
           <h1>Octalysis Students</h1>
@@ -2071,7 +2445,7 @@
         </div>
       </div>
 
-      <div class="header-center">
+      <div class="header-center" id="headerRoomCenter" style="display: none;">
         <span class="live-dot"></span>
         <div class="room-badge" id="headerRoomBadge">
           Sala: <strong id="headerRoomCode">OCTA-DEMO</strong>
@@ -2083,21 +2457,186 @@
       </div>
 
       <div class="header-nav">
-        <button class="btn-tab active" id="navStudentBtn" onclick="trySwitchToStudent()">
-          🎒 Estudiante
+        <button class="btn-theme-toggle" id="btnThemeToggle" type="button" onclick="toggleTheme()" title="Cambiar entre tema oscuro y tema claro (alto contraste para proyector o tablero digital)">
+          <span id="themeToggleIcon">☀️</span>
+          <span id="themeToggleText">Tema claro</span>
         </button>
-        <button class="btn-tab" id="navTeacherBtn" onclick="promptTeacherAccess()">
-          👨‍🏫 Profesor
-        </button>
+        <div id="headerRoleNavGroup" style="display: none; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+          <button class="btn-tab active" id="navStudentBtn" type="button" onclick="trySwitchToStudent()">
+            🎒 Estudiante
+          </button>
+          <button class="btn-tab" id="navTeacherBtn" type="button" onclick="promptTeacherAccess()">
+            👨‍🏫 Profesor
+          </button>
+          <button class="btn-tab" id="navSwitchRoomBtn" type="button" onclick="goToWelcomeScreen()" title="Salir o cambiar de sala">
+            🚪 Cambiar sala
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
   <main>
     <!-- ==========================================================================
+         VISTA 0: BIENVENIDA Y SELECCIÓN DE ROL (FLUJO DE ENTRADA PASO A PASO)
+         ========================================================================== -->
+    <section id="viewWelcome" class="view-section active">
+      <div class="welcome-shell">
+
+        <!-- PASO 1: ELEGIR SI ERES PROFESOR O ESTUDIANTE -->
+        <div class="welcome-card" id="welcomeStepRole">
+          <div class="welcome-hero">
+            <div class="welcome-badge">⬡ Marco de gamificación Octalysis</div>
+            <h2>¿Cómo deseas ingresar hoy?</h2>
+            <p>Elige tu perfil para entrar a una sala de clase, explorar la demostración o configurar un nuevo curso.</p>
+          </div>
+
+          <div class="role-grid">
+            <button type="button" class="role-option-card student-role" onclick="showWelcomeStep('student')">
+              <div class="role-icon-box">🎒</div>
+              <div class="role-card-title">Soy estudiante</div>
+              <p class="role-card-desc">Entra a la sala de tu asignatura para elegir las 6 reglas del curso y descubrir tu perfil de aprendizaje.</p>
+              <span class="role-card-cta">Ingresar a una sala →</span>
+            </button>
+
+            <button type="button" class="role-option-card teacher-role" onclick="showWelcomeStep('teacher')">
+              <div class="role-icon-box">👨‍🏫</div>
+              <div class="role-card-title">Soy profesor</div>
+              <p class="role-card-desc">Explora la sala demostrativa, entra a tu sala existente con tu PIN o crea una sala nueva para tus estudiantes.</p>
+              <span class="role-card-cta">Ir al portal docente →</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PASO 2A: FLUJO ESTUDIANTE (BUSCAR SALA POR NOMBRE O CÓDIGO) -->
+        <div class="welcome-card" id="welcomeStepStudent" style="display: none;">
+          <div class="welcome-back-row">
+            <button type="button" class="btn-back-step" onclick="showWelcomeStep('role')">
+              ← Volver a elegir perfil
+            </button>
+            <span class="cd-pill white">🎒 Acceso de estudiante</span>
+          </div>
+
+          <div class="welcome-hero" style="margin-bottom: 1.35rem;">
+            <h2>Ingresa a la sala de tu clase</h2>
+            <p>Escribe el <strong>nombre de la sala o asignatura</strong> o el <strong>código</strong> (ej. <code>OCTA-798</code>) que te indicó tu profesor.</p>
+          </div>
+
+          <form onsubmit="handleStudentRoomLookup(event)" style="max-width: 520px; margin: 0 auto;">
+            <div class="form-group">
+              <label class="form-label" for="studentRoomSearchInput">Nombre de la sala, código o enlace *</label>
+              <input type="text" id="studentRoomSearchInput" class="form-input" placeholder="Ej. Narrativa digital G1  o  OCTA-798" required autocomplete="off" style="font-size: 1rem; padding: 0.85rem 1rem;">
+            </div>
+            <div id="studentLookupFeedback" style="font-size: 0.84rem; font-weight: 600; margin-bottom: 0.75rem; display: none;"></div>
+
+            <!-- Lista de desambiguación si coinciden varias salas con nombre parecido -->
+            <div id="studentRoomMatchesContainer" style="display: none; margin-bottom: 1rem;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">Se encontraron varias salas. Selecciona la de tu grupo:</div>
+              <div class="room-disambiguation-list" id="studentRoomMatchesList"></div>
+            </div>
+
+            <button type="submit" class="form-submit-btn" id="btnStudentLookupSubmit" style="margin-top: 0.25rem;">
+              🚀 Buscar e ingresar a la sala →
+            </button>
+          </form>
+
+          <div style="text-align: center; margin-top: 1.4rem; padding-top: 1.1rem; border-top: 1px solid var(--border-color);">
+            <span style="font-size: 0.82rem; color: var(--text-muted);">¿Solo quieres conocer cómo funciona la herramienta?</span>
+            <div style="margin-top: 0.5rem;">
+              <button type="button" class="btn-tab" onclick="enterDemoStudentModeDirectly()">
+                👀 Probar la sala demostrativa (OCTA-DEMO)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASO 2B: FLUJO PROFESOR (3 OPCIONES: DEMO, ENTRAR A MI SALA CON PIN, CREAR SALA NUEVA) -->
+        <div class="welcome-card" id="welcomeStepTeacher" style="display: none; max-width: 920px;">
+          <div class="welcome-back-row">
+            <button type="button" class="btn-back-step" onclick="showWelcomeStep('role')">
+              ← Volver a elegir perfil
+            </button>
+            <span class="cd-pill intrinsic">👨‍🏫 Portal del profesor</span>
+          </div>
+
+          <div class="welcome-hero" style="margin-bottom: 1.5rem;">
+            <h2>Gestión docente de salas Octalysis</h2>
+            <p>Elige una de las tres opciones para proyectar en clase, revisar resultados en vivo o iniciar un nuevo grupo.</p>
+          </div>
+
+          <div class="teacher-options-grid">
+            <!-- OPCIÓN 1: VER DEMO -->
+            <div class="teacher-option-card">
+              <div>
+                <span class="option-badge demo">Opción 1 · Explorar</span>
+                <h3>👀 Ver sala demo</h3>
+                <p>Ingresa de inmediato al panel docente de la sala demostrativa con datos simulados para conocer las gráficas, el cuadrante 2D y los reportes.</p>
+              </div>
+              <div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+                  Sala: <strong>OCTA-DEMO</strong> · PIN: <code>1234</code>
+                </div>
+                <button type="button" class="btn-tab" style="width: 100%; justify-content: center; border-color: var(--white-hat); color: var(--white-hat); font-weight: 700; padding: 0.7rem 1rem;" onclick="enterDemoTeacherModeDirectly()">
+                  👀 Abrir panel demostrativo →
+                </button>
+              </div>
+            </div>
+
+            <!-- OPCIÓN 2: ENTRAR A MI SALA CON PIN -->
+            <div class="teacher-option-card">
+              <div>
+                <span class="option-badge login">Opción 2 · Sala existente</span>
+                <h3>🔓 Entrar a mi sala</h3>
+                <p>Escribe el nombre o código de tu sala junto con tu PIN de profesor para abrir el tablero en vivo o descargar reportes.</p>
+
+                <form onsubmit="handleWelcomeTeacherLogin(event)">
+                  <div class="form-group" style="margin-bottom: 0.65rem;">
+                    <label class="form-label" for="welcomeTeacherRoomInput">Nombre o código de tu sala *</label>
+                    <input type="text" id="welcomeTeacherRoomInput" class="form-input" placeholder="Ej. Narrativa digital G1 o OCTA-798" required autocomplete="off">
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0.65rem;">
+                    <label class="form-label" for="welcomeTeacherPinInput">PIN del profesor *</label>
+                    <input type="password" id="welcomeTeacherPinInput" class="form-input" placeholder="Tu PIN (4 a 6 caracteres)" maxlength="6" required>
+                  </div>
+                  <div id="welcomeTeacherLoginError" style="color: var(--black-hat); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.55rem; display: none;"></div>
+                  <div id="welcomeTeacherMatchesBox" style="display: none; margin-bottom: 0.65rem;">
+                    <div style="font-size: 0.76rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.25rem;">Elige cuál de estas salas es la tuya:</div>
+                    <div class="room-disambiguation-list" id="welcomeTeacherMatchesList"></div>
+                  </div>
+                  <button type="submit" class="form-submit-btn" id="btnWelcomeTeacherLogin" style="margin-top: 0.2rem; padding: 0.7rem 1rem;">
+                    🔓 Entrar a mi sala →
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- OPCIÓN 3: CREAR SALA NUEVA -->
+            <div class="teacher-option-card">
+              <div>
+                <span class="option-badge create">Opción 3 · Nuevo curso</span>
+                <h3>✨ Crear sala nueva</h3>
+                <p>Configura una sala para tu asignatura o grupo en segundos, define tu PIN privado y obtén el enlace directo y código QR para tus estudiantes.</p>
+                <div class="pin-warning-note" style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: 0.65rem 0.75rem;">
+                  <span class="warn-icon">⚠️</span>
+                  <div style="font-size: 0.76rem;">
+                    <strong>Importante:</strong> al crear tu sala recuerda guardar el nombre/código y tu PIN. Por privacidad no existen cuentas ni recuperación de PIN.
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-create-room" style="width: 100%; justify-content: center; padding: 0.75rem 1rem; font-size: 0.92rem;" onclick="openCreateRoomModal()">
+                ✨ Crear nueva sala →
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
          VISTA 1: FLUJO DEL ESTUDIANTE
          ========================================================================== -->
-    <section id="viewStudent" class="view-section active">
+    <section id="viewStudent" class="view-section">
 
       <div class="banner-course">
         <div class="banner-course-info">
@@ -2195,7 +2734,7 @@
       <div class="diagnosis-panel" id="studentDiagnosisSection" style="display: none;">
         <div class="diag-title-row">
           <div>
-            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff;">📊 Tu perfil psicopedagógico de aprendizaje</h3>
+            <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--text-heading);">📊 Tu perfil psicopedagógico de aprendizaje</h3>
             <p style="font-size: 0.85rem; color: var(--text-muted);">Resultado calculado a partir de tus 6 reglas preferidas y tu priorización en el modelo Octalysis.</p>
           </div>
           <div class="student-export-actions">
@@ -2270,7 +2809,7 @@
             <div class="archetype-card" id="studentArchetypeBox">
               <div class="archetype-title" id="archetypeTitle">🌟 Estrategia de aprendizaje</div>
               <p class="archetype-desc" id="archetypeDesc"></p>
-              <div style="font-size: 0.82rem; font-weight: 700; color: #fff; margin-top: 0.25rem;">💡 Recomendaciones para tu estudio y autorregulación:</div>
+              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-heading); margin-top: 0.25rem;">💡 Recomendaciones para tu estudio y autorregulación:</div>
               <ul class="study-tips-list" id="archetypeTipsList"></ul>
             </div>
           </div>
@@ -2303,7 +2842,7 @@
         <div class="teacher-room-info">
           <h2>
             👨‍🏫 Panel docente en vivo
-            <span style="font-size: 0.8rem; background: rgba(59, 130, 246, 0.2); color: #93c5fd; padding: 0.2rem 0.65rem; border-radius: 999px;">Sala: <span id="teacherRoomCodeDisplay">OCTA-DEMO</span></span>
+            <span style="font-size: 0.8rem; background: rgba(59, 130, 246, 0.16); color: var(--extrinsic); padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid rgba(59, 130, 246, 0.35);">Sala: <span id="teacherRoomCodeDisplay">OCTA-DEMO</span></span>
           </h2>
           <p id="teacherSubtitleDisplay">Monitoreando respuestas en tiempo real</p>
         </div>
@@ -2433,8 +2972,12 @@
        ========================================================================== -->
   <div class="modal-backdrop" id="modalStudentOnboarding">
     <div class="modal-box">
-      <div class="brand-icon" style="margin: 0 auto 1rem auto;">⬡</div>
-      <h3 style="text-align: center;">Te damos la bienvenida al sondeo</h3>
+      <button class="modal-close-btn" type="button" onclick="closeModal('modalStudentOnboarding')" title="Cerrar">✕</button>
+      <div class="brand-icon" style="margin: 0 auto 0.85rem auto;">⬡</div>
+      <div style="text-align: center; margin-bottom: 0.4rem;">
+        <span class="cd-pill white" id="onboardingRoomBadge">Sala: OCTA-DEMO</span>
+      </div>
+      <h3 style="text-align: center;" id="onboardingCourseTitle">Te damos la bienvenida al sondeo</h3>
       <p style="text-align: center;">Ingresa tus datos para personalizar tu perfil y registrar tus preferencias en esta asignatura.</p>
 
       <form onsubmit="saveStudentOnboarding(event)">
@@ -2459,18 +3002,27 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL 2: CREAR NUEVA SALA (CON CONFIRMACIÓN DE PIN)
+       MODAL 2: CREAR NUEVA SALA (CON CONFIRMACIÓN DE PIN Y ADVERTENCIA VISIBLE)
        ========================================================================== -->
   <div class="modal-backdrop" id="modalCreateRoom">
     <div class="modal-box">
       <button class="modal-close-btn" type="button" onclick="closeModal('modalCreateRoom')">✕</button>
       <h3>✨ Crear nueva sala de clase</h3>
-      <p>Configura tu sesión en segundos. El PIN que definas protegerá el acceso a tu panel docente y a las descargas.</p>
+      <p style="margin-bottom: 0.85rem;">Configura tu sesión en segundos. Tus estudiantes podrán entrar con el enlace directo, código QR o escribiendo el nombre de la sala.</p>
+
+      <div class="pin-warning-note">
+        <span class="warn-icon">⚠️</span>
+        <div>
+          <strong>¡Muy importante! Guarda el nombre/código de tu sala y tu PIN en un lugar seguro.</strong><br>
+          Por privacidad de tus datos, esta herramienta no utiliza cuentas ni correos de recuperación: si olvidas el nombre o el PIN de la sala, <strong>será imposible recuperar esa información después</strong>.
+        </div>
+      </div>
 
       <form onsubmit="handleCreateRoomSubmit(event)">
         <div class="form-group">
-          <label class="form-label" for="newRoomName">Nombre de la asignatura o grupo *</label>
-          <input type="text" id="newRoomName" class="form-input" placeholder="Ej. Narrativa digital 2026-2" required>
+          <label class="form-label" for="newRoomName">Nombre único de la sala (asignatura y grupo) *</label>
+          <input type="text" id="newRoomName" class="form-input" placeholder="Ej. Narrativa digital G1 - 2026" required oninput="clearCreateRoomNameError()">
+          <div id="createRoomNameError" style="color: var(--black-hat); font-size: 0.79rem; font-weight: 600; margin-top: 0.35rem; display: none;"></div>
         </div>
 
         <div class="form-row-2col">
@@ -2539,7 +3091,7 @@
           </div>
         </div>
 
-        <button type="submit" class="form-submit-btn">Crear sala y generar enlace →</button>
+        <button type="submit" class="form-submit-btn" id="btnCreateRoomSubmit">Crear sala y generar enlace →</button>
       </form>
     </div>
   </div>
@@ -2607,18 +3159,23 @@
        MODAL 4: PORTAL DE ACCESO DOCENTE (INGRESAR CON PIN O CREAR NUEVA SALA)
        ========================================================================== -->
   <div class="modal-backdrop" id="modalTeacherPin">
-    <div class="modal-box" style="max-width: 460px; text-align: center;">
+    <div class="modal-box" style="max-width: 480px; text-align: center;">
       <button class="modal-close-btn" type="button" onclick="closeModal('modalTeacherPin')">✕</button>
       <div class="brand-icon" style="margin: 0 auto 0.85rem auto; background: linear-gradient(135deg, var(--extrinsic), var(--intrinsic));">👨‍🏫</div>
       <h3>Portal de acceso docente</h3>
-      <p id="teacherPinPromptDesc">Ingresa el PIN de la sala actual para ver los resultados en vivo o crea una sala nueva con tu propio PIN.</p>
+      <p id="teacherPinPromptDesc">Verifica el nombre o código de tu sala e ingresa tu PIN de profesor para ver los resultados en vivo.</p>
 
-      <form onsubmit="handleTeacherPinSubmit(event)">
+      <form onsubmit="handleTeacherPinSubmit(event)" style="text-align: left;">
         <div class="form-group" style="margin-bottom: 0.75rem;">
-          <input type="password" id="inputTeacherPin" class="form-input" placeholder="PIN de la sala actual" maxlength="6" style="text-align: center; font-size: 1.25rem; letter-spacing: 0.2em;" required>
+          <label class="form-label" for="inputTeacherRoomTarget">Sala (nombre o código OCTA-XXX) *</label>
+          <input type="text" id="inputTeacherRoomTarget" class="form-input" placeholder="Ej. Narrativa digital G1 o OCTA-798" required autocomplete="off">
         </div>
-        <div id="teacherPinErrorMsg" style="color: var(--black-hat); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.65rem; display: none;"></div>
-        <button type="submit" class="form-submit-btn">🔓 Entrar a la sala actual →</button>
+        <div class="form-group" style="margin-bottom: 0.75rem;">
+          <label class="form-label" for="inputTeacherPin">PIN del profesor *</label>
+          <input type="password" id="inputTeacherPin" class="form-input" placeholder="PIN (4 a 6 caracteres)" maxlength="6" style="text-align: center; font-size: 1.2rem; letter-spacing: 0.18em;" required>
+        </div>
+        <div id="teacherPinErrorMsg" style="color: var(--black-hat); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.65rem; display: none; text-align: center;"></div>
+        <button type="submit" class="form-submit-btn" id="btnModalTeacherPinSubmit">🔓 Entrar al panel docente →</button>
       </form>
 
       <div id="demoQuickAccessRow" style="margin-top: 0.65rem; display: none;">
@@ -2639,28 +3196,58 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL 5: CÓDIGO QR Y ENLACES DE LA SALA
+       MODAL 5: CÓDIGO QR, ENLACES Y RECORDATORIO DE CREDENCIALES DE LA SALA
        ========================================================================== -->
   <div class="modal-backdrop" id="modalRoomQR">
-    <div class="modal-box" style="text-align: center;">
+    <div class="modal-box" style="text-align: center; max-width: 580px;">
       <button class="modal-close-btn" type="button" onclick="closeModal('modalRoomQR')">✕</button>
-      <h3>📱 Enlace y código QR para estudiantes</h3>
-      <p>Comparte este enlace o proyecta el código QR en clase para que tus estudiantes ingresen desde su celular o computador:</p>
+      <h3>📱 Enlace y código QR de la sala</h3>
+      <p style="margin-bottom: 0.75rem;">Comparte este enlace directo o proyecta el código QR para que tus estudiantes entren directo a la sala sin pasos adicionales:</p>
 
       <div class="qr-container">
         <div class="qr-code-box" id="qrCanvasContainer"></div>
-        <div style="font-family: var(--font-heading); font-size: 1.75rem; font-weight: 800; color: var(--white-hat);" id="qrRoomCodeText">
-          OCTA-DEMO
+        <div>
+          <div style="font-family: var(--font-heading); font-size: 1.65rem; font-weight: 800; color: var(--white-hat); line-height: 1.15;" id="qrRoomCodeText">
+            OCTA-DEMO
+          </div>
+          <div style="font-size: 0.92rem; font-weight: 700; color: var(--text-heading); margin-top: 0.2rem;" id="qrRoomNameText">
+            Taller demostrativo
+          </div>
         </div>
 
         <div style="width: 100%; text-align: left;">
-          <label class="form-label" for="shareRoomUrlInput">Enlace para estudiantes:</label>
+          <label class="form-label" for="shareRoomUrlInput">Enlace directo para estudiantes:</label>
           <input type="text" id="shareRoomUrlInput" class="form-input" style="font-size: 0.8rem;" readonly>
         </div>
 
         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; width: 100%;">
           <button class="btn-create-room" type="button" onclick="copyShareRoomUrl()">📋 Copiar enlace de estudiantes</button>
           <button class="btn-tab" type="button" onclick="closeModal('modalRoomQR'); switchToTeacherDashboardIfAuthed();">👨‍🏫 Ir al panel docente</button>
+        </div>
+
+        <!-- RESUMEN Y DESCARGA DE CREDENCIALES PARA EL PROFESOR -->
+        <div class="credentials-summary-box" id="qrTeacherCredentialsBox">
+          <h4>🔐 Tus datos de acceso como profesor (¡guárdalos ahora!)</h4>
+          <div class="cred-row">
+            <span>Nombre de la sala:</span>
+            <strong id="credSummaryName">--</strong>
+          </div>
+          <div class="cred-row">
+            <span>Código único de respaldo:</span>
+            <strong id="credSummaryCode">--</strong>
+          </div>
+          <div class="cred-row" id="credSummaryPinRow">
+            <span>PIN del profesor:</span>
+            <strong id="credSummaryPin">--</strong>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.65rem;">
+            <button type="button" class="btn-tab" style="flex: 1; justify-content: center; font-size: 0.78rem; border-color: rgba(245, 158, 11, 0.5);" onclick="copyTeacherCredentials()">
+              📋 Copiar mis datos de acceso
+            </button>
+            <button type="button" class="btn-tab" style="flex: 1; justify-content: center; font-size: 0.78rem; border-color: rgba(245, 158, 11, 0.5);" onclick="downloadTeacherCredentialsTxt()">
+              📥 Descargar recordatorio (.txt)
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2756,7 +3343,7 @@
             </div>
 
             <details class="code-preview-details">
-              <summary>🔍 Ver / explorar código fuente aquí (369 líneas)</summary>
+              <summary>🔍 Ver / explorar código fuente aquí</summary>
               <pre class="code-preview-box"><code id="codePreviewContent"></code></pre>
             </details>
           </div>
@@ -2771,7 +3358,7 @@
             <p style="margin-top: 0.35rem;">Haz clic en el icono de engranaje ⚙️, selecciona <strong>Aplicación web</strong> y configura:</p>
             <ul style="margin: 0.45rem 0 0.5rem 1.25rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.45;">
               <li><strong>Ejecutar como:</strong> <code>Yo (tu correo de Google)</code></li>
-              <li><strong>Quién tiene acceso:</strong> <strong style="color: #fff;">Cualquier persona</strong></li>
+              <li><strong>Quién tiene acceso:</strong> <strong style="color: var(--text-heading);">Cualquier persona</strong></li>
             </ul>
             <div class="guide-alert-box">
               ⚠️ <strong>Punto clave:</strong> Es fundamental elegir <strong>«Cualquier persona»</strong> para que los celulares de tus estudiantes puedan registrar sus respuestas sin exigirles iniciar sesión en tu cuenta.
@@ -2803,7 +3390,7 @@
   <!-- SCRIPT CON EL CÓDIGO FUENTE EXACTO PARA COPIADO CON 1 CLIC (OFFLINE Y SEGURO) -->
   <script type="text/plain" id="tplAppsScriptCode">/**
  * ============================================================================
- * OCTALYSIS STUDENTS — BACKEND MULTI-SALA EN GOOGLE APPS SCRIPT
+ * OCTALYSIS STUDENTS — BACKEND MULTI-SALA EN GOOGLE APPS SCRIPT (v2.3.0)
  * ============================================================================
  * Este script convierte cualquier hoja de cálculo de Google (Google Sheet) en
  * un servidor gratuito y sin caducidad para Octalysis Students.
@@ -2826,6 +3413,18 @@
 
 const SHEET_ROOMS = 'Salas';
 const SHEET_SUBMISSIONS = 'Respuestas';
+
+/**
+ * Normaliza un texto para comparaciones de nombres de sala sin tildes ni mayúsculas.
+ */
+function normalizeText_(str) {
+  return String(str || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ');
+}
 
 /**
  * Inicializa las pestañas "Salas" y "Respuestas" si aún no existen,
@@ -2899,9 +3498,25 @@ function jsonResponse_(obj) {
 }
 
 /**
+ * Convierte una fila de la pestaña Salas en objeto de configuración.
+ */
+function rowToRoomObj_(row) {
+  return {
+    code: String(row[0] || '').trim().toUpperCase(),
+    name: String(row[1] || ''),
+    pinHash: String(row[2] || ''),
+    requireCedula: row[3] === true || String(row[3]).toLowerCase() === 'true',
+    requireEmail: row[4] === true || String(row[4]).toLowerCase() === 'true',
+    createdAt: String(row[5] || ''),
+    updatedAt: String(row[6] || '')
+  };
+}
+
+/**
  * Atiende consultas GET:
  *   - ?action=ping
- *   - ?action=getRoom&roomId=OCTA-123
+ *   - ?action=listRooms (o ?action=searchRooms&query=...)
+ *   - ?action=getRoom&roomId=OCTA-123 (también busca por nombre si no coincide código exacto)
  */
 function doGet(e) {
   try {
@@ -2913,85 +3528,112 @@ function doGet(e) {
       return jsonResponse_({
         ok: true,
         service: 'Octalysis Students Backend',
-        version: '2.2.0'
+        version: '2.3.0'
       });
     }
 
-    const roomId = String(params.roomId || params.sala || '').trim().toUpperCase();
-    if (!roomId) {
-      return jsonResponse_({ ok: false, error: 'Falta el parámetro roomId.' });
+    const sheets = ensureSheets_();
+    const roomRows = sheets.roomsSheet.getDataRange().getValues();
+
+    // Listar o buscar salas por código o nombre de asignatura
+    if (action === 'listRooms' || action === 'searchRooms') {
+      const qNorm = normalizeText_(params.query || params.roomName || '');
+      const rooms = [];
+      for (let i = 1; i < roomRows.length; i++) {
+        const rObj = rowToRoomObj_(roomRows[i]);
+        if (!rObj.code || rObj.code === 'OCTA-INDEX') continue;
+        if (!qNorm || normalizeText_(rObj.code).indexOf(qNorm) !== -1 || normalizeText_(rObj.name).indexOf(qNorm) !== -1) {
+          rooms.push(rObj);
+        }
+      }
+      return jsonResponse_({ ok: true, rooms: rooms });
     }
 
-    const { roomsSheet, subsSheet } = ensureSheets_();
+    const rawQuery = String(params.roomId || params.sala || params.roomName || '').trim();
+    const roomId = rawQuery.toUpperCase();
+    if (!rawQuery) {
+      return jsonResponse_({ ok: false, error: 'Falta el parámetro roomId o nombre de sala.' });
+    }
 
-    // 1. Buscar configuración de la sala
+    // 1. Buscar configuración de la sala (primero por código exacto, luego por nombre exacto)
     let roomConfig = null;
-    const roomRows = roomsSheet.getDataRange().getValues();
+    const matchingRooms = [];
+    const queryNorm = normalizeText_(rawQuery);
+
     for (let i = 1; i < roomRows.length; i++) {
-      if (String(roomRows[i][0]).trim().toUpperCase() === roomId) {
-        roomConfig = {
-          code: roomId,
-          name: String(roomRows[i][1] || ''),
-          pinHash: String(roomRows[i][2] || ''),
-          requireCedula: roomRows[i][3] === true || String(roomRows[i][3]).toLowerCase() === 'true',
-          requireEmail: roomRows[i][4] === true || String(roomRows[i][4]).toLowerCase() === 'true',
-          createdAt: String(roomRows[i][5] || ''),
-          updatedAt: String(roomRows[i][6] || '')
-        };
+      const candidate = rowToRoomObj_(roomRows[i]);
+      if (!candidate.code) continue;
+      if (candidate.code === roomId) {
+        roomConfig = candidate;
         break;
+      }
+      if (candidate.code !== 'OCTA-INDEX') {
+        const nameNorm = normalizeText_(candidate.name);
+        if (nameNorm === queryNorm || nameNorm.indexOf(queryNorm) !== -1) {
+          matchingRooms.push(candidate);
+        }
       }
     }
 
+    if (!roomConfig && matchingRooms.length === 1) {
+      roomConfig = matchingRooms[0];
+    }
+
+    const activeCode = roomConfig ? roomConfig.code : roomId;
+
     // 2. Buscar respuestas asociadas únicamente a esta sala
     const submissions = [];
-    const subRows = subsSheet.getDataRange().getValues();
-    for (let j = 1; j < subRows.length; j++) {
-      if (String(subRows[j][2]).trim().toUpperCase() === roomId) {
-        const rawJson = subRows[j][23];
-        if (rawJson) {
-          try {
-            submissions.push(JSON.parse(rawJson));
-            continue;
-          } catch (parseErr) {
-            // Reconstruir desde columnas si el JSON fue editado manualmente
+    if (activeCode && activeCode !== 'OCTA-INDEX') {
+      const subRows = sheets.subsSheet.getDataRange().getValues();
+      for (let j = 1; j < subRows.length; j++) {
+        if (String(subRows[j][2]).trim().toUpperCase() === activeCode) {
+          const rawJson = subRows[j][23];
+          if (rawJson) {
+            try {
+              submissions.push(JSON.parse(rawJson));
+              continue;
+            } catch (parseErr) {
+              // Reconstruir desde columnas si el JSON fue editado manualmente
+            }
           }
+          submissions.push({
+            id: String(subRows[j][0]),
+            timestamp: String(subRows[j][1]),
+            roomId: activeCode,
+            studentName: String(subRows[j][3]),
+            cedula: String(subRows[j][4] || 'N/A'),
+            email: String(subRows[j][5] || 'N/A'),
+            priority1: subRows[j][6] ? { id: 0, name: String(subRows[j][6]), cd: 1 } : null,
+            priority2: subRows[j][7] ? { id: 0, name: String(subRows[j][7]), cd: 1 } : null,
+            priority3: subRows[j][8] ? { id: 0, name: String(subRows[j][8]), cd: 1 } : null,
+            selectedMechanics: String(subRows[j][9] || '')
+              .split(' | ')
+              .filter(Boolean)
+              .map(function(n) { return { id: 0, name: n, cd: 1 }; }),
+            cdTotals: {
+              1: Number(subRows[j][10]) || 0,
+              2: Number(subRows[j][11]) || 0,
+              3: Number(subRows[j][12]) || 0,
+              4: Number(subRows[j][13]) || 0,
+              5: Number(subRows[j][14]) || 0,
+              6: Number(subRows[j][15]) || 0,
+              7: Number(subRows[j][16]) || 0,
+              8: Number(subRows[j][17]) || 0
+            },
+            pctWhite: Number(subRows[j][18]) || 50,
+            pctBlack: Number(subRows[j][19]) || 50,
+            pctIntrinsic: Number(subRows[j][20]) || 50,
+            pctExtrinsic: Number(subRows[j][21]) || 50,
+            archetype: String(subRows[j][22] || '')
+          });
         }
-        submissions.push({
-          id: String(subRows[j][0]),
-          timestamp: String(subRows[j][1]),
-          roomId: roomId,
-          studentName: String(subRows[j][3]),
-          cedula: String(subRows[j][4] || 'N/A'),
-          email: String(subRows[j][5] || 'N/A'),
-          priority1: subRows[j][6] ? { id: 0, name: String(subRows[j][6]), cd: 1 } : null,
-          priority2: subRows[j][7] ? { id: 0, name: String(subRows[j][7]), cd: 1 } : null,
-          priority3: subRows[j][8] ? { id: 0, name: String(subRows[j][8]), cd: 1 } : null,
-          selectedMechanics: String(subRows[j][9] || '')
-            .split(' | ')
-            .filter(Boolean)
-            .map(function(n) { return { id: 0, name: n, cd: 1 }; }),
-          cdTotals: {
-            1: Number(subRows[j][10]) || 0,
-            2: Number(subRows[j][11]) || 0,
-            3: Number(subRows[j][12]) || 0,
-            4: Number(subRows[j][13]) || 0,
-            5: Number(subRows[j][14]) || 0,
-            6: Number(subRows[j][15]) || 0,
-            7: Number(subRows[j][16]) || 0,
-            8: Number(subRows[j][17]) || 0
-          },
-          pctWhite: Number(subRows[j][18]) || 50,
-          pctBlack: Number(subRows[j][19]) || 50,
-          pctIntrinsic: Number(subRows[j][20]) || 50,
-          pctExtrinsic: Number(subRows[j][21]) || 50,
-          archetype: String(subRows[j][22] || '')
-        });
       }
     }
 
     return jsonResponse_({
       ok: true,
       room: roomConfig,
+      matches: matchingRooms,
       submissions: submissions
     });
   } catch (err) {
@@ -3027,12 +3669,24 @@ function doPost(e) {
       const rows = roomsSheet.getDataRange().getValues();
       let foundRowIdx = -1;
       let existingHash = '';
+      const targetNameNorm = normalizeText_(room.name);
 
       for (let i = 1; i < rows.length; i++) {
-        if (String(rows[i][0]).trim().toUpperCase() === code) {
+        const rowCode = String(rows[i][0]).trim().toUpperCase();
+        if (rowCode === code) {
           foundRowIdx = i + 1;
           existingHash = String(rows[i][2] || '');
           break;
+        }
+        if (body.checkDuplicateName && code !== 'OCTA-INDEX' && rowCode !== 'OCTA-INDEX') {
+          if (normalizeText_(rows[i][1]) === targetNameNorm && targetNameNorm !== '') {
+            return jsonResponse_({
+              ok: false,
+              duplicateName: true,
+              existingCode: rowCode,
+              error: 'Ya existe una sala con ese nombre.'
+            });
+          }
         }
       }
 
@@ -3190,11 +3844,10 @@ function doPost(e) {
     /* ==========================================================================
        0. CONFIGURACIÓN DEL BACKEND MAESTRO (GOOGLE APPS SCRIPT)
        ==========================================================================
-       Para habilitar la sincronización automática multi-dispositivo en el modo
-       rápido, despliega google-apps-script/Code.gs en tu Google Sheet maestro y
-       pega aquí la URL terminada en /exec:
+       URL maestra desplegada en Google Apps Script para sincronizar salas,
+       nombres de cursos y respuestas en tiempo real en el modo rápido:
     */
-    const MASTER_WEBHOOK_URL = "";
+    const MASTER_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwwy2VY46pqlMKBpdpdqN4fwRh1B9JA1Nfq4e64vW8Kw_VD3ZiqYRo9craxWi99NP7E/exec";
 
     /* ==========================================================================
        1. CATÁLOGO DE 24 MECÁNICAS ADAPTADAS AL ESTUDIANTE (ORTOGRAFÍA ESPAÑOLA)
@@ -3470,6 +4123,8 @@ function doPost(e) {
     let currentRoom = { ...DEMO_ROOM };
     let currentRole = "student";
     let currentStudent = { nick: "", cedula: "", email: "" };
+    let hasEnteredRoom = false;
+    let lastCreatedRoomPlainPin = "";
 
     // Orden aleatorio para el catálogo inicial (preserva MECHANICS_DB intacto para orden secuencial CD1-CD8)
     let shuffledCatalogOrder = [];
@@ -3481,38 +4136,211 @@ function doPost(e) {
     let roomSubmissions = [];
 
     /* ==========================================================================
-       4. INICIALIZACIÓN
+       3B. GESTIÓN DE TEMA VISUAL (OSCURO POR DEFECTO / CLARO ALTO CONTRASTE)
        ========================================================================== */
-    window.addEventListener('DOMContentLoaded', () => {
-      shuffledCatalogOrder = createShuffledCopy(MECHANICS_DB);
+    function isLightTheme() {
+      return document.documentElement.getAttribute('data-theme') === 'light';
+    }
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlSala = (urlParams.get('sala') || urlParams.get('room') || '').trim().toUpperCase();
-      const urlPin = urlParams.get('pin');
-      const urlMode = urlParams.get('modo') || urlParams.get('mode') || urlParams.get('role');
+    function applyTheme(themeName) {
+      const cleanTheme = themeName === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', cleanTheme);
+      localStorage.setItem('octalysis_theme', cleanTheme);
 
-      if (urlSala) {
-        loadRoomConfig(urlSala, urlParams);
-      } else {
-        loadRoomConfig(DEMO_ROOM.code, urlParams);
+      const iconEl = document.getElementById('themeToggleIcon');
+      const textEl = document.getElementById('themeToggleText');
+      if (iconEl && textEl) {
+        if (cleanTheme === 'light') {
+          iconEl.textContent = '🌙';
+          textEl.textContent = 'Tema oscuro';
+        } else {
+          iconEl.textContent = '☀️';
+          textEl.textContent = 'Tema claro';
+        }
       }
 
+      // Redibujar gráficos activos para adaptar contrastes al instante
+      if (lastSubmittedSurvey && document.getElementById('studentDiagnosisSection')?.style.display !== 'none') {
+        drawOctagonRadar('studentRadarCanvas', lastSubmittedSurvey.cdTotals, true);
+      }
+      if (currentRole === 'teacher' && document.getElementById('viewTeacher')?.classList.contains('active')) {
+        const metrics = computeGroupMetrics();
+        drawOctagonRadar('classRadarCanvas', metrics.classCdAverages, true);
+        drawClassQuadrant('classQuadrantCanvas', roomSubmissions);
+      }
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem('octalysis_theme') || 'dark';
+      applyTheme(saved);
+    }
+
+    function toggleTheme() {
+      applyTheme(isLightTheme() ? 'dark' : 'light');
+    }
+
+    /* ==========================================================================
+       4. INICIALIZACIÓN Y FLUJO DE ENTRADA (ESTUDIANTE / PROFESOR / ENLACE DIRECTO)
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', async () => {
+      initTheme();
+      shuffledCatalogOrder = createShuffledCopy(MECHANICS_DB);
       renderCatalog();
 
-      if (urlPin && currentRoom.pinHash && hashRoomPin(currentRoom.code, urlPin) === currentRoom.pinHash) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawUrlSala = (urlParams.get('sala') || urlParams.get('room') || '').trim();
+      const urlPin = urlParams.get('pin');
+      const urlMode = (urlParams.get('modo') || urlParams.get('mode') || urlParams.get('role') || '').toLowerCase();
+
+      // CASO 1: El usuario entra con enlace directo a una sala (?sala=...)
+      if (rawUrlSala) {
+        const parsed = parseRoomInput(rawUrlSala);
+        if (parsed.type === 'code' || parsed.type === 'demo') {
+          const targetCode = parsed.type === 'demo' ? DEMO_ROOM.code : parsed.code;
+          enterRoomWithCode(targetCode, urlParams, {
+            urlPin,
+            forceTeacherModal: urlMode === 'teacher' || urlMode === 'docente' || urlMode === 'profesor'
+          });
+        } else {
+          // Si ?sala= contiene el nombre del curso en lugar del código OCTA-XXX, resolverlo
+          const resolution = await resolveRoomByQuery(rawUrlSala);
+          if (resolution.status === 'found' && resolution.room) {
+            saveDiscoveredRoomLocally(resolution.room);
+            enterRoomWithCode(resolution.room.code, urlParams, {
+              urlPin,
+              forceTeacherModal: urlMode === 'teacher' || urlMode === 'docente' || urlMode === 'profesor'
+            });
+          } else {
+            // Cargar con el identificador proporcionado y dejar que la nube sincronice
+            enterRoomWithCode(rawUrlSala.toUpperCase(), urlParams, {
+              urlPin,
+              forceTeacherModal: urlMode === 'teacher' || urlMode === 'docente' || urlMode === 'profesor'
+            });
+          }
+        }
+      } else {
+        // CASO 2: Entrada limpia a la raíz de la app -> preguntar primero Profesor o Estudiante
+        hasEnteredRoom = false;
+        setRoomHeaderVisible(false);
+        document.getElementById('viewWelcome').classList.add('active');
+        document.getElementById('viewStudent').classList.remove('active');
+        document.getElementById('viewTeacher').classList.remove('active');
+
+        if (urlMode === 'teacher' || urlMode === 'docente' || urlMode === 'profesor') {
+          showWelcomeStep('teacher');
+        } else if (urlMode === 'student' || urlMode === 'estudiante') {
+          showWelcomeStep('student');
+        } else {
+          showWelcomeStep('role');
+        }
+      }
+
+      startSyncListener();
+    });
+
+    function setRoomHeaderVisible(visible) {
+      const centerEl = document.getElementById('headerRoomCenter');
+      const navGroupEl = document.getElementById('headerRoleNavGroup');
+      if (centerEl) centerEl.style.display = visible ? 'flex' : 'none';
+      if (navGroupEl) navGroupEl.style.display = visible ? 'flex' : 'none';
+    }
+
+    function showWelcomeStep(stepName) {
+      const roleCard = document.getElementById('welcomeStepRole');
+      const studentCard = document.getElementById('welcomeStepStudent');
+      const teacherCard = document.getElementById('welcomeStepTeacher');
+
+      if (roleCard) roleCard.style.display = stepName === 'role' ? 'block' : 'none';
+      if (studentCard) studentCard.style.display = stepName === 'student' ? 'block' : 'none';
+      if (teacherCard) teacherCard.style.display = stepName === 'teacher' ? 'block' : 'none';
+
+      if (stepName === 'student') {
+        const fb = document.getElementById('studentLookupFeedback');
+        const matchesBox = document.getElementById('studentRoomMatchesContainer');
+        if (fb) { fb.style.display = 'none'; fb.textContent = ''; }
+        if (matchesBox) matchesBox.style.display = 'none';
+        setTimeout(() => document.getElementById('studentRoomSearchInput')?.focus(), 80);
+      } else if (stepName === 'teacher') {
+        const errEl = document.getElementById('welcomeTeacherLoginError');
+        const matchesBox = document.getElementById('welcomeTeacherMatchesBox');
+        if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+        if (matchesBox) matchesBox.style.display = 'none';
+        const roomInput = document.getElementById('welcomeTeacherRoomInput');
+        if (roomInput && !roomInput.value) {
+          const lastRoomCode = localStorage.getItem('octalysis_last_teacher_room') || '';
+          if (lastRoomCode && lastRoomCode !== 'OCTA-DEMO') {
+            roomInput.value = lastRoomCode;
+          }
+        }
+      }
+    }
+
+    function goToWelcomeScreen() {
+      document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
+      hasEnteredRoom = false;
+      setRoomHeaderVisible(false);
+
+      const baseUrl = window.location.href.split('?')[0].split('#')[0];
+      window.history.pushState({ path: baseUrl }, '', baseUrl);
+
+      document.getElementById('viewWelcome').classList.add('active');
+      document.getElementById('viewStudent').classList.remove('active');
+      document.getElementById('viewTeacher').classList.remove('active');
+      showWelcomeStep('role');
+    }
+
+    function resetStudentSurveyStateForRoom(roomCode) {
+      const savedStudent = sessionStorage.getItem(`student_${roomCode}`);
+      if (savedStudent) {
+        try {
+          currentStudent = JSON.parse(savedStudent);
+        } catch (e) {
+          currentStudent = { nick: "", cedula: "", email: "" };
+        }
+      } else {
+        currentStudent = { nick: "", cedula: "", email: "" };
+      }
+
+      selectedMechanics = [];
+      priorityP1 = null;
+      priorityP2 = null;
+      priorityP3 = null;
+      lastSubmittedSurvey = null;
+
+      const catWrap = document.getElementById('studentCatalogWrapper');
+      const prioSec = document.getElementById('prioritizeSection');
+      const diagSec = document.getElementById('studentDiagnosisSection');
+      if (catWrap) catWrap.style.display = 'block';
+      if (prioSec) prioSec.style.display = 'none';
+      if (diagSec) diagSec.style.display = 'none';
+
+      updateStudentHeader();
+      renderCatalog();
+    }
+
+    function enterRoomWithCode(roomCode, urlParams = new URLSearchParams(), options = {}) {
+      hasEnteredRoom = true;
+      setRoomHeaderVisible(true);
+      document.getElementById('viewWelcome').classList.remove('active');
+
+      loadRoomConfig(roomCode, urlParams);
+      resetStudentSurveyStateForRoom(currentRoom.code);
+
+      if (options.urlPin && currentRoom.pinHash && hashRoomPin(currentRoom.code, options.urlPin) === currentRoom.pinHash) {
         sessionStorage.setItem(`auth_${currentRoom.code}`, currentRoom.pinHash);
         switchToTeacherDashboard();
-      } else if (urlMode === 'teacher' || urlMode === 'docente') {
+      } else if (options.asTeacherAuthenticated) {
+        switchToTeacherDashboard();
+      } else if (options.forceTeacherModal) {
+        trySwitchToStudent();
         promptTeacherAccess();
       } else {
-        updateStudentHeader();
+        trySwitchToStudent();
         checkStudentOnboardingNeeded();
       }
 
-      // Sincronizar configuración y respuestas desde la nube al iniciar y cada 5 s
       fetchCloudRoomAndSubmissions();
-      startSyncListener();
-    });
+    }
 
     function createShuffledCopy(arr) {
       const copy = [...arr];
@@ -3521,6 +4349,417 @@ function doPost(e) {
         [copy[i], copy[j]] = [copy[j], copy[i]];
       }
       return copy;
+    }
+
+    /* ==========================================================================
+       4B. BÚSQUEDA DE SALAS POR NOMBRE O CÓDIGO Y PREVENCIÓN DE DUPLICADOS
+       ========================================================================== */
+    function normalizeText(str) {
+      return String(str || '')
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ');
+    }
+
+    function parseRoomInput(rawInput) {
+      const trimmed = String(rawInput || '').trim();
+      if (!trimmed) return { type: 'empty' };
+
+      // 1. Si pegaron un enlace completo con ?sala=...
+      if (trimmed.includes('sala=') || trimmed.includes('room=') || trimmed.startsWith('http')) {
+        try {
+          const qIndex = trimmed.indexOf('?');
+          if (qIndex !== -1) {
+            const params = new URLSearchParams(trimmed.substring(qIndex));
+            const sCode = (params.get('sala') || params.get('room') || '').trim().toUpperCase();
+            if (sCode) {
+              return { type: 'url', code: sCode, params };
+            }
+          }
+        } catch (e) {}
+      }
+
+      // 2. Si es la sala demo
+      const norm = normalizeText(trimmed);
+      if (norm === 'octa-demo' || norm === 'demo' || norm === 'taller demostrativo' || norm === 'taller demostrativo de gamificacion') {
+        return { type: 'demo', code: 'OCTA-DEMO' };
+      }
+
+      // 3. Si es un código OCTA-123 o OCTA123 o solo 3-4 dígitos (ej. 798)
+      const codeMatch = trimmed.match(/^octa[-\s]?(\d{3,5})$/i);
+      if (codeMatch) {
+        return { type: 'code', code: `OCTA-${codeMatch[1]}` };
+      }
+      if (/^\d{3,5}$/.test(trimmed)) {
+        return { type: 'code', code: `OCTA-${trimmed}` };
+      }
+
+      // 4. Por nombre de sala o asignatura
+      return { type: 'name', query: trimmed, queryNorm: norm };
+    }
+
+    function getSavedLocalRooms() {
+      const map = new Map();
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('octalysis_room_v2_')) {
+          try {
+            const r = JSON.parse(localStorage.getItem(key));
+            if (r && r.code && r.code !== 'OCTA-INDEX') {
+              map.set(r.code.toUpperCase(), r);
+            }
+          } catch (e) {}
+        }
+      }
+      return Array.from(map.values());
+    }
+
+    function saveDiscoveredRoomLocally(roomObj) {
+      if (!roomObj || !roomObj.code || roomObj.code === 'OCTA-INDEX') return;
+      const existingRaw = localStorage.getItem(getRoomStorageKey(roomObj.code));
+      let existing = {};
+      if (existingRaw) {
+        try { existing = JSON.parse(existingRaw) || {}; } catch (e) {}
+      }
+      const merged = {
+        code: roomObj.code.toUpperCase(),
+        name: roomObj.name || existing.name || `Sala ${roomObj.code}`,
+        pinHash: roomObj.pinHash || existing.pinHash || '',
+        requireCedula: roomObj.requireCedula !== undefined ? Boolean(roomObj.requireCedula) : Boolean(existing.requireCedula),
+        requireEmail: roomObj.requireEmail !== undefined ? Boolean(roomObj.requireEmail) : Boolean(existing.requireEmail),
+        storageType: existing.storageType || 'cloud',
+        customWebhook: existing.customWebhook || '',
+        createdAt: roomObj.createdAt || existing.createdAt || new Date().toISOString()
+      };
+      localStorage.setItem(getRoomStorageKey(merged.code), JSON.stringify(merged));
+      return merged;
+    }
+
+    async function fetchCloudRoomsIndex(queryText = '') {
+      const webhookUrl = (MASTER_WEBHOOK_URL || '').trim();
+      if (!webhookUrl) return [];
+
+      const sep = webhookUrl.includes('?') ? '&' : '?';
+      // Compatible simultáneamente con backend v2.3.0 (action=searchRooms) y v2.1.0 (lee roomId=OCTA-INDEX)
+      const url = `${webhookUrl}${sep}action=searchRooms&roomId=OCTA-INDEX&query=${encodeURIComponent(queryText)}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!data || !data.ok) return [];
+
+        if (Array.isArray(data.rooms)) {
+          return data.rooms.filter(r => r && r.code && r.code !== 'OCTA-INDEX');
+        }
+        if (data.room && data.room.code === 'OCTA-INDEX' && data.room.name) {
+          const parsedIndex = JSON.parse(data.room.name);
+          if (Array.isArray(parsedIndex)) {
+            return parsedIndex.filter(r => r && r.code && r.code !== 'OCTA-INDEX');
+          }
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    async function registerRoomInCloudIndex(room) {
+      const webhookUrl = (MASTER_WEBHOOK_URL || '').trim();
+      if (!webhookUrl || !room || !room.code || room.code === 'OCTA-DEMO' || room.code === 'OCTA-INDEX') return;
+
+      try {
+        const currentList = await fetchCloudRoomsIndex('');
+        const byCode = new Map();
+        currentList.forEach(item => {
+          if (item && item.code) byCode.set(item.code.toUpperCase(), item);
+        });
+        byCode.set(room.code.toUpperCase(), {
+          code: room.code.toUpperCase(),
+          name: room.name,
+          pinHash: room.pinHash,
+          requireCedula: Boolean(room.requireCedula),
+          requireEmail: Boolean(room.requireEmail),
+          createdAt: room.createdAt || new Date().toISOString()
+        });
+        // Conservar las 300 salas más recientes dentro del límite de celda de Google Sheets
+        const updatedArray = Array.from(byCode.values()).slice(-300);
+        const indexAuthHash = 'OCTA_PUBLIC_INDEX_V2';
+        await postToAppsScript(webhookUrl, {
+          action: 'saveRoom',
+          authPinHash: indexAuthHash,
+          room: {
+            code: 'OCTA-INDEX',
+            name: JSON.stringify(updatedArray),
+            pinHash: indexAuthHash,
+            requireCedula: false,
+            requireEmail: false,
+            createdAt: new Date().toISOString()
+          }
+        });
+      } catch (e) {}
+    }
+
+    async function resolveRoomByQuery(rawInput) {
+      const parsed = parseRoomInput(rawInput);
+      if (parsed.type === 'empty') {
+        return { status: 'error', message: 'Escribe el nombre o el código de la sala.' };
+      }
+      if (parsed.type === 'demo') {
+        return { status: 'found', room: { ...DEMO_ROOM } };
+      }
+      if (parsed.type === 'url') {
+        loadRoomConfig(parsed.code, parsed.params);
+        return { status: 'found', room: { ...currentRoom }, params: parsed.params };
+      }
+
+      const localRooms = getSavedLocalRooms();
+
+      // Si ingresó un código exacto (ej. OCTA-798 o 798)
+      if (parsed.type === 'code') {
+        const localHit = localRooms.find(r => r.code.toUpperCase() === parsed.code);
+        const webhookUrl = (MASTER_WEBHOOK_URL || '').trim();
+        if (webhookUrl) {
+          try {
+            const sep = webhookUrl.includes('?') ? '&' : '?';
+            const res = await fetch(`${webhookUrl}${sep}action=getRoom&roomId=${encodeURIComponent(parsed.code)}`);
+            const data = await res.json();
+            if (data && data.ok && data.room && data.room.code) {
+              const saved = saveDiscoveredRoomLocally(data.room);
+              return { status: 'found', room: saved };
+            }
+          } catch (e) {}
+          const indexList = await fetchCloudRoomsIndex(parsed.code);
+          const idxHit = indexList.find(r => String(r.code).toUpperCase() === parsed.code);
+          if (idxHit) {
+            const saved = saveDiscoveredRoomLocally(idxHit);
+            return { status: 'found', room: saved };
+          }
+        }
+        if (localHit) {
+          return { status: 'found', room: localHit };
+        }
+        return {
+          status: 'not_found',
+          message: `No encontramos ninguna sala con el código «${parsed.code}». Verifica el código con tu profesor o pide el enlace directo.`
+        };
+      }
+
+      // Búsqueda por nombre de asignatura o sala
+      const qNorm = parsed.queryNorm;
+      const combinedMap = new Map();
+      localRooms.forEach(r => combinedMap.set(r.code.toUpperCase(), r));
+
+      const cloudRooms = await fetchCloudRoomsIndex(parsed.query);
+      cloudRooms.forEach(r => {
+        if (r && r.code) combinedMap.set(r.code.toUpperCase(), r);
+      });
+
+      // También consultar getRoom directo por si el backend v2.3.0 lo resuelve por nombre
+      const webhookUrl = (MASTER_WEBHOOK_URL || '').trim();
+      if (webhookUrl) {
+        try {
+          const sep = webhookUrl.includes('?') ? '&' : '?';
+          const res = await fetch(`${webhookUrl}${sep}action=getRoom&roomId=${encodeURIComponent(parsed.query)}`);
+          const data = await res.json();
+          if (data && data.ok) {
+            if (data.room && data.room.code && data.room.code !== 'OCTA-INDEX') {
+              combinedMap.set(data.room.code.toUpperCase(), data.room);
+            }
+            if (Array.isArray(data.matches)) {
+              data.matches.forEach(m => {
+                if (m && m.code && m.code !== 'OCTA-INDEX') combinedMap.set(m.code.toUpperCase(), m);
+              });
+            }
+          }
+        } catch (e) {}
+      }
+
+      const allCandidates = Array.from(combinedMap.values());
+      const exactMatches = allCandidates.filter(r => normalizeText(r.name) === qNorm || normalizeText(r.code) === qNorm);
+      if (exactMatches.length === 1) {
+        return { status: 'found', room: saveDiscoveredRoomLocally(exactMatches[0]) };
+      }
+      if (exactMatches.length > 1) {
+        return { status: 'multiple', matches: exactMatches };
+      }
+
+      const partialMatches = allCandidates.filter(r => normalizeText(r.name).includes(qNorm) || normalizeText(r.code).includes(qNorm));
+      if (partialMatches.length === 1) {
+        return { status: 'found', room: saveDiscoveredRoomLocally(partialMatches[0]) };
+      }
+      if (partialMatches.length > 1) {
+        return { status: 'multiple', matches: partialMatches };
+      }
+
+      return {
+        status: 'not_found',
+        message: `No se encontró ninguna sala llamada «${parsed.query}». Verifica cómo la escribió tu profesor o ingresa el código OCTA-XXX.`
+      };
+    }
+
+    /* ACCIONES DESDE LA PANTALLA DE BIENVENIDA (#viewWelcome) */
+    async function handleStudentRoomLookup(e) {
+      e.preventDefault();
+      const inputEl = document.getElementById('studentRoomSearchInput');
+      const feedbackEl = document.getElementById('studentLookupFeedback');
+      const matchesBox = document.getElementById('studentRoomMatchesContainer');
+      const matchesList = document.getElementById('studentRoomMatchesList');
+      const submitBtn = document.getElementById('btnStudentLookupSubmit');
+
+      const query = (inputEl?.value || '').trim();
+      if (!query) return;
+
+      feedbackEl.style.display = 'block';
+      feedbackEl.style.color = 'var(--text-muted)';
+      feedbackEl.textContent = '🔎 Buscando tu sala de clase...';
+      matchesBox.style.display = 'none';
+      if (submitBtn) submitBtn.disabled = true;
+
+      const result = await resolveRoomByQuery(query);
+      if (submitBtn) submitBtn.disabled = false;
+
+      if (result.status === 'found' && result.room) {
+        feedbackEl.style.display = 'none';
+        const shareUrl = buildRoomShareUrl(result.room);
+        window.history.pushState({ path: shareUrl }, '', shareUrl);
+        enterRoomWithCode(result.room.code, result.params || new URLSearchParams());
+        return;
+      }
+
+      if (result.status === 'multiple' && Array.isArray(result.matches)) {
+        feedbackEl.style.display = 'none';
+        matchesList.innerHTML = '';
+        result.matches.forEach(rm => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'room-match-item';
+          const dateLabel = rm.createdAt ? new Date(rm.createdAt).toLocaleDateString() : '';
+          btn.innerHTML = `
+            <div>
+              <div class="room-match-name">${escapeHtml(rm.name)}</div>
+              <div class="room-match-meta">${dateLabel ? 'Creada el ' + escapeHtml(dateLabel) : 'Sala activa'}</div>
+            </div>
+            <span class="room-match-code">${escapeHtml(rm.code)}</span>
+          `;
+          btn.onclick = () => {
+            const saved = saveDiscoveredRoomLocally(rm);
+            const shareUrl = buildRoomShareUrl(saved);
+            window.history.pushState({ path: shareUrl }, '', shareUrl);
+            enterRoomWithCode(saved.code, new URLSearchParams());
+          };
+          matchesList.appendChild(btn);
+        });
+        matchesBox.style.display = 'block';
+        return;
+      }
+
+      feedbackEl.style.color = 'var(--black-hat)';
+      feedbackEl.textContent = result.message || 'No se encontró la sala indicada.';
+    }
+
+    function enterDemoStudentModeDirectly() {
+      const shareUrl = buildRoomShareUrl(DEMO_ROOM);
+      window.history.pushState({ path: shareUrl }, '', shareUrl);
+      enterRoomWithCode(DEMO_ROOM.code, new URLSearchParams());
+    }
+
+    async function handleWelcomeTeacherLogin(e) {
+      e.preventDefault();
+      const roomInput = document.getElementById('welcomeTeacherRoomInput');
+      const pinInput = document.getElementById('welcomeTeacherPinInput');
+      const errEl = document.getElementById('welcomeTeacherLoginError');
+      const matchesBox = document.getElementById('welcomeTeacherMatchesBox');
+      const matchesList = document.getElementById('welcomeTeacherMatchesList');
+      const submitBtn = document.getElementById('btnWelcomeTeacherLogin');
+
+      const rawRoom = (roomInput?.value || '').trim();
+      const enteredPin = (pinInput?.value || '').trim();
+      if (!rawRoom || !enteredPin) return;
+
+      errEl.style.display = 'block';
+      errEl.style.color = 'var(--text-muted)';
+      errEl.textContent = '🔎 Verificando sala y PIN...';
+      matchesBox.style.display = 'none';
+      if (submitBtn) submitBtn.disabled = true;
+
+      const result = await resolveRoomByQuery(rawRoom);
+      if (submitBtn) submitBtn.disabled = false;
+
+      if (result.status === 'multiple' && Array.isArray(result.matches)) {
+        // Si varias salas coinciden por nombre parcial, probar primero si el PIN coincide exactamente con una sola
+        const pinMatchedRooms = result.matches.filter(rm => rm.pinHash && hashRoomPin(rm.code, enteredPin) === rm.pinHash);
+        if (pinMatchedRooms.length === 1) {
+          completeTeacherLoginToRoom(pinMatchedRooms[0], enteredPin);
+          return;
+        }
+        errEl.style.display = 'none';
+        matchesList.innerHTML = '';
+        result.matches.forEach(rm => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'room-match-item';
+          btn.innerHTML = `
+            <div>
+              <div class="room-match-name">${escapeHtml(rm.name)}</div>
+            </div>
+            <span class="room-match-code">${escapeHtml(rm.code)}</span>
+          `;
+          btn.onclick = () => {
+            roomInput.value = rm.code;
+            matchesBox.style.display = 'none';
+            completeTeacherLoginToRoom(rm, enteredPin);
+          };
+          matchesList.appendChild(btn);
+        });
+        matchesBox.style.display = 'block';
+        return;
+      }
+
+      if (result.status !== 'found' || !result.room) {
+        errEl.style.color = 'var(--black-hat)';
+        errEl.textContent = result.message || 'No encontramos esa sala. Verifica el nombre o código OCTA-XXX.';
+        return;
+      }
+
+      await completeTeacherLoginToRoom(result.room, enteredPin, errEl);
+    }
+
+    async function completeTeacherLoginToRoom(targetRoom, enteredPin, errEl = null) {
+      const errorBox = errEl || document.getElementById('welcomeTeacherLoginError');
+      const saved = saveDiscoveredRoomLocally(targetRoom);
+      loadRoomConfig(saved.code, new URLSearchParams());
+
+      if (!currentRoom.pinHash && getActiveWebhookUrl()) {
+        await fetchCloudRoomAndSubmissions();
+      }
+
+      if (!currentRoom.pinHash) {
+        if (errorBox) {
+          errorBox.style.display = 'block';
+          errorBox.style.color = 'var(--black-hat)';
+          errorBox.textContent = `No se encontró el PIN registrado para la sala ${currentRoom.code}. Verifica el código o abre el enlace que guardaste al crearla.`;
+        }
+        return;
+      }
+
+      const candidateHash = hashRoomPin(currentRoom.code, enteredPin);
+      if (candidateHash !== currentRoom.pinHash) {
+        if (errorBox) {
+          errorBox.style.display = 'block';
+          errorBox.style.color = 'var(--black-hat)';
+          errorBox.textContent = `PIN incorrecto para la sala «${currentRoom.name}» (${currentRoom.code}).`;
+        }
+        return;
+      }
+
+      if (errorBox) errorBox.style.display = 'none';
+      lastCreatedRoomPlainPin = enteredPin;
+      sessionStorage.setItem(`auth_${currentRoom.code}`, currentRoom.pinHash);
+      localStorage.setItem('octalysis_last_teacher_room', currentRoom.code);
+
+      const shareUrl = buildRoomShareUrl(currentRoom);
+      window.history.pushState({ path: shareUrl }, '', shareUrl);
+      enterRoomWithCode(currentRoom.code, new URLSearchParams(), { asTeacherAuthenticated: true });
     }
 
     /* ==========================================================================
@@ -3647,6 +4886,11 @@ function doPost(e) {
       const countLabel = count === 1 ? '1 estudiante registrado' : `${count} estudiantes registrados`;
       document.getElementById('teacherSubtitleDisplay').textContent = `${currentRoom.name} · ${countLabel}`;
 
+      const onbBadge = document.getElementById('onboardingRoomBadge');
+      const onbTitle = document.getElementById('onboardingCourseTitle');
+      if (onbBadge) onbBadge.textContent = `Sala: ${currentRoom.code}`;
+      if (onbTitle) onbTitle.textContent = currentRoom.name || 'Te damos la bienvenida al sondeo';
+
       const showCed = Boolean(currentRoom.requireCedula);
       const showMail = Boolean(currentRoom.requireEmail);
       document.getElementById('thCedula').style.display = showCed ? '' : 'none';
@@ -3692,9 +4936,18 @@ function doPost(e) {
       });
     }
 
+    function clearCreateRoomNameError() {
+      const errEl = document.getElementById('createRoomNameError');
+      if (errEl) {
+        errEl.style.display = 'none';
+        errEl.textContent = '';
+      }
+    }
+
     /* CREAR NUEVA SALA */
     function openCreateRoomModal() {
       document.getElementById('newRoomName').value = '';
+      clearCreateRoomNameError();
       document.getElementById('newRoomPin').value = '';
       document.getElementById('confirmRoomPin').value = '';
       document.getElementById('newRoomPin').type = 'password';
@@ -3706,6 +4959,7 @@ function doPost(e) {
       document.querySelector('input[name="storageType"][value="cloud"]').checked = true;
       toggleStorageCustomField();
       openModal('modalCreateRoom');
+      setTimeout(() => document.getElementById('newRoomName')?.focus(), 80);
     }
 
     function toggleStorageCustomField() {
@@ -3713,7 +4967,7 @@ function doPost(e) {
       document.getElementById('customSheetWebhookGroup').style.display = isCustom ? 'block' : 'none';
     }
 
-    function handleCreateRoomSubmit(e) {
+    async function handleCreateRoomSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('newRoomName').value.trim();
       const pin = document.getElementById('newRoomPin').value.trim();
@@ -3722,6 +4976,10 @@ function doPost(e) {
       const reqMail = document.getElementById('checkRequireEmail').checked;
       const storage = document.querySelector('input[name="storageType"]:checked').value;
       const webhook = document.getElementById('customWebhookUrl').value.trim();
+      const nameErrEl = document.getElementById('createRoomNameError');
+      const submitBtn = document.getElementById('btnCreateRoomSubmit');
+
+      clearCreateRoomNameError();
 
       if (pin.length < 4 || pin.length > 6) {
         alert('El PIN debe tener entre 4 y 6 caracteres.');
@@ -3742,8 +5000,46 @@ function doPost(e) {
         return;
       }
 
-      const randomCode = 'OCTA-' + Math.floor(100 + Math.random() * 900);
+      // Validar que el nombre de la sala no esté duplicado (para que los estudiantes entren sin confusión por nombre)
+      const nameNorm = normalizeText(name);
+      if (nameNorm === 'octa-demo' || nameNorm === 'demo' || nameNorm === 'taller demostrativo' || nameNorm === 'taller demostrativo de gamificacion') {
+        nameErrEl.textContent = '⚠️ Ese nombre está reservado para la sala demostrativa. Elige el nombre de tu asignatura y grupo.';
+        nameErrEl.style.display = 'block';
+        document.getElementById('newRoomName').focus();
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verificando disponibilidad del nombre...';
+      }
+
+      const localRooms = getSavedLocalRooms();
+      const cloudRooms = await fetchCloudRoomsIndex(name);
+      const allKnown = [...localRooms, ...cloudRooms];
+      const duplicateRoom = allKnown.find(r => r && r.code !== 'OCTA-INDEX' && normalizeText(r.name) === nameNorm);
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crear sala y generar enlace →';
+      }
+
+      if (duplicateRoom) {
+        nameErrEl.innerHTML = `⚠️ Ya existe una sala llamada <strong>«${escapeHtml(duplicateRoom.name)}»</strong> (código <code>${escapeHtml(duplicateRoom.code)}</code>). Agrega el grupo o semestre (ej. <em>«${escapeHtml(name)} G2»</em>) para diferenciarla, o entra a tu sala existente con tu PIN.`;
+        nameErrEl.style.display = 'block';
+        document.getElementById('newRoomName').focus();
+        return;
+      }
+
+      // Generar código único que no colisione con los conocidos
+      let randomCode = 'OCTA-' + Math.floor(100 + Math.random() * 900);
+      const existingCodes = new Set(allKnown.map(r => String(r.code || '').toUpperCase()));
+      while (existingCodes.has(randomCode)) {
+        randomCode = 'OCTA-' + Math.floor(100 + Math.random() * 900);
+      }
+
       const pinHash = hashRoomPin(randomCode, pin);
+      lastCreatedRoomPlainPin = pin;
 
       currentRoom = {
         code: randomCode,
@@ -3762,26 +5058,24 @@ function doPost(e) {
 
       // Autenticar automáticamente al docente creador en esta sesión con el hash exacto
       sessionStorage.setItem(`auth_${randomCode}`, pinHash);
+      localStorage.setItem('octalysis_last_teacher_room', randomCode);
 
-      // Reiniciar estado de formulario estudiantil si había uno previo
-      selectedMechanics = [];
-      priorityP1 = null;
-      priorityP2 = null;
-      priorityP3 = null;
-      document.getElementById('studentCatalogWrapper').style.display = 'block';
-      document.getElementById('prioritizeSection').style.display = 'none';
-      document.getElementById('studentDiagnosisSection').style.display = 'none';
-      renderCatalog();
+      // Reiniciar estado de formulario estudiantil
+      resetStudentSurveyStateForRoom(randomCode);
 
-      // Sincronizar sala en la nube si hay webhook disponible
+      // Sincronizar sala en la nube y en el índice de búsqueda por nombre
       syncRoomConfigToCloud(currentRoom, pinHash);
+      registerRoomInCloudIndex(currentRoom);
 
       closeModal('modalCreateRoom');
 
-      // Actualizar barra de direcciones con la URL completa firmada (para que copiar desde el navegador también lleve &cfg=)
+      // Actualizar barra de direcciones con la URL completa firmada
       const shareUrl = buildRoomShareUrl(currentRoom);
       window.history.pushState({ path: shareUrl }, '', shareUrl);
 
+      hasEnteredRoom = true;
+      setRoomHeaderVisible(true);
+      document.getElementById('viewWelcome').classList.remove('active');
       updateRoomHeaderUI();
       switchToTeacherDashboard();
       openRoomQRModal();
@@ -3825,6 +5119,7 @@ function doPost(e) {
           return;
         }
         currentRoom.pinHash = hashRoomPin(currentRoom.code, newPin);
+        lastCreatedRoomPlainPin = newPin;
         sessionStorage.setItem(`auth_${currentRoom.code}`, currentRoom.pinHash);
       }
 
@@ -3841,6 +5136,7 @@ function doPost(e) {
 
       saveRoomConfigToLocal();
       syncRoomConfigToCloud(currentRoom, previousPinHash);
+      registerRoomInCloudIndex(currentRoom);
 
       const updatedUrl = buildRoomShareUrl(currentRoom);
       window.history.pushState({ path: updatedUrl }, '', updatedUrl);
@@ -3862,7 +5158,7 @@ function doPost(e) {
       closeModal('modalRoomSettings');
     }
 
-    /* QR Y ENLACE DE LA SALA */
+    /* QR, ENLACE Y CREDENCIALES DE LA SALA */
     function openRoomQRModal() {
       const qrContainer = document.getElementById('qrCanvasContainer');
       qrContainer.innerHTML = '';
@@ -3870,6 +5166,10 @@ function doPost(e) {
       const shareUrl = buildRoomShareUrl(currentRoom);
       document.getElementById('shareRoomUrlInput').value = shareUrl;
       document.getElementById('qrRoomCodeText').textContent = currentRoom.code;
+      const qrNameEl = document.getElementById('qrRoomNameText');
+      if (qrNameEl) qrNameEl.textContent = currentRoom.name || '';
+
+      updateQrTeacherCredentialsBox();
 
       if (typeof QRCode !== 'undefined') {
         new QRCode(qrContainer, {
@@ -3885,17 +5185,84 @@ function doPost(e) {
       openModal('modalRoomQR');
     }
 
+    function updateQrTeacherCredentialsBox() {
+      const nameEl = document.getElementById('credSummaryName');
+      const codeEl = document.getElementById('credSummaryCode');
+      const pinEl = document.getElementById('credSummaryPin');
+      if (nameEl) nameEl.textContent = currentRoom.name || '--';
+      if (codeEl) codeEl.textContent = currentRoom.code || '--';
+      if (pinEl) {
+        if (currentRoom.code === 'OCTA-DEMO') {
+          pinEl.textContent = '1234 (sala demostrativa)';
+        } else if (lastCreatedRoomPlainPin) {
+          pinEl.textContent = lastCreatedRoomPlainPin;
+        } else {
+          pinEl.textContent = 'Definido por ti al crear la sala';
+        }
+      }
+    }
+
+    function buildTeacherCredentialsText() {
+      const shareUrl = buildRoomShareUrl(currentRoom);
+      const pinText = currentRoom.code === 'OCTA-DEMO'
+        ? '1234'
+        : (lastCreatedRoomPlainPin || '(Tu PIN de 4 a 6 caracteres definido al crear la sala)');
+      return [
+        '==========================================================',
+        'OCTALYSIS STUDENTS — CREDENCIALES DOCENTES DE LA SALA',
+        '==========================================================',
+        `Nombre de la sala / asignatura : ${currentRoom.name}`,
+        `Código único de respaldo       : ${currentRoom.code}`,
+        `PIN privado del profesor       : ${pinText}`,
+        `Fecha de registro              : ${new Date().toLocaleString()}`,
+        '',
+        'ENLACE DIRECTO PARA TUS ESTUDIANTES:',
+        shareUrl,
+        '',
+        'NOTA IMPORTANTE:',
+        'Guarda este recordatorio. Por privacidad, la aplicación no',
+        'almacena correos de recuperación de contraseñas.',
+        '=========================================================='
+      ].join('\r\n');
+    }
+
+    function copyTeacherCredentials() {
+      const text = buildTeacherCredentialsText();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert('¡Datos de acceso docente (nombre, código, PIN y enlace) copiados al portapapeles!');
+        });
+      } else {
+        fallbackCopyText(text, () => {
+          alert('¡Datos de acceso docente copiados al portapapeles!');
+        });
+      }
+    }
+
+    function downloadTeacherCredentialsTxt() {
+      const text = buildTeacherCredentialsText();
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Credenciales_${currentRoom.code}_${sanitizeFileName(currentRoom.name)}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
     function copyShareRoomUrl() {
       const input = document.getElementById('shareRoomUrlInput');
       input.select();
       input.setSelectionRange(0, 99999);
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(input.value).then(() => {
-          alert('¡Enlace de la sala copiado al portapapeles!');
+          alert('¡Enlace directo para estudiantes copiado al portapapeles!');
         });
       } else {
         document.execCommand('copy');
-        alert('¡Enlace de la sala copiado al portapapeles!');
+        alert('¡Enlace directo para estudiantes copiado al portapapeles!');
       }
     }
 
@@ -3919,6 +5286,7 @@ function doPost(e) {
       currentRole = 'student';
       document.getElementById('navStudentBtn').classList.add('active');
       document.getElementById('navTeacherBtn').classList.remove('active');
+      document.getElementById('viewWelcome').classList.remove('active');
       document.getElementById('viewStudent').classList.add('active');
       document.getElementById('viewTeacher').classList.remove('active');
     }
@@ -3933,16 +5301,18 @@ function doPost(e) {
       errEl.style.display = 'none';
       errEl.textContent = '';
 
+      const roomTargetInput = document.getElementById('inputTeacherRoomTarget');
+      if (roomTargetInput) {
+        roomTargetInput.value = currentRoom.code || '';
+      }
+
       const descEl = document.getElementById('teacherPinPromptDesc');
       const demoRow = document.getElementById('demoQuickAccessRow');
       if (currentRoom.code === 'OCTA-DEMO') {
-        descEl.textContent = 'Estás en la sala demostrativa (OCTA-DEMO). Puedes explorar el panel con el PIN 1234 o crear tu propia sala con tu PIN personalizado.';
+        descEl.textContent = 'Puedes explorar el panel demostrativo (OCTA-DEMO, PIN: 1234), escribir el nombre/código de tu propia sala con su PIN, o crear una sala nueva.';
         if (demoRow) demoRow.style.display = 'block';
-      } else if (!currentRoom.pinHash) {
-        descEl.textContent = `Consultando configuración de la sala ${currentRoom.code}... O crea una sala nueva abajo si vas a iniciar otro curso.`;
-        if (demoRow) demoRow.style.display = 'none';
       } else {
-        descEl.textContent = `Ingresa el PIN que definiste para la sala ${currentRoom.code}, o crea una sala nueva para otro grupo.`;
+        descEl.textContent = `Ingresa el PIN que definiste para la sala «${currentRoom.name}» (${currentRoom.code}), o cambia el nombre/código si deseas abrir otra sala.`;
         if (demoRow) demoRow.style.display = 'none';
       }
 
@@ -3952,17 +5322,43 @@ function doPost(e) {
     }
 
     function enterDemoTeacherModeDirectly() {
-      if (currentRoom.code !== 'OCTA-DEMO') return;
-      sessionStorage.setItem(`auth_${currentRoom.code}`, currentRoom.pinHash);
+      loadRoomConfig(DEMO_ROOM.code, new URLSearchParams());
+      resetStudentSurveyStateForRoom(DEMO_ROOM.code);
+      sessionStorage.setItem(`auth_${DEMO_ROOM.code}`, DEMO_ROOM.pinHash);
+      lastCreatedRoomPlainPin = '1234';
       closeModal('modalTeacherPin');
+
+      const shareUrl = buildRoomShareUrl(currentRoom);
+      window.history.pushState({ path: shareUrl }, '', shareUrl);
+
+      hasEnteredRoom = true;
+      setRoomHeaderVisible(true);
+      document.getElementById('viewWelcome').classList.remove('active');
       switchToTeacherDashboard();
     }
 
     async function handleTeacherPinSubmit(e) {
       e.preventDefault();
+      const targetQuery = (document.getElementById('inputTeacherRoomTarget')?.value || currentRoom.code || '').trim();
       const enteredPin = document.getElementById('inputTeacherPin').value.trim();
       const errEl = document.getElementById('teacherPinErrorMsg');
+      const submitBtn = document.getElementById('btnModalTeacherPinSubmit');
       errEl.style.display = 'none';
+
+      // Si el docente escribió otra sala distinta a la actual en el campo de sala, resolverla primero
+      if (targetQuery && normalizeText(targetQuery) !== normalizeText(currentRoom.code) && normalizeText(targetQuery) !== normalizeText(currentRoom.name)) {
+        if (submitBtn) submitBtn.disabled = true;
+        const resolved = await resolveRoomByQuery(targetQuery);
+        if (submitBtn) submitBtn.disabled = false;
+        if (resolved.status === 'found' && resolved.room) {
+          const saved = saveDiscoveredRoomLocally(resolved.room);
+          loadRoomConfig(saved.code, resolved.params || new URLSearchParams());
+        } else {
+          errEl.textContent = resolved.message || `No se encontró la sala «${targetQuery}».`;
+          errEl.style.display = 'block';
+          return;
+        }
+      }
 
       // Si aún no teníamos pinHash local/URL, intentar traerlo de la nube primero
       if (!currentRoom.pinHash && getActiveWebhookUrl()) {
@@ -3970,18 +5366,28 @@ function doPost(e) {
       }
 
       if (!currentRoom.pinHash) {
-        errEl.textContent = `No se encontró la configuración de la sala ${currentRoom.code}. Abre el enlace completo que recibiste al crearla.`;
+        errEl.textContent = `No se encontró la configuración de la sala ${currentRoom.code}. Verifica el código o abre el enlace completo que recibiste al crearla.`;
         errEl.style.display = 'block';
         return;
       }
 
       const candidateHash = hashRoomPin(currentRoom.code, enteredPin);
       if (candidateHash === currentRoom.pinHash) {
+        lastCreatedRoomPlainPin = enteredPin;
         sessionStorage.setItem(`auth_${currentRoom.code}`, currentRoom.pinHash);
+        localStorage.setItem('octalysis_last_teacher_room', currentRoom.code);
         closeModal('modalTeacherPin');
+
+        const shareUrl = buildRoomShareUrl(currentRoom);
+        window.history.pushState({ path: shareUrl }, '', shareUrl);
+
+        hasEnteredRoom = true;
+        setRoomHeaderVisible(true);
+        document.getElementById('viewWelcome').classList.remove('active');
         switchToTeacherDashboard();
+        fetchCloudRoomAndSubmissions();
       } else {
-        errEl.textContent = 'PIN incorrecto para esta sala. Verifica los dígitos ingresados.';
+        errEl.textContent = `PIN incorrecto para la sala ${currentRoom.code}. Verifica los caracteres ingresados.`;
         errEl.style.display = 'block';
       }
     }
@@ -3990,13 +5396,14 @@ function doPost(e) {
       currentRole = 'teacher';
       document.getElementById('navStudentBtn').classList.remove('active');
       document.getElementById('navTeacherBtn').classList.add('active');
+      document.getElementById('viewWelcome').classList.remove('active');
       document.getElementById('viewStudent').classList.remove('active');
       document.getElementById('viewTeacher').classList.add('active');
       renderTeacherDashboard();
     }
 
     function goToHome() {
-      trySwitchToStudent();
+      goToWelcomeScreen();
     }
 
     /* ==========================================================================
@@ -4015,6 +5422,11 @@ function doPost(e) {
     }
 
     function openStudentOnboardingModal() {
+      const onbBadge = document.getElementById('onboardingRoomBadge');
+      const onbTitle = document.getElementById('onboardingCourseTitle');
+      if (onbBadge) onbBadge.textContent = `Sala: ${currentRoom.code}`;
+      if (onbTitle) onbTitle.textContent = currentRoom.name || 'Te damos la bienvenida al sondeo';
+
       document.getElementById('inputStudentNick').value = currentStudent.nick || '';
       document.getElementById('inputStudentCedula').value = currentStudent.cedula || '';
       document.getElementById('inputStudentEmail').value = currentStudent.email || '';
@@ -4466,7 +5878,7 @@ function doPost(e) {
                 <span class="cd-pill ${mech.motiv}">${cardMotivLabel}</span>
                 ${choiceBadge}
               </div>
-              <div style="font-family: var(--font-heading); font-weight: 700; font-size: 0.98rem; color: #fff; margin-top: 0.2rem;">
+              <div style="font-family: var(--font-heading); font-weight: 700; font-size: 0.98rem; color: var(--text-heading); margin-top: 0.2rem;">
                 ${escapeHtml(mech.name)}
               </div>
               <div style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.45;">
@@ -4526,6 +5938,9 @@ function doPost(e) {
 
       ctx.clearRect(0, 0, logicalSize, logicalSize);
 
+      // Si se exporta a PDF/PNG, usar fondo oscuro fijo; si está en pantalla, respetar el tema activo
+      const useLightCanvasColors = isLightTheme() && !lightExportTheme;
+
       if (lightExportTheme) {
         ctx.fillStyle = '#0f172a';
         ctx.fillRect(0, 0, logicalSize, logicalSize);
@@ -4534,7 +5949,7 @@ function doPost(e) {
       const rawVals = Object.values(cdValues || {}).map(v => Number(v) || 0);
       const maxScale = Math.max(15, ...rawVals);
 
-      // 1. Anillos octagonales de referencia
+      // 1. Anillos octagonales de referencia (mayor contraste para tableros digitales)
       const levels = 3;
       for (let l = 1; l <= levels; l++) {
         const r = (radius / levels) * l;
@@ -4546,8 +5961,8 @@ function doPost(e) {
           else ctx.lineTo(x, y);
         });
         ctx.closePath();
-        ctx.strokeStyle = 'rgba(148, 163, 184, 0.16)';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = useLightCanvasColors ? 'rgba(15, 23, 42, 0.24)' : 'rgba(148, 163, 184, 0.24)';
+        ctx.lineWidth = 1.25;
         ctx.stroke();
       }
 
@@ -4562,8 +5977,8 @@ function doPost(e) {
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(outerX, outerY);
-        ctx.strokeStyle = 'rgba(148, 163, 184, 0.18)';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = useLightCanvasColors ? 'rgba(15, 23, 42, 0.26)' : 'rgba(148, 163, 184, 0.26)';
+        ctx.lineWidth = 1.2;
         ctx.stroke();
 
         const val = Number(cdValues[v.cd]) || 0;
@@ -4582,12 +5997,17 @@ function doPost(e) {
       ctx.closePath();
 
       const grad = ctx.createRadialGradient(cx, cy, 8, cx, cy, radius);
-      grad.addColorStop(0, 'rgba(6, 182, 212, 0.45)');
-      grad.addColorStop(1, 'rgba(168, 85, 247, 0.25)');
+      if (useLightCanvasColors) {
+        grad.addColorStop(0, 'rgba(8, 145, 178, 0.38)');
+        grad.addColorStop(1, 'rgba(124, 58, 237, 0.22)');
+      } else {
+        grad.addColorStop(0, 'rgba(6, 182, 212, 0.48)');
+        grad.addColorStop(1, 'rgba(168, 85, 247, 0.28)');
+      }
       ctx.fillStyle = grad;
       ctx.fill();
-      ctx.strokeStyle = '#06b6d4';
-      ctx.lineWidth = 2.4;
+      ctx.strokeStyle = useLightCanvasColors ? '#0e7490' : '#06b6d4';
+      ctx.lineWidth = 2.7;
       ctx.stroke();
 
       // 4. Nodos de datos y cápsulas exteriores clicables
@@ -4597,19 +6017,25 @@ function doPost(e) {
 
         // Nodo sobre el polígono
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, isHovered ? 7 : 5, 0, Math.PI * 2);
-        ctx.fillStyle = isHovered ? '#fbbf24' : '#ffffff';
-        ctx.fill();
-        ctx.strokeStyle = isHovered ? '#fbbf24' : '#06b6d4';
+        ctx.arc(pt.x, pt.y, isHovered ? 7 : 5.5, 0, Math.PI * 2);
+        if (useLightCanvasColors) {
+          ctx.fillStyle = isHovered ? '#d97706' : '#0891b2';
+          ctx.fill();
+          ctx.strokeStyle = '#ffffff';
+        } else {
+          ctx.fillStyle = isHovered ? '#fbbf24' : '#ffffff';
+          ctx.fill();
+          ctx.strokeStyle = isHovered ? '#fbbf24' : '#06b6d4';
+        }
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Cápsula exterior con etiqueta oficial (ajustada para no cortarse en pantallas móviles)
+        // Cápsula exterior con etiqueta oficial
         const labelDist = radius + (isCompact ? 26 : 33);
         const rawLx = cx + labelDist * Math.cos(v.angleRad);
         const rawLy = cy + labelDist * Math.sin(v.angleRad);
 
-        ctx.font = isCompact ? '600 9.5px Inter, sans-serif' : '600 10.5px Inter, sans-serif';
+        ctx.font = isCompact ? '700 9.5px Inter, sans-serif' : '700 10.5px Inter, sans-serif';
         const textWidth = ctx.measureText(v.label).width;
         const pillW = textWidth + (isCompact ? 12 : 16);
         const pillH = isCompact ? 20 : 22;
@@ -4618,29 +6044,43 @@ function doPost(e) {
         const lx = pillX + pillW / 2;
         const ly = pillY + pillH / 2;
 
-        // Color según hemisferio de sombrero
-        let borderColor = 'rgba(148, 163, 184, 0.45)';
-        let textColor = '#e2e8f0';
-        if (v.hat === 'white') {
-          borderColor = isHovered ? '#22d3ee' : 'rgba(6, 182, 212, 0.55)';
-          textColor = '#67e8f9';
-        } else if (v.hat === 'black') {
-          borderColor = isHovered ? '#fb7185' : 'rgba(244, 63, 94, 0.55)';
-          textColor = '#fda4af';
+        // Color según hemisferio de sombrero y tema activo
+        let borderColor, textColor, pillBgColor;
+        if (useLightCanvasColors) {
+          pillBgColor = isHovered ? '#0f172a' : '#ffffff';
+          if (v.hat === 'white') {
+            borderColor = isHovered ? '#0e7490' : '#0891b2';
+            textColor = isHovered ? '#ffffff' : '#0e7490';
+          } else if (v.hat === 'black') {
+            borderColor = isHovered ? '#be123c' : '#e11d48';
+            textColor = isHovered ? '#ffffff' : '#be123c';
+          } else {
+            borderColor = isHovered ? '#6d28d9' : '#7c3aed';
+            textColor = isHovered ? '#ffffff' : '#6d28d9';
+          }
         } else {
-          borderColor = isHovered ? '#c084fc' : 'rgba(168, 85, 247, 0.45)';
-          textColor = '#d8b4fe';
+          pillBgColor = isHovered ? 'rgba(30, 41, 59, 0.98)' : 'rgba(15, 23, 42, 0.94)';
+          if (v.hat === 'white') {
+            borderColor = isHovered ? '#22d3ee' : 'rgba(6, 182, 212, 0.7)';
+            textColor = isHovered ? '#ffffff' : '#67e8f9';
+          } else if (v.hat === 'black') {
+            borderColor = isHovered ? '#fb7185' : 'rgba(244, 63, 94, 0.7)';
+            textColor = isHovered ? '#ffffff' : '#fda4af';
+          } else {
+            borderColor = isHovered ? '#c084fc' : 'rgba(168, 85, 247, 0.65)';
+            textColor = isHovered ? '#ffffff' : '#d8b4fe';
+          }
         }
 
         // Dibujar cápsula redondeada
         drawRoundedRect(ctx, pillX, pillY, pillW, pillH, 10);
-        ctx.fillStyle = isHovered ? 'rgba(30, 41, 59, 0.98)' : 'rgba(15, 23, 42, 0.9)';
+        ctx.fillStyle = pillBgColor;
         ctx.fill();
         ctx.strokeStyle = borderColor;
-        ctx.lineWidth = isHovered ? 1.8 : 1.1;
+        ctx.lineWidth = isHovered ? 2 : 1.4;
         ctx.stroke();
 
-        ctx.fillStyle = isHovered ? '#ffffff' : textColor;
+        ctx.fillStyle = textColor;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(v.label, lx, ly);
@@ -4823,20 +6263,21 @@ function doPost(e) {
 
       const cx = logicalSize / 2;
       const cy = logicalSize / 2;
+      const lightMode = isLightTheme();
 
       ctx.clearRect(0, 0, logicalSize, logicalSize);
 
-      ctx.fillStyle = 'rgba(6, 182, 212, 0.05)';
+      ctx.fillStyle = lightMode ? 'rgba(8, 145, 178, 0.08)' : 'rgba(6, 182, 212, 0.06)';
       ctx.fillRect(cx, 0, cx, cy);
-      ctx.fillStyle = 'rgba(59, 130, 246, 0.05)';
+      ctx.fillStyle = lightMode ? 'rgba(37, 99, 235, 0.08)' : 'rgba(59, 130, 246, 0.06)';
       ctx.fillRect(0, 0, cx, cy);
-      ctx.fillStyle = 'rgba(244, 63, 94, 0.05)';
+      ctx.fillStyle = lightMode ? 'rgba(225, 29, 72, 0.08)' : 'rgba(244, 63, 94, 0.06)';
       ctx.fillRect(cx, cy, cx, cy);
-      ctx.fillStyle = 'rgba(245, 158, 11, 0.05)';
+      ctx.fillStyle = lightMode ? 'rgba(217, 119, 6, 0.08)' : 'rgba(245, 158, 11, 0.06)';
       ctx.fillRect(0, cy, cx, cy);
 
-      ctx.strokeStyle = '#334155';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = lightMode ? '#64748b' : '#475569';
+      ctx.lineWidth = 1.8;
       ctx.beginPath();
       ctx.moveTo(0, cy);
       ctx.lineTo(logicalSize, cy);
@@ -4844,19 +6285,19 @@ function doPost(e) {
       ctx.lineTo(cx, logicalSize);
       ctx.stroke();
 
-      ctx.font = '600 10.5px Inter, sans-serif';
-      ctx.fillStyle = '#06b6d4';
+      ctx.font = '700 11px Inter, sans-serif';
+      ctx.fillStyle = lightMode ? '#0e7490' : '#22d3ee';
       ctx.textAlign = 'center';
       ctx.fillText('▲ Sombrero blanco (+Y)', cx, 18);
 
-      ctx.fillStyle = '#f43f5e';
+      ctx.fillStyle = lightMode ? '#be123c' : '#fb7185';
       ctx.fillText('▼ Sombrero negro (-Y)', cx, logicalSize - 10);
 
-      ctx.fillStyle = '#c084fc';
+      ctx.fillStyle = lightMode ? '#6d28d9' : '#c084fc';
       ctx.textAlign = 'right';
       ctx.fillText('Intrínseca (+X) ▶', logicalSize - 12, cy - 8);
 
-      ctx.fillStyle = '#60a5fa';
+      ctx.fillStyle = lightMode ? '#1d4ed8' : '#60a5fa';
       ctx.textAlign = 'left';
       ctx.fillText('◀ Extrínseca (-X)', 12, cy - 8);
 
@@ -4871,11 +6312,13 @@ function doPost(e) {
         const py = cy + yOffset;
 
         ctx.beginPath();
-        ctx.arc(px, py, 6, 0, Math.PI * 2);
-        ctx.fillStyle = whiteVal >= 50 ? '#06b6d4' : '#f43f5e';
+        ctx.arc(px, py, 6.5, 0, Math.PI * 2);
+        ctx.fillStyle = whiteVal >= 50
+          ? (lightMode ? '#0891b2' : '#06b6d4')
+          : (lightMode ? '#e11d48' : '#f43f5e');
         ctx.fill();
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = lightMode ? '#0f172a' : '#ffffff';
+        ctx.lineWidth = 1.6;
         ctx.stroke();
       });
     }

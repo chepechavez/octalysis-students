@@ -1,7 +1,7 @@
 # ⬡ Octalysis Students
 > **Plataforma web de sondeo motivacional y cocreación de acuerdos de clase basada en el modelo Octalysis.**
 
-![Versión](https://img.shields.io/badge/versión-2.2.0-cyan.svg)
+![Versión](https://img.shields.io/badge/versión-2.3.0-cyan.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-purple.svg)
 ![Despliegue](https://img.shields.io/badge/GitHub%20Pages-listo-emerald.svg)
 
@@ -16,6 +16,16 @@ Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan 
 ---
 
 ## ✨ Características principales
+
+### 🚪 Flujo de entrada guiado y sin fricción (`v2.3.0`)
+1. **Selección inicial de perfil:** al abrir la URL principal, la plataforma pregunta primero de forma limpia si ingresas como **🎒 Soy estudiante** o **👨‍🏫 Soy profesor**.
+2. **Ingreso de estudiante por nombre o código:** si el estudiante entra por la página principal, escribe el **nombre de la sala/asignatura** o el **código** (`OCTA-XXX`), con lista de desambiguación si existen grupos con nombres similares.
+3. **Llegada directa por enlace o QR (`?sala=...`):** cuando el profesor comparte el enlace directo o proyecta el código QR en clase, los estudiantes **omiten los pasos anteriores** y aterrizan directamente en el registro de su sala.
+4. **Portal docente con 3 opciones y resguardo de credenciales:** el profesor puede **👀 Ver sala demo (`OCTA-DEMO`)**, **🔓 Entrar a su sala existente** (indicando nombre/código y su PIN) o **✨ Crear una sala nueva**, con validación de nombres duplicados, advertencia visible sobre la importancia de guardar el nombre/código y el PIN, y descarga en 1 clic de un **recordatorio `.txt`** con sus credenciales.
+
+### ☀️ Tema claro de alto contraste para tableros digitales y proyectores
+- Incluye el botón **☀️ Tema claro / 🌙 Tema oscuro** en la barra superior (con el tema oscuro como predeterminado y persistencia en el navegador).
+- El **tema claro en blanco (`#ffffff`)** y el **contraste reforzado en Canvas** (red octagonal `CD1`–`CD8` y cuadrante 2D) permiten proyectar la herramienta en salones de clase iluminados y tableros digitales sin necesidad de apagar las luces.
 
 ### 🎒 Para los estudiantes (móvil y escritorio)
 - **Catálogo inicial imparcial y mezclado al azar:** las 24 dinámicas del curso se presentan únicamente con su título y descripción cotidiana (sin mostrar etiquetas de *Core Drive*, sombrero blanco o negro ni tipo de motivación) para evitar sesgos de deseabilidad social. Incluye buscador por palabra clave y botón **🎲 Mezclar orden**.

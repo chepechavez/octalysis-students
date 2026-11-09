@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * OCTALYSIS STUDENTS — BACKEND MULTI-SALA EN GOOGLE APPS SCRIPT
+ * OCTALYSIS STUDENTS — BACKEND MULTI-SALA EN GOOGLE APPS SCRIPT (v2.3.0)
  * ============================================================================
  * Este script convierte cualquier hoja de cálculo de Google (Google Sheet) en
  * un servidor gratuito y sin caducidad para Octalysis Students.
@@ -23,6 +23,18 @@
 
 const SHEET_ROOMS = 'Salas';
 const SHEET_SUBMISSIONS = 'Respuestas';
+
+/**
+ * Normaliza un texto para comparaciones de nombres de sala sin tildes ni mayúsculas.
+ */
+function normalizeText_(str) {
+  return String(str || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ');
+}
 
 /**
  * Inicializa las pestañas "Salas" y "Respuestas" si aún no existen,
@@ -96,9 +108,25 @@ function jsonResponse_(obj) {
 }
 
 /**
+ * Convierte una fila de la pestaña Salas en objeto de configuración.
+ */
+function rowToRoomObj_(row) {
+  return {
+    code: String(row[0] || '').trim().toUpperCase(),
+    name: String(row[1] || ''),
+    pinHash: String(row[2] || ''),
+    requireCedula: row[3] === true || String(row[3]).toLowerCase() === 'true',
+    requireEmail: row[4] === true || String(row[4]).toLowerCase() === 'true',
+    createdAt: String(row[5] || ''),
+    updatedAt: String(row[6] || '')
+  };
+}
+
+/**
  * Atiende consultas GET:
  *   - ?action=ping
- *   - ?action=getRoom&roomId=OCTA-123
+ *   - ?action=listRooms (o ?action=searchRooms&query=...)
+ *   - ?action=getRoom&roomId=OCTA-123 (también busca por nombre si no coincide código exacto)
  */
 function doGet(e) {
   try {
@@ -110,85 +138,112 @@ function doGet(e) {
       return jsonResponse_({
         ok: true,
         service: 'Octalysis Students Backend',
-        version: '2.2.0'
+        version: '2.3.0'
       });
     }
 
-    const roomId = String(params.roomId || params.sala || '').trim().toUpperCase();
-    if (!roomId) {
-      return jsonResponse_({ ok: false, error: 'Falta el parámetro roomId.' });
+    const sheets = ensureSheets_();
+    const roomRows = sheets.roomsSheet.getDataRange().getValues();
+
+    // Listar o buscar salas por código o nombre de asignatura
+    if (action === 'listRooms' || action === 'searchRooms') {
+      const qNorm = normalizeText_(params.query || params.roomName || '');
+      const rooms = [];
+      for (let i = 1; i < roomRows.length; i++) {
+        const rObj = rowToRoomObj_(roomRows[i]);
+        if (!rObj.code || rObj.code === 'OCTA-INDEX') continue;
+        if (!qNorm || normalizeText_(rObj.code).indexOf(qNorm) !== -1 || normalizeText_(rObj.name).indexOf(qNorm) !== -1) {
+          rooms.push(rObj);
+        }
+      }
+      return jsonResponse_({ ok: true, rooms: rooms });
     }
 
-    const { roomsSheet, subsSheet } = ensureSheets_();
+    const rawQuery = String(params.roomId || params.sala || params.roomName || '').trim();
+    const roomId = rawQuery.toUpperCase();
+    if (!rawQuery) {
+      return jsonResponse_({ ok: false, error: 'Falta el parámetro roomId o nombre de sala.' });
+    }
 
-    // 1. Buscar configuración de la sala
+    // 1. Buscar configuración de la sala (primero por código exacto, luego por nombre exacto)
     let roomConfig = null;
-    const roomRows = roomsSheet.getDataRange().getValues();
+    const matchingRooms = [];
+    const queryNorm = normalizeText_(rawQuery);
+
     for (let i = 1; i < roomRows.length; i++) {
-      if (String(roomRows[i][0]).trim().toUpperCase() === roomId) {
-        roomConfig = {
-          code: roomId,
-          name: String(roomRows[i][1] || ''),
-          pinHash: String(roomRows[i][2] || ''),
-          requireCedula: roomRows[i][3] === true || String(roomRows[i][3]).toLowerCase() === 'true',
-          requireEmail: roomRows[i][4] === true || String(roomRows[i][4]).toLowerCase() === 'true',
-          createdAt: String(roomRows[i][5] || ''),
-          updatedAt: String(roomRows[i][6] || '')
-        };
+      const candidate = rowToRoomObj_(roomRows[i]);
+      if (!candidate.code) continue;
+      if (candidate.code === roomId) {
+        roomConfig = candidate;
         break;
+      }
+      if (candidate.code !== 'OCTA-INDEX') {
+        const nameNorm = normalizeText_(candidate.name);
+        if (nameNorm === queryNorm || nameNorm.indexOf(queryNorm) !== -1) {
+          matchingRooms.push(candidate);
+        }
       }
     }
 
+    if (!roomConfig && matchingRooms.length === 1) {
+      roomConfig = matchingRooms[0];
+    }
+
+    const activeCode = roomConfig ? roomConfig.code : roomId;
+
     // 2. Buscar respuestas asociadas únicamente a esta sala
     const submissions = [];
-    const subRows = subsSheet.getDataRange().getValues();
-    for (let j = 1; j < subRows.length; j++) {
-      if (String(subRows[j][2]).trim().toUpperCase() === roomId) {
-        const rawJson = subRows[j][23];
-        if (rawJson) {
-          try {
-            submissions.push(JSON.parse(rawJson));
-            continue;
-          } catch (parseErr) {
-            // Reconstruir desde columnas si el JSON fue editado manualmente
+    if (activeCode && activeCode !== 'OCTA-INDEX') {
+      const subRows = sheets.subsSheet.getDataRange().getValues();
+      for (let j = 1; j < subRows.length; j++) {
+        if (String(subRows[j][2]).trim().toUpperCase() === activeCode) {
+          const rawJson = subRows[j][23];
+          if (rawJson) {
+            try {
+              submissions.push(JSON.parse(rawJson));
+              continue;
+            } catch (parseErr) {
+              // Reconstruir desde columnas si el JSON fue editado manualmente
+            }
           }
+          submissions.push({
+            id: String(subRows[j][0]),
+            timestamp: String(subRows[j][1]),
+            roomId: activeCode,
+            studentName: String(subRows[j][3]),
+            cedula: String(subRows[j][4] || 'N/A'),
+            email: String(subRows[j][5] || 'N/A'),
+            priority1: subRows[j][6] ? { id: 0, name: String(subRows[j][6]), cd: 1 } : null,
+            priority2: subRows[j][7] ? { id: 0, name: String(subRows[j][7]), cd: 1 } : null,
+            priority3: subRows[j][8] ? { id: 0, name: String(subRows[j][8]), cd: 1 } : null,
+            selectedMechanics: String(subRows[j][9] || '')
+              .split(' | ')
+              .filter(Boolean)
+              .map(function(n) { return { id: 0, name: n, cd: 1 }; }),
+            cdTotals: {
+              1: Number(subRows[j][10]) || 0,
+              2: Number(subRows[j][11]) || 0,
+              3: Number(subRows[j][12]) || 0,
+              4: Number(subRows[j][13]) || 0,
+              5: Number(subRows[j][14]) || 0,
+              6: Number(subRows[j][15]) || 0,
+              7: Number(subRows[j][16]) || 0,
+              8: Number(subRows[j][17]) || 0
+            },
+            pctWhite: Number(subRows[j][18]) || 50,
+            pctBlack: Number(subRows[j][19]) || 50,
+            pctIntrinsic: Number(subRows[j][20]) || 50,
+            pctExtrinsic: Number(subRows[j][21]) || 50,
+            archetype: String(subRows[j][22] || '')
+          });
         }
-        submissions.push({
-          id: String(subRows[j][0]),
-          timestamp: String(subRows[j][1]),
-          roomId: roomId,
-          studentName: String(subRows[j][3]),
-          cedula: String(subRows[j][4] || 'N/A'),
-          email: String(subRows[j][5] || 'N/A'),
-          priority1: subRows[j][6] ? { id: 0, name: String(subRows[j][6]), cd: 1 } : null,
-          priority2: subRows[j][7] ? { id: 0, name: String(subRows[j][7]), cd: 1 } : null,
-          priority3: subRows[j][8] ? { id: 0, name: String(subRows[j][8]), cd: 1 } : null,
-          selectedMechanics: String(subRows[j][9] || '')
-            .split(' | ')
-            .filter(Boolean)
-            .map(function(n) { return { id: 0, name: n, cd: 1 }; }),
-          cdTotals: {
-            1: Number(subRows[j][10]) || 0,
-            2: Number(subRows[j][11]) || 0,
-            3: Number(subRows[j][12]) || 0,
-            4: Number(subRows[j][13]) || 0,
-            5: Number(subRows[j][14]) || 0,
-            6: Number(subRows[j][15]) || 0,
-            7: Number(subRows[j][16]) || 0,
-            8: Number(subRows[j][17]) || 0
-          },
-          pctWhite: Number(subRows[j][18]) || 50,
-          pctBlack: Number(subRows[j][19]) || 50,
-          pctIntrinsic: Number(subRows[j][20]) || 50,
-          pctExtrinsic: Number(subRows[j][21]) || 50,
-          archetype: String(subRows[j][22] || '')
-        });
       }
     }
 
     return jsonResponse_({
       ok: true,
       room: roomConfig,
+      matches: matchingRooms,
       submissions: submissions
     });
   } catch (err) {
@@ -224,12 +279,24 @@ function doPost(e) {
       const rows = roomsSheet.getDataRange().getValues();
       let foundRowIdx = -1;
       let existingHash = '';
+      const targetNameNorm = normalizeText_(room.name);
 
       for (let i = 1; i < rows.length; i++) {
-        if (String(rows[i][0]).trim().toUpperCase() === code) {
+        const rowCode = String(rows[i][0]).trim().toUpperCase();
+        if (rowCode === code) {
           foundRowIdx = i + 1;
           existingHash = String(rows[i][2] || '');
           break;
+        }
+        if (body.checkDuplicateName && code !== 'OCTA-INDEX' && rowCode !== 'OCTA-INDEX') {
+          if (normalizeText_(rows[i][1]) === targetNameNorm && targetNameNorm !== '') {
+            return jsonResponse_({
+              ok: false,
+              duplicateName: true,
+              existingCode: rowCode,
+              error: 'Ya existe una sala con ese nombre.'
+            });
+          }
         }
       }
 
