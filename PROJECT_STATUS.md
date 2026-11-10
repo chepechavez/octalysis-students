@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
 **Última actualización:** 10 de noviembre de 2026  
-**Versión actual:** `2.3.5`  
+**Versión actual:** `2.3.6`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.5`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` a `v2.3.5`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores, legibilidad y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas), la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8) y la corrección integral de contrastes en el botón de permanencia del modal de salida bajo el tema claro.
+La plataforma **Octalysis Students (`v2.3.6`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` a `v2.3.6`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores, legibilidad y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas), la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8), la corrección integral de contrastes en el botón de permanencia del modal de salida bajo el tema claro, y la integración de fundamentación pedagógica interactiva de los ejes motivacionales (sombrero blanco vs. negro y motivación intrínseca vs. extrínseca) en el panel docente, accesible mediante clics en el cuadrante 2D, etiquetas de los ejes y tarjetas KPI.
 
 ---
 
@@ -98,6 +98,13 @@ git push origin main
 ---
 
 ## 6. Historial de cambios
+
+- **2026-11-10 (`v2.3.6`):**
+  - **Fundamentación pedagógica interactiva de ejes motivacionales en la vista docente:**
+    - **Cuadrante 2D de perfiles de aula:** se incorporaron botones explicativos `.btn-axis-info` en la cabecera del contenedor (`ℹ️ Sombrero blanco vs. negro` e `ℹ️ Intrínseca vs. extrínseca`), así como una barra de leyendas de equilibrio motivacional bajo el canvas, invocando [`openAxisInfoModal('hats')`](index.html#L7054) y [`openAxisInfoModal('motivation')`](index.html#L7084).
+    - **Etiquetas clicables:** se transformaron los descriptores de los ejes en elementos interactivos `.clickable-concept` con colores semánticos (`var(--white-hat)`, `var(--black-hat)`, `var(--extrinsic)`, `var(--intrinsic)`).
+    - **Interactividad sobre el Canvas 2D (`drawClassQuadrant`):** se implementó detección de clics y eventos de ratón (`mousemove`/`click`) con cursor interactivo (`pointer`) directamente en los extremos y etiquetas de los ejes (`Sombrero blanco`, `Sombrero negro`, `Intrínseca`, `Extrínseca`).
+    - **Tarjetas KPI superiores clicables:** las tarjetas *«Tendencia de sombrero»* y *«Balance motivacional»* del resumen docente ahora incluyen el estilo interactivo `.kpi-card.clickable` con píldora `ℹ️ Info`, permitiendo al docente abrir la fundamentación teórica desde cualquier sección del panel de control.
 
 - **2026-11-10 (`v2.3.5`):**
   - **Corrección de contraste y visibilidad en tema claro para el modal de salida (`#modalConfirmExitRoom`):**

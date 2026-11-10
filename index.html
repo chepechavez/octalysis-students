@@ -1988,6 +1988,17 @@
       gap: 0.35rem;
     }
 
+    .kpi-card.clickable {
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .kpi-card.clickable:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
     .kpi-title {
       font-size: 0.78rem;
       color: var(--text-dim);
@@ -3523,13 +3534,19 @@
           <span class="kpi-value" id="kpiTotalStudents">0</span>
           <span class="kpi-subtext">Respuestas consolidadas</span>
         </div>
-        <div class="kpi-card">
-          <span class="kpi-title">Tendencia de sombrero</span>
+        <div class="kpi-card clickable" onclick="openAxisInfoModal('hats')" title="Haz clic para ver la distinción entre sombrero blanco y negro">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="kpi-title">Tendencia de sombrero</span>
+            <span class="btn-axis-info" style="font-size: 0.68rem; padding: 0.1rem 0.45rem;">ℹ️ Info</span>
+          </div>
           <span class="kpi-value" id="kpiDominantHat" style="color: var(--white-hat);">Sombrero blanco</span>
           <span class="kpi-subtext" id="kpiHatBreakdown">50% blanco vs. 50% negro</span>
         </div>
-        <div class="kpi-card">
-          <span class="kpi-title">Balance motivacional</span>
+        <div class="kpi-card clickable" onclick="openAxisInfoModal('motivation')" title="Haz clic para ver la distinción entre motivación intrínseca y extrínseca">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="kpi-title">Balance motivacional</span>
+            <span class="btn-axis-info" style="font-size: 0.68rem; padding: 0.1rem 0.45rem;">ℹ️ Info</span>
+          </div>
           <span class="kpi-value" id="kpiDominantMotivation" style="color: var(--intrinsic);">Intrínseca</span>
           <span class="kpi-subtext" id="kpiMotivBreakdown">50% intrínseca vs. 50% extrínseca</span>
         </div>
@@ -3554,11 +3571,54 @@
 
         <div class="dash-box">
           <div class="dash-box-header">
-            <h3>🎯 Cuadrante 2D de perfiles del aula</h3>
-            <p>Eje X: motivación extrínseca (-X) / intrínseca (+X) | Eje Y: sombrero negro (-Y) / blanco (+Y)</p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.6rem;">
+              <div>
+                <h3>🎯 Cuadrante 2D de perfiles del aula</h3>
+                <p style="margin-bottom: 0.35rem;">
+                  Distribución del grupo en los 4 cuadrantes. Haz clic en las etiquetas o botones para conocer cada eje:
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.81rem; margin-top: 0.25rem;">
+                  <span>
+                    <strong>Eje vertical:</strong>
+                    <span class="clickable-concept" style="color: var(--white-hat); font-weight: 600;" onclick="openAxisInfoModal('hats')" title="Ver explicación de sombrero blanco y negro">☀️ Sombrero blanco (+Y)</span>
+                    <span style="color: var(--text-dim); margin: 0 2px;">/</span>
+                    <span class="clickable-concept" style="color: var(--black-hat); font-weight: 600;" onclick="openAxisInfoModal('hats')" title="Ver explicación de sombrero blanco y negro">⚡ Sombrero negro (-Y)</span>
+                  </span>
+                  <span>
+                    <strong>Eje horizontal:</strong>
+                    <span class="clickable-concept" style="color: var(--extrinsic); font-weight: 600;" onclick="openAxisInfoModal('motivation')" title="Ver explicación de motivación intrínseca y extrínseca">🔷 Motivación extrínseca (-X)</span>
+                    <span style="color: var(--text-dim); margin: 0 2px;">/</span>
+                    <span class="clickable-concept" style="color: var(--intrinsic); font-weight: 600;" onclick="openAxisInfoModal('motivation')" title="Ver explicación de motivación intrínseca y extrínseca">💜 Intrínseca (+X)</span>
+                  </span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center;">
+                <button type="button" class="btn-axis-info" onclick="openAxisInfoModal('hats')" title="Ver diferencias entre sombrero blanco y negro">
+                  ℹ️ Sombrero blanco vs. negro
+                </button>
+                <button type="button" class="btn-axis-info" onclick="openAxisInfoModal('motivation')" title="Ver diferencias entre intrínseca y extrínseca">
+                  ℹ️ Intrínseca vs. extrínseca
+                </button>
+              </div>
+            </div>
           </div>
           <div class="radar-canvas-wrap" style="margin: 0 auto;">
-            <canvas id="classQuadrantCanvas" width="460" height="460"></canvas>
+            <canvas id="classQuadrantCanvas" width="460" height="460" title="Haz clic en las etiquetas o extremos de los ejes para ver información detallada"></canvas>
+          </div>
+          <div style="display: flex; justify-content: center; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.85rem; padding: 0.5rem 0.75rem; background: var(--bg-card-subtle); border-radius: var(--radius-sm); border: 1px dashed var(--border-color); font-size: 0.78rem;">
+            <span style="color: var(--text-muted); align-self: center; font-weight: 600;">Ejes de equilibrio:</span>
+            <button type="button" class="btn-axis-info" onclick="openAxisInfoModal('hats')" style="background: rgba(8, 145, 178, 0.12); border-color: var(--white-hat); color: var(--white-hat);" title="Ver impulsos de sombrero blanco">
+              ☀️ Sombrero blanco (CD1, CD2, CD3)
+            </button>
+            <button type="button" class="btn-axis-info" onclick="openAxisInfoModal('hats')" style="background: rgba(225, 29, 72, 0.12); border-color: var(--black-hat); color: var(--black-hat);" title="Ver impulsos de sombrero negro">
+              ⚡ Sombrero negro (CD6, CD7, CD8)
+            </button>
+            <button type="button" class="btn-axis-info" onclick="openAxisInfoModal('motivation')" style="background: rgba(37, 99, 235, 0.12); border-color: var(--extrinsic); color: var(--extrinsic);" title="Ver impulsos de motivación extrínseca">
+              🔷 Motivación extrínseca (CD2, CD4, CD6)
+            </button>
+            <button type="button" class="btn-axis-info" onclick="openAxisInfoModal('motivation')" style="background: rgba(147, 51, 234, 0.12); border-color: var(--intrinsic); color: var(--intrinsic);" title="Ver impulsos de motivación intrínseca">
+              💜 Motivación intrínseca (CD3, CD5, CD7)
+            </button>
           </div>
         </div>
       </div>
@@ -7184,6 +7244,50 @@ function doPost(e) {
         ctx.lineWidth = 1.6;
         ctx.stroke();
       });
+
+      // Interacción en canvas del cuadrante: clic y cursor pointer en extremos y etiquetas de los ejes
+      canvas._quadrantState = { logicalSize, cx, cy };
+
+      if (!canvas._quadrantEventsBound) {
+        canvas._quadrantEventsBound = true;
+
+        const getTargetAxis = (clientX, clientY) => {
+          const rect = canvas.getBoundingClientRect();
+          const st = canvas._quadrantState;
+          if (!st) return null;
+          const scaleX = (st.logicalSize || rect.width || 1) / (rect.width || 1);
+          const scaleY = (st.logicalSize || rect.height || 1) / (rect.height || 1);
+          const x = (clientX - rect.left) * scaleX;
+          const y = (clientY - rect.top) * scaleY;
+
+          // Sombrero blanco (etiqueta superior +Y): y <= 35 y centrado
+          if (y <= 35 && Math.abs(x - st.cx) <= 130) return 'hats';
+          // Sombrero negro (etiqueta inferior -Y): y >= st.logicalSize - 35 y centrado
+          if (y >= st.logicalSize - 35 && Math.abs(x - st.cx) <= 130) return 'hats';
+          // Motivación intrínseca (etiqueta derecha +X): x >= st.logicalSize - 140 y cerca de cy
+          if (x >= st.logicalSize - 140 && Math.abs(y - st.cy) <= 30) return 'motivation';
+          // Motivación extrínseca (etiqueta izquierda -X): x <= 140 y cerca de cy
+          if (x <= 140 && Math.abs(y - st.cy) <= 30) return 'motivation';
+
+          return null;
+        };
+
+        canvas.addEventListener('mousemove', (ev) => {
+          const target = getTargetAxis(ev.clientX, ev.clientY);
+          canvas.style.cursor = target ? 'pointer' : 'default';
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+          canvas.style.cursor = 'default';
+        });
+
+        canvas.addEventListener('click', (ev) => {
+          const target = getTargetAxis(ev.clientX, ev.clientY);
+          if (target) {
+            openAxisInfoModal(target);
+          }
+        });
+      }
     }
 
     /* ==========================================================================
