@@ -3021,7 +3021,7 @@
           <button class="btn-tab" id="navTeacherBtn" type="button" onclick="promptTeacherAccess()">
             👨‍🏫 Profesor
           </button>
-          <button class="btn-tab" id="navSwitchRoomBtn" type="button" onclick="goToWelcomeScreen()" title="Salir o cambiar de sala">
+          <button class="btn-tab" id="navSwitchRoomBtn" type="button" onclick="requestSwitchRoom()" title="Salir o cambiar de sala">
             🚪 Cambiar sala
           </button>
         </div>
@@ -3035,6 +3035,29 @@
          ========================================================================== -->
     <section id="viewWelcome" class="view-section active">
       <div class="welcome-shell">
+
+        <!-- BANNER DE RETORNO RÁPIDO SI SALIÓ POR ERROR DE UNA SALA ACTIVA -->
+        <div id="welcomeReturnActiveRoomBanner" style="display: none; max-width: 860px; margin: 0 auto 1.5rem auto; background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--white-hat); border-radius: var(--radius-md); padding: 0.95rem 1.25rem; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.4rem;">↩️</span>
+            <div>
+              <div style="font-size: 0.92rem; font-weight: 700; color: var(--text-color);">
+                ¿Saliste por error? Tu sesión en la sala sigue disponible
+              </div>
+              <div style="font-size: 0.82rem; color: var(--text-muted);" id="welcomeReturnRoomSubtitle">
+                Sala: OCTA-DEMO
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn-tab active" onclick="returnToPreviousRoom()" style="font-weight: 600; padding: 0.5rem 1rem;">
+              ← Volver a la sala
+            </button>
+            <button type="button" onclick="dismissReturnBanner()" style="background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.82rem; text-decoration: underline;" title="Descartar">
+              ✕ Ignorar
+            </button>
+          </div>
+        </div>
 
         <!-- PASO 1: ELEGIR SI ERES PROFESOR O ESTUDIANTE -->
         <div class="welcome-card" id="welcomeStepRole" style="max-width: 860px; margin: 0 auto;">
@@ -3441,6 +3464,14 @@
             <div id="fullCatalogSequentialContainer"></div>
           </div>
         </div>
+      </div>
+
+      <!-- ACCESO DISCRETO PARA DOCENTES EN PIE DE PÁGINA DEL SONDEO -->
+      <div id="studentFooterTeacherAccess" style="text-align: center; margin: 2.5rem 0 1rem; font-size: 0.82rem; color: var(--text-dim);">
+        <span>¿Eres el docente de esta sala?</span>
+        <button type="button" onclick="promptTeacherAccess()" style="background: none; border: none; color: var(--white-hat); text-decoration: underline; cursor: pointer; font-family: inherit; font-size: inherit; margin-left: 0.25rem;">
+          Acceder al panel con PIN
+        </button>
       </div>
 
     </section>
@@ -3861,6 +3892,29 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 5B: CONFIRMACIÓN PARA SALIR O CAMBIAR DE SALA
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalConfirmExitRoom">
+    <div class="modal-box" style="max-width: 480px; text-align: center;">
+      <button class="modal-close-btn" type="button" onclick="closeModal('modalConfirmExitRoom')" title="Cerrar">✕</button>
+      <div class="brand-icon" style="margin: 0 auto 0.85rem auto; background: linear-gradient(135deg, #f59e0b, #ef4444);">🚪</div>
+      <h3 id="confirmExitTitle">¿Deseas salir o cambiar de sala?</h3>
+      <p id="confirmExitDesc" style="margin-bottom: 1.25rem; font-size: 0.92rem; color: var(--text-color); line-height: 1.45;">
+        Estás dentro de una sala activa.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+        <button type="button" class="form-submit-btn" id="btnConfirmStayInRoom" onclick="closeModal('modalConfirmExitRoom')" style="background: var(--primary); color: #fff; font-weight: 700; padding: 0.75rem 1rem;">
+          🛡️ Permanecer en la sala
+        </button>
+        <button type="button" class="btn-tab" onclick="proceedToExitRoom()" style="width: 100%; justify-content: center; padding: 0.65rem 1rem; border-color: var(--border-color); color: var(--text-muted);">
+          🚪 Sí, salir al inicio / cambiar de sala
+        </button>
       </div>
     </div>
   </div>
@@ -4737,6 +4791,8 @@ function doPost(e) {
     let currentStudent = { nick: "", cedula: "", email: "" };
     let hasEnteredRoom = false;
     let lastCreatedRoomPlainPin = "";
+    let previousActiveRoom = null;
+    let previousActiveRole = "student";
 
     // Orden aleatorio para el catálogo inicial (preserva MECHANICS_DB intacto para orden secuencial CD1-CD8)
     let shuffledCatalogOrder = [];
@@ -4862,6 +4918,9 @@ function doPost(e) {
       const navGroupEl = document.getElementById('headerRoleNavGroup');
       if (centerEl) centerEl.style.display = visible ? 'flex' : 'none';
       if (navGroupEl) navGroupEl.style.display = visible ? 'flex' : 'none';
+      if (visible) {
+        updateRoleNavVisibility();
+      }
     }
 
     function toggleWelcomeTeacherPinVisibility() {
@@ -4970,8 +5029,90 @@ function doPost(e) {
       renderWelcomeRecentRooms();
     }
 
+    function requestSwitchRoom() {
+      if (!hasEnteredRoom || !currentRoom || !currentRoom.code) {
+        goToWelcomeScreen();
+        return;
+      }
+
+      const roomCode = currentRoom.code;
+      const roomName = currentRoom.name || `Sala ${roomCode}`;
+      const codeEl = document.getElementById('confirmExitRoomCode');
+      const descEl = document.getElementById('confirmExitDesc');
+      if (codeEl) codeEl.textContent = `${roomCode} («${roomName}»)`;
+
+      const hasPendingSelection = (currentRole === 'student' && Array.isArray(selectedMechanics) && selectedMechanics.length > 0 && !lastSubmittedSurvey);
+
+      if (hasPendingSelection) {
+        if (descEl) {
+          descEl.innerHTML = `Tienes <strong>${selectedMechanics.length} de 6 reglas seleccionadas</strong> sin enviar en la sala <strong>${roomCode}</strong>.<br><br><span style="color: var(--black-hat); font-weight: 600;">⚠️ Si sales ahora, tus selecciones se perderán.</span>`;
+        }
+      } else if (currentRole === 'teacher') {
+        if (descEl) {
+          descEl.innerHTML = `Estás administrando la sala <strong>${roomCode}</strong> («${roomName}»).<br>Podrás regresar cuando quieras o volver desde el inicio.`;
+        }
+      } else {
+        if (descEl) {
+          descEl.innerHTML = `Estás dentro de la sala <strong>${roomCode}</strong> («${roomName}»). ¿Deseas salir a la pantalla principal para cambiar de sala?`;
+        }
+      }
+
+      openModal('modalConfirmExitRoom');
+    }
+
+    function proceedToExitRoom() {
+      closeModal('modalConfirmExitRoom');
+      goToWelcomeScreen();
+    }
+
+    function updateReturnActiveRoomBanner() {
+      const banner = document.getElementById('welcomeReturnActiveRoomBanner');
+      if (!banner) return;
+      if (previousActiveRoom && previousActiveRoom.code) {
+        banner.style.display = 'flex';
+        const subTitle = document.getElementById('welcomeReturnRoomSubtitle');
+        if (subTitle) {
+          const roleLabel = previousActiveRole === 'teacher' ? 'Vista docente' : 'Vista estudiante';
+          subTitle.textContent = `Sala: ${previousActiveRoom.code} · ${previousActiveRoom.name || ''} (${roleLabel})`;
+        }
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+
+    function dismissReturnBanner() {
+      const banner = document.getElementById('welcomeReturnActiveRoomBanner');
+      if (banner) banner.style.display = 'none';
+      previousActiveRoom = null;
+    }
+
+    function returnToPreviousRoom() {
+      if (!previousActiveRoom || !previousActiveRoom.code) return;
+      currentRoom = { ...previousActiveRoom };
+      hasEnteredRoom = true;
+      setRoomHeaderVisible(true);
+      updateRoomHeaderUI();
+      document.getElementById('viewWelcome').classList.remove('active');
+      dismissReturnBanner();
+
+      const shareUrl = buildRoomShareUrl(currentRoom);
+      window.history.pushState({ path: shareUrl }, '', shareUrl);
+
+      if (previousActiveRole === 'teacher' && (isTeacherAuthenticatedForCurrentRoom() || currentRoom.code === 'OCTA-DEMO')) {
+        switchToTeacherDashboard();
+      } else {
+        trySwitchToStudent();
+      }
+    }
+
     function goToWelcomeScreen() {
       document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
+
+      if (hasEnteredRoom && currentRoom && currentRoom.code) {
+        previousActiveRoom = { ...currentRoom };
+        previousActiveRole = currentRole;
+      }
+
       hasEnteredRoom = false;
       setRoomHeaderVisible(false);
 
@@ -4982,6 +5123,7 @@ function doPost(e) {
       document.getElementById('viewStudent').classList.remove('active');
       document.getElementById('viewTeacher').classList.remove('active');
       showWelcomeStep('role');
+      updateReturnActiveRoomBanner();
     }
 
     function resetStudentSurveyStateForRoom(roomCode) {
@@ -5014,6 +5156,7 @@ function doPost(e) {
     }
 
     function enterRoomWithCode(roomCode, urlParams = new URLSearchParams(), options = {}) {
+      dismissReturnBanner();
       hasEnteredRoom = true;
       setRoomHeaderVisible(true);
       document.getElementById('viewWelcome').classList.remove('active');
@@ -5586,6 +5729,7 @@ function doPost(e) {
       document.getElementById('thEmail').style.display = showMail ? '' : 'none';
       document.getElementById('groupStudentCedula').style.display = showCed ? 'block' : 'none';
       document.getElementById('groupStudentEmail').style.display = showMail ? 'block' : 'none';
+      updateRoleNavVisibility();
     }
 
     /* VALIDACIÓN DE CONFIRMACIÓN DE PIN */
@@ -5978,6 +6122,36 @@ function doPost(e) {
       document.getElementById('viewWelcome').classList.remove('active');
       document.getElementById('viewStudent').classList.add('active');
       document.getElementById('viewTeacher').classList.remove('active');
+      updateRoleNavVisibility();
+    }
+
+    function updateRoleNavVisibility() {
+      const navTeacherBtn = document.getElementById('navTeacherBtn');
+      const navStudentBtn = document.getElementById('navStudentBtn');
+      if (!navTeacherBtn || !navStudentBtn) return;
+
+      const isTeacherAuthed = isTeacherAuthenticatedForCurrentRoom() || (currentRoom && currentRoom.code === 'OCTA-DEMO');
+
+      if (currentRole === 'teacher') {
+        navStudentBtn.classList.remove('active');
+        navTeacherBtn.classList.add('active');
+        navTeacherBtn.style.display = 'inline-flex';
+        navStudentBtn.style.display = 'inline-flex';
+        navTeacherBtn.title = 'Estás en el panel docente';
+        navStudentBtn.title = 'Ver la vista del estudiante';
+      } else {
+        // currentRole === 'student'
+        navStudentBtn.classList.add('active');
+        navTeacherBtn.classList.remove('active');
+        // El botón Profesor en la cabecera solo se muestra si el docente está autenticado en esta sesión o está en DEMO
+        if (isTeacherAuthed) {
+          navTeacherBtn.style.display = 'inline-flex';
+          navTeacherBtn.title = 'Volver al panel docente de esta sala';
+        } else {
+          navTeacherBtn.style.display = 'none';
+        }
+        navStudentBtn.title = 'Estás en la vista de estudiante';
+      }
     }
 
     function promptTeacherAccess() {
@@ -6088,11 +6262,12 @@ function doPost(e) {
       document.getElementById('viewWelcome').classList.remove('active');
       document.getElementById('viewStudent').classList.remove('active');
       document.getElementById('viewTeacher').classList.add('active');
+      updateRoleNavVisibility();
       renderTeacherDashboard();
     }
 
     function goToHome() {
-      goToWelcomeScreen();
+      requestSwitchRoom();
     }
 
     /* ==========================================================================

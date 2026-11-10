@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
-**Última actualización:** 9 de noviembre de 2026  
-**Versión actual:** `2.3.1`  
+**Última actualización:** 10 de noviembre de 2026  
+**Versión actual:** `2.3.2`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.1`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En esta iteración (`v2.3.1`) se llevó a cabo el rediseño visual de alto nivel de las pantallas de bienvenida y acceso (`#viewWelcome`), resolviendo la disparidad de clases CSS, unificando los estilos con el sistema de diseño oscuro y claro de la app, equilibrando la cuadrícula del portal docente en 3 columnas y añadiendo tarjetas de asistencia contextual, visualización de salas recientes y conmutador de visibilidad de PIN.
+La plataforma **Octalysis Students (`v2.3.2`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En esta iteración (`v2.3.2`) se fortaleció la experiencia de usuario (UX) aplicando principios de prevención de errores y reducción de carga cognitiva: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante) y un banner de retorno de emergencia en la pantalla de bienvenida.
 
 ---
 
@@ -98,6 +98,19 @@ git push origin main
 ---
 
 ## 6. Historial de cambios
+
+- **2026-11-10 (`v2.3.2`):**
+  - **Visibilidad condicional inteligente del botón de profesor (`updateRoleNavVisibility`):**
+    - En la vista de estudiante, el botón `👨‍🏫 Profesor` de la cabecera ahora permanece oculto si el usuario es un estudiante no autenticado en esa sala, eliminando distracciones, clics curiosos hacia el modal de PIN y saturación de la barra superior en pantallas móviles.
+    - Si el docente ya ingresó su PIN en la sesión actual (`isTeacherAuthenticatedForCurrentRoom()`) o se encuentra en `OCTA-DEMO`, el botón `👨‍🏫 Profesor` se mantiene visible y activo, permitiéndole alternar en vivo entre la vista estudiantil y el panel de control docente con 1 solo clic y sin volver a escribir el PIN.
+    - Se agregó un enlace no invasivo en el pie de página de la vista de estudiante (*«¿Eres el docente de esta sala? Acceder al panel con PIN»*) para docentes que ingresen por descuido desde el enlace o código QR compartido a los alumnos.
+  - **Prevención de salidas accidentales y protección del progreso estudiantil (`#modalConfirmExitRoom`):**
+    - Intercepción del botón `🚪 Cambiar sala` y del clic sobre el logotipo de la aplicación con confirmación preventiva cuando hay una sala activa.
+    - Si un estudiante tiene reglas seleccionadas (`selectedMechanics.length > 0`) y no las ha enviado, se muestra una alerta visual destacada indicando que las selecciones sin enviar se perderían.
+    - El foco inicial del modal se posiciona en el botón seguro `🛡️ Permanecer en la sala` (cerrable con Esc o ✕ sin alterar el estado).
+  - **Banner de retorno de emergencia en la pantalla de bienvenida (`#welcomeReturnActiveRoomBanner`):**
+    - Si un usuario confirma la salida o llega a la pantalla de bienvenida por error, se despliega una barra contextual superior destacada (*«¿Saliste por error? Tu sesión en la sala sigue disponible»*) con botón de 1 clic `← Volver a la sala`.
+    - Al pulsar el retorno, el usuario vuelve de inmediato a la sala y rol previos preservando sus selecciones intactas en memoria sin reiniciar el sondeo.
 
 - **2026-11-09 (`v2.3.1`):**
   - **Rediseño estético y unificación visual del flujo de bienvenida (`#viewWelcome`):**
