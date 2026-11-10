@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
 **Última actualización:** 10 de noviembre de 2026  
-**Versión actual:** `2.3.6`  
+**Versión actual:** `2.3.7`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.6`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` a `v2.3.6`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores, legibilidad y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas), la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8), la corrección integral de contrastes en el botón de permanencia del modal de salida bajo el tema claro, y la integración de fundamentación pedagógica interactiva de los ejes motivacionales (sombrero blanco vs. negro y motivación intrínseca vs. extrínseca) en el panel docente, accesible mediante clics en el cuadrante 2D, etiquetas de los ejes y tarjetas KPI.
+La plataforma **Octalysis Students (`v2.3.7`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` a `v2.3.7`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores, legibilidad y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas), la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8), la corrección integral de contrastes en el botón de permanencia del modal de salida bajo el tema claro, y la optimización minimalista de la fundamentación pedagógica en el panel docente (Opción C: 2 únicos botones nítidos y centrados al pie del cuadrante 2D, eliminando saturación en KPIs, cabeceras y ejes).
 
 ---
 
@@ -98,6 +98,13 @@ git push origin main
 ---
 
 ## 6. Historial de cambios
+
+- **2026-11-10 (`v2.3.7`):**
+  - **Optimización y eliminación de redundancias visuales en el panel docente (Opción C):**
+    - **Restauración ejecutiva de KPIs:** se retiraron las interacciones redundantes (`.kpi-card.clickable`, badges `ℹ️ Info` y eventos `onclick`) de las tarjetas de *«Tendencia de sombrero»* y *«Balance motivacional»*, devolviéndolas a su estado original como métricas numéricas y descriptivas puras.
+    - **Cabecera simétrica y sobria en el Cuadrante 2D:** se eliminaron párrafos largos y etiquetas teóricas duplicadas en el encabezado, alineando su altura y estética visual con la tarjeta vecina de la *Red Octagonal*.
+    - **Consolidación en 2 botones centrados al pie del gráfico:** se integró una barra centrada con únicamente 2 botones tipo píldora claramente rotulados con su eje de referencia: `[ ℹ️ Sombrero blanco vs. negro (Eje vertical Y) ]` e `[ ℹ️ Intrínseca vs. extrínseca (Eje horizontal X) ]`, invocando [`openAxisInfoModal('hats')`](index.html#L7054) y [`openAxisInfoModal('motivation')`](index.html#L7084).
+    - **Canvas 2D limpio:** se retiraron los escuchadores de clic perimetrales en los ejes del canvas, eliminando zonas de clic invisibles y preservando el gráfico como protagonista limpio.
 
 - **2026-11-10 (`v2.3.6`):**
   - **Fundamentación pedagógica interactiva de ejes motivacionales en la vista docente:**
