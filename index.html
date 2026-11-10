@@ -1697,16 +1697,6 @@
       gap: 0.5rem;
     }
 
-    .clickable-concept {
-      cursor: pointer;
-      border-bottom: 1px dashed currentColor;
-      transition: opacity 0.15s ease;
-    }
-
-    .clickable-concept:hover {
-      opacity: 0.85;
-    }
-
     .progress-track {
       height: 14px;
       background: var(--bg-track);
@@ -3593,7 +3583,7 @@
           <div class="metrics-container">
             <div class="balance-box">
               <h4>⚖️ Tus ejes de equilibrio motivacional</h4>
-              <p class="balance-subtitle">Haz clic en los botones informativos o en cada concepto para conocer sus diferencias en el aprendizaje.</p>
+              <p class="balance-subtitle">Haz clic en los botones informativos para conocer sus diferencias en el aprendizaje.</p>
 
               <!-- EJE 1: SOMBRERO BLANCO VS. SOMBRERO NEGRO -->
               <div class="bar-group">
@@ -3604,8 +3594,8 @@
                   </button>
                 </div>
                 <div class="bar-labels">
-                  <span style="color: var(--white-hat);" class="clickable-concept" onclick="openAxisInfoModal('hats')">Sombrero blanco: <strong id="valWhiteHat">50%</strong></span>
-                  <span style="color: var(--black-hat);" class="clickable-concept" onclick="openAxisInfoModal('hats')">Sombrero negro: <strong id="valBlackHat">50%</strong></span>
+                  <span style="color: var(--white-hat);">Sombrero blanco: <strong id="valWhiteHat">50%</strong></span>
+                  <span style="color: var(--black-hat);">Sombrero negro: <strong id="valBlackHat">50%</strong></span>
                 </div>
                 <div class="progress-track">
                   <div class="progress-fill-left-cyan" id="barWhiteHat" style="width: 50%;"></div>
@@ -3622,8 +3612,8 @@
                   </button>
                 </div>
                 <div class="bar-labels">
-                  <span style="color: var(--intrinsic);" class="clickable-concept" onclick="openAxisInfoModal('motivation')">Motivación intrínseca: <strong id="valIntrinsic">50%</strong></span>
-                  <span style="color: var(--extrinsic);" class="clickable-concept" onclick="openAxisInfoModal('motivation')">Motivación extrínseca: <strong id="valExtrinsic">50%</strong></span>
+                  <span style="color: var(--intrinsic);">Motivación intrínseca: <strong id="valIntrinsic">50%</strong></span>
+                  <span style="color: var(--extrinsic);">Motivación extrínseca: <strong id="valExtrinsic">50%</strong></span>
                 </div>
                 <div class="progress-track">
                   <div class="progress-fill-left-purple" id="barIntrinsic" style="width: 50%;"></div>
