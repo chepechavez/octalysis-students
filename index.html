@@ -6730,19 +6730,14 @@ function doPost(e) {
             extraCardClass = 'was-chosen';
           }
 
-          const cardHatLabel = mech.hat === 'white'
-            ? 'Sombrero blanco'
-            : (mech.hat === 'black' ? 'Sombrero negro' : 'Zona puente');
-          const cardMotivLabel = mech.motiv === 'intrinsic' ? 'Motivación intrínseca' : 'Motivación extrínseca';
+          const choiceBadgeHtml = choiceBadge
+            ? `<div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.25rem;">${choiceBadge}</div>`
+            : '';
 
           cardsHtml += `
             <div class="reveal-card ${extraCardClass}">
-              <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
-                <span class="cd-pill ${mech.hat === 'black' ? 'black' : 'white'}">${cardHatLabel}</span>
-                <span class="cd-pill ${mech.motiv}">${cardMotivLabel}</span>
-                ${choiceBadge}
-              </div>
-              <div style="font-family: var(--font-heading); font-weight: 700; font-size: 0.98rem; color: var(--text-heading); margin-top: 0.2rem;">
+              ${choiceBadgeHtml}
+              <div style="font-family: var(--font-heading); font-weight: 700; font-size: 0.98rem; color: var(--text-heading); margin-top: 0.1rem;">
                 ${escapeHtml(mech.name)}
               </div>
               <div style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.45;">

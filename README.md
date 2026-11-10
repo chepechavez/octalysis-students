@@ -1,7 +1,7 @@
 # ⬡ Octalysis Students
 > **Plataforma web de sondeo motivacional y cocreación de acuerdos de clase basada en el modelo Octalysis.**
 
-![Versión](https://img.shields.io/badge/versión-2.3.2-cyan.svg)
+![Versión](https://img.shields.io/badge/versión-2.3.3-cyan.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-purple.svg)
 ![Despliegue](https://img.shields.io/badge/GitHub%20Pages-listo-emerald.svg)
 
@@ -17,10 +17,11 @@ Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan 
 
 ## ✨ Características principales
 
-### 🛡️ Usabilidad contextual y prevención de errores en aula (`v2.3.2`)
+### 🛡️ Usabilidad contextual y prevención de errores en aula (`v2.3.2` – `v2.3.3`)
 1. **Conmutador de roles inteligente (Smart Toggle):** el botón `👨‍🏫 Profesor` se oculta automáticamente para alumnos no autenticados (evitando distracciones y solicitudes de PIN en clase), pero permanece visible para el docente que ya inició sesión, permitiéndole alternar al instante entre la proyección del grupo y la experiencia estudiantil con 1 solo clic.
 2. **Prevención de salidas accidentales:** confirmación preventiva al hacer clic en `🚪 Cambiar sala` o sobre el logotipo, alertando explícitamente si el estudiante tiene reglas seleccionadas sin enviar para proteger su progreso.
 3. **Banner de salvavidas en bienvenida:** si alguien sale por descuido al menú principal, una barra superior le permite regresar de inmediato a su sala abierta con todas sus selecciones preservadas.
+4. **Catálogo secuencial limpio sin redundancias (`v2.3.3`):** eliminación de las 48 píldoras repetitivas de sombrero y motivación en las 24 tarjetas del acordeón final; la clasificación teórica se muestra en la cabecera del Core Drive y las tarjetas individuales destacan con protagonismo absoluto las medallas de votación del alumno (`🥇`, `🥈`, `🥉`, `✓`).
 
 ### 🎨 Rediseño visual del flujo de bienvenida y acceso (`v2.3.1`)
 1. **Selección inicial de perfil estilizada:** tarjetas interactivas de alto impacto visual para elegir entre **🎒 Soy estudiante** y **👨‍🏫 Soy profesor**, con micro-interacciones hover, íconos luminosos y viñetas pedagógicas de características clave.

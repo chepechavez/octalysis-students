@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
 **Última actualización:** 10 de noviembre de 2026  
-**Versión actual:** `2.3.2`  
+**Versión actual:** `2.3.3`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.2`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En esta iteración (`v2.3.2`) se fortaleció la experiencia de usuario (UX) aplicando principios de prevención de errores y reducción de carga cognitiva: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante) y un banner de retorno de emergencia en la pantalla de bienvenida.
+La plataforma **Octalysis Students (`v2.3.3`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` y `v2.3.3`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida y la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas para dar protagonismo absoluto a las medallas de votación del estudiante).
 
 ---
 
@@ -98,6 +98,12 @@ git push origin main
 ---
 
 ## 6. Historial de cambios
+
+- **2026-11-10 (`v2.3.3`):**
+  - **Eliminación de etiquetas redundantes en el catálogo secuencial (`renderFullCatalogSequential`):**
+    - Se retiraron las píldoras repetitivas de sombrero (`Sombrero blanco` / `negro`) y motivación (`Intrínseca` / `Extrínseca`) de cada una de las 24 tarjetas del acordeón desplegable.
+    - Como las 3 reglas de cada bloque ya pertenecen al mismo Core Drive y su clasificación teórica se declara claramente en la cabecera del bloque, se eliminaron 48 etiquetas innecesarias.
+    - Las tarjetas no elegidas quedan con una presentación tipográfica limpia y espaciosa, mientras que las reglas seleccionadas por el estudiante destacan con protagonismo visual absoluto mediante sus medallas: `🥇 Tu prioridad 1 (regla de oro)`, `🥈 Tu prioridad 2`, `🥉 Tu prioridad 3` o `✓ Elegida entre tus 6 reglas`.
 
 - **2026-11-10 (`v2.3.2`):**
   - **Visibilidad condicional inteligente del botón de profesor (`updateRoleNavVisibility`):**
