@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
 **Última actualización:** 10 de noviembre de 2026  
-**Versión actual:** `2.3.3`  
+**Versión actual:** `2.3.4`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.3`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` y `v2.3.3`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida y la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas para dar protagonismo absoluto a las medallas de votación del estudiante).
+La plataforma **Octalysis Students (`v2.3.4`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2`, `v2.3.3` y `v2.3.4`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas) y la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8).
 
 ---
 
@@ -98,6 +98,11 @@ git push origin main
 ---
 
 ## 6. Historial de cambios
+
+- **2026-11-10 (`v2.3.4`):**
+  - **Clarificación pedagógica de la regla 23 (CD8: Comodines con fecha de caducidad):**
+    - Se integraron ejemplos concretos y cotidianos entre paréntesis en la descripción de la tarjeta: *(ej. prórroga de 48 horas sin penalización, reintentar una actividad corta o sustituir la nota más baja)*.
+    - Esta adición hace inmediatamente tangible para el estudiante de qué trata un pase de flexibilidad, elimina la ambigüedad conceptual en el aula y refuerza por qué pertenece a *Pérdida y evitación (CD8)*: el comodín ya le pertenece como escudo preventivo, y la fecha de corte crea la necesidad de administrarlo para no perderlo.
 
 - **2026-11-10 (`v2.3.3`):**
   - **Eliminación de etiquetas redundantes en el catálogo secuencial (`renderFullCatalogSequential`):**
