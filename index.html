@@ -1921,6 +1921,7 @@
     .export-button-group {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 0.55rem;
     }
 
@@ -1936,6 +1937,172 @@
       align-items: center;
       gap: 0.4rem;
       transition: all 0.2s ease;
+    }
+
+    /* DROPDOWN UNIFICADO DE EXPORTACIÓN (DOCENTE) */
+    .export-dropdown-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .btn-export-unified {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: rgba(16, 185, 129, 0.45);
+      color: #10b981;
+      font-weight: 700;
+      gap: 0.45rem;
+    }
+
+    .btn-export-unified:hover,
+    .btn-export-unified.active {
+      background: rgba(16, 185, 129, 0.24);
+      border-color: var(--success);
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.28);
+    }
+
+    :root[data-theme="light"] .btn-export-unified {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #047857;
+    }
+
+    :root[data-theme="light"] .btn-export-unified:hover,
+    :root[data-theme="light"] .btn-export-unified.active {
+      background: #10b981;
+      border-color: #059669;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    }
+
+    .dropdown-chevron {
+      font-size: 0.78rem;
+      transition: transform 0.2s ease;
+      display: inline-block;
+      line-height: 1;
+    }
+
+    .btn-export-unified.active .dropdown-chevron {
+      transform: rotate(180deg);
+    }
+
+    .export-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 7px);
+      left: 0;
+      min-width: 320px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      padding: 0.4rem;
+      z-index: 1050;
+      display: none;
+      animation: dropdownFadeIn 0.16s ease-out;
+    }
+
+    .export-dropdown-menu.show {
+      display: block;
+    }
+
+    @keyframes dropdownFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .export-dropdown-header {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      font-weight: 700;
+      padding: 0.4rem 0.65rem 0.45rem 0.65rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 0.35rem;
+    }
+
+    .export-dropdown-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+      width: 100% !important;
+      text-align: left !important;
+      padding: 0.62rem 0.7rem !important;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+      border-radius: var(--radius-sm) !important;
+      cursor: pointer !important;
+      color: var(--text-color) !important;
+      transition: all 0.15s ease !important;
+      flex: initial !important;
+      justify-content: flex-start !important;
+      box-sizing: border-box !important;
+    }
+
+    .export-dropdown-item:hover,
+    .export-dropdown-item:focus {
+      background: var(--bg-card-hover) !important;
+      border-color: var(--border-color) !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .export-item-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.22rem 0.42rem;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      min-width: 44px;
+      flex-shrink: 0;
+    }
+
+    .export-item-badge.excel {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+
+    .export-item-badge.pdf {
+      background: rgba(244, 63, 94, 0.16);
+      border: 1px solid var(--black-hat);
+      color: var(--black-hat);
+    }
+
+    .export-item-badge.csv {
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid var(--extrinsic);
+      color: var(--extrinsic);
+    }
+
+    .export-item-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      min-width: 0;
+    }
+
+    .export-item-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-color);
+      display: block;
+    }
+
+    .export-item-sub {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      display: block;
     }
 
     .btn-excel {
@@ -2889,9 +3056,15 @@
         width: 100%;
       }
 
-      .export-button-group button {
+      .export-button-group > button,
+      .export-dropdown-wrapper {
         flex: 1 1 calc(50% - 0.35rem);
+      }
+
+      .export-button-group > button,
+      .export-dropdown-wrapper > button {
         justify-content: center;
+        width: 100%;
       }
 
       .kpi-row {
@@ -2954,8 +3127,21 @@
       }
 
       .student-export-actions button,
-      .export-button-group button {
+      .export-button-group > button,
+      .export-dropdown-wrapper {
         flex: 1 1 100% !important;
+        width: 100% !important;
+      }
+
+      .export-dropdown-wrapper > button {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+
+      .export-dropdown-menu {
+        min-width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
       }
     }
 
@@ -2981,8 +3167,10 @@
       }
 
       .student-export-actions button,
-      .export-button-group button {
+      .export-button-group > button,
+      .export-dropdown-wrapper {
         flex: 1 1 100%;
+        width: 100%;
       }
     }
   </style>
@@ -3495,18 +3683,37 @@
         </div>
 
         <div class="export-button-group">
-          <button class="btn-create-room" type="button" onclick="openCreateRoomModal()">
-            ✨ Crear nueva sala
-          </button>
-          <button class="btn-export btn-excel" type="button" onclick="exportDataToExcel()">
-            📊 Descargar Excel (.xlsx)
-          </button>
-          <button class="btn-export btn-pdf" type="button" onclick="exportDataToPDF()">
-            📑 Descargar PDF ejecutivo
-          </button>
-          <button class="btn-export btn-csv" type="button" onclick="exportDataToCSV()">
-            📁 Descargar CSV
-          </button>
+          <!-- DROPDOWN UNIFICADO DE DESCARGA DOCENTE -->
+          <div class="export-dropdown-wrapper" id="teacherExportDropdownWrapper">
+            <button class="btn-export btn-export-unified" id="btnTeacherExportDropdown" type="button" onclick="toggleTeacherExportDropdown(event)" aria-haspopup="true" aria-expanded="false" title="Descargar reportes y datos de la sala">
+              <span>📥 Descargar reportes</span>
+              <span class="dropdown-chevron">▾</span>
+            </button>
+            <div class="export-dropdown-menu" id="teacherExportDropdownMenu" role="menu" aria-label="Formatos de descarga disponibles">
+              <div class="export-dropdown-header">Elige el formato de descarga</div>
+              <button class="export-dropdown-item" type="button" role="menuitem" onclick="handleTeacherExportChoice('excel')">
+                <span class="export-item-badge excel">XLSX</span>
+                <div class="export-item-text">
+                  <span class="export-item-title">Descargar Excel (.xlsx)</span>
+                  <span class="export-item-sub">Matriz consolidada con respuestas, 8 Core Drives y sombreros</span>
+                </div>
+              </button>
+              <button class="export-dropdown-item" type="button" role="menuitem" onclick="handleTeacherExportChoice('pdf')">
+                <span class="export-item-badge pdf">PDF</span>
+                <div class="export-item-text">
+                  <span class="export-item-title">Descargar PDF ejecutivo (.pdf)</span>
+                  <span class="export-item-sub">Informe visual con gráfico de red octagonal y balance</span>
+                </div>
+              </button>
+              <button class="export-dropdown-item" type="button" role="menuitem" onclick="handleTeacherExportChoice('csv')">
+                <span class="export-item-badge csv">CSV</span>
+                <div class="export-item-text">
+                  <span class="export-item-title">Descargar CSV (.csv)</span>
+                  <span class="export-item-sub">Archivo delimitado por comas para importar o procesar</span>
+                </div>
+              </button>
+            </div>
+          </div>
           <button class="btn-tab" type="button" onclick="openRoomQRModal()">
             📱 Ver QR de la sala
           </button>
@@ -8115,6 +8322,54 @@ function doPost(e) {
       document.body.removeChild(link);
     }
 
+    /* ==========================================================================
+       GESTIÓN DEL MENÚ DESPLEGABLE DE DESCARGAS DOCENTE
+       ========================================================================== */
+    function toggleTeacherExportDropdown(event) {
+      if (event) {
+        event.stopPropagation();
+      }
+      const menu = document.getElementById('teacherExportDropdownMenu');
+      const btn = document.getElementById('btnTeacherExportDropdown');
+      if (!menu || !btn) return;
+      const isOpen = menu.classList.contains('show');
+      if (isOpen) {
+        closeTeacherExportDropdown();
+      } else {
+        menu.classList.add('show');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.classList.add('active');
+      }
+    }
+
+    function closeTeacherExportDropdown() {
+      const menu = document.getElementById('teacherExportDropdownMenu');
+      const btn = document.getElementById('btnTeacherExportDropdown');
+      if (menu) menu.classList.remove('show');
+      if (btn) {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.classList.remove('active');
+      }
+    }
+
+    function handleTeacherExportChoice(format) {
+      closeTeacherExportDropdown();
+      if (format === 'excel') {
+        exportDataToExcel();
+      } else if (format === 'pdf') {
+        exportDataToPDF();
+      } else if (format === 'csv') {
+        exportDataToCSV();
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('teacherExportDropdownWrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        closeTeacherExportDropdown();
+      }
+    });
+
     function sanitizeFileName(str) {
       return String(str || 'curso').replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 32);
     }
@@ -8403,6 +8658,7 @@ function doPost(e) {
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        closeTeacherExportDropdown();
         const guideModal = document.getElementById('modalCustomSheetGuide');
         if (guideModal && guideModal.classList.contains('active')) {
           closeModal('modalCustomSheetGuide');

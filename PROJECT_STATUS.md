@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
 **Última actualización:** 10 de noviembre de 2026  
-**Versión actual:** `2.3.7`  
+**Versión actual:** `2.3.8`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.7`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` a `v2.3.7`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores, legibilidad y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas), la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8), la corrección integral de contrastes en el botón de permanencia del modal de salida bajo el tema claro, y la optimización minimalista de la fundamentación pedagógica en el panel docente (Opción C: 2 únicos botones nítidos y centrados al pie del cuadrante 2D, eliminando saturación en KPIs, cabeceras y ejes).
+La plataforma **Octalysis Students (`v2.3.8`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` a `v2.3.8`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores, legibilidad y reducción de ruido cognitivo: se retiró el botón fuera de contexto «Crear nueva sala» de la barra docente activa, se unificaron las tres descargas (Excel, PDF y CSV) en un elegante menú desplegable interactivo `📥 Descargar reportes ▾` con insignias y descripciones de cada formato, se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas), la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8), la corrección integral de contrastes en el botón de permanencia del modal de salida bajo el tema claro, y la optimización minimalista de la fundamentación pedagógica en el panel docente (Opción C: 2 únicos botones nítidos y centrados al pie del cuadrante 2D, eliminando saturación en KPIs, cabeceras y ejes).
 
 ---
 
@@ -143,6 +143,12 @@ git push origin main
     - Si un usuario confirma la salida o llega a la pantalla de bienvenida por error, se despliega una barra contextual superior destacada (*«¿Saliste por error? Tu sesión en la sala sigue disponible»*) con botón de 1 clic `← Volver a la sala`.
     - Al pulsar el retorno, el usuario vuelve de inmediato a la sala y rol previos preservando sus selecciones intactas en memoria sin reiniciar el sondeo.
 
+- **2026-11-10 (`v2.3.8`):**
+  - **Limpieza contextual y unificación de descargas en la barra docente (`#viewTeacher`):**
+    - **Eliminación del botón «✨ Crear nueva sala»:** se retiró de la barra de acciones de la sala activa para evitar clics erróneos durante clase en vivo y prevenir la sobreescritura accidental de la sesión del docente (el flujo de creación se mantiene seguro y accesible en la pantalla de bienvenida y en el botón superior `🚪 Cambiar sala`).
+    - **Menú desplegable unificado «📥 Descargar reportes ▾»:** se agruparon los 3 botones sueltos de descarga (Excel, PDF y CSV) en un único botón con menú emergente accesible (`#teacherExportDropdownWrapper`), con cierre automático al pulsar fuera o presionar la tecla `Escape`.
+    - **Insignias y descripciones formativas en cada opción:** cada formato cuenta ahora con una insignia visual distintiva (`XLSX`, `PDF`, `CSV`) y un texto aclaratorio de su contenido y utilidad (matriz completa, informe visual para impresión o datos tabulares crudos).
+    - **Reducción del 50 % de ruido visual en la barra superior:** la barra docente pasa de 6 botones sobrecargados a solo 3 acciones nítidas y 100 % operativas de la sala actual: `[📥 Descargar reportes ▾]`, `[📱 Ver QR de la sala]` y `[⚙️ Configurar sala]`.
 - **2026-11-09 (`v2.3.1`):**
   - **Rediseño estético y unificación visual del flujo de bienvenida (`#viewWelcome`):**
     - Corrección integral de la discrepancia de nombres entre clases CSS y marcado HTML (contenedores, tarjetas de rol, opciones docentes e indicadores).
