@@ -1,7 +1,7 @@
 # ⬡ Octalysis Students
 > **Plataforma web de sondeo motivacional y cocreación de acuerdos de clase basada en el modelo Octalysis.**
 
-![Versión](https://img.shields.io/badge/versión-2.3.4-cyan.svg)
+![Versión](https://img.shields.io/badge/versión-2.3.5-cyan.svg)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-purple.svg)
 ![Despliegue](https://img.shields.io/badge/GitHub%20Pages-listo-emerald.svg)
 
@@ -17,9 +17,9 @@ Permite explorar qué impulsos psicológicos y reglas de funcionamiento motivan 
 
 ## ✨ Características principales
 
-### 🛡️ Usabilidad contextual y prevención de errores en aula (`v2.3.2` – `v2.3.4`)
+### 🛡️ Usabilidad contextual y prevención de errores en aula (`v2.3.2` – `v2.3.5`)
 1. **Conmutador de roles inteligente (Smart Toggle):** el botón `👨‍🏫 Profesor` se oculta automáticamente para alumnos no autenticados (evitando distracciones y solicitudes de PIN en clase), pero permanece visible para el docente que ya inició sesión, permitiéndole alternar al instante entre la proyección del grupo y la experiencia estudiantil con 1 solo clic.
-2. **Prevención de salidas accidentales:** confirmación preventiva al hacer clic en `🚪 Cambiar sala` o sobre el logotipo, alertando explícitamente si el estudiante tiene reglas seleccionadas sin enviar para proteger su progreso.
+2. **Prevención de salidas accidentales:** confirmación preventiva al hacer clic en `🚪 Cambiar sala` o sobre el logotipo, alertando explícitamente si el estudiante tiene reglas seleccionadas sin enviar para proteger su progreso, con botones de acción de alto contraste en temas claro y oscuro.
 3. **Banner de salvavidas en bienvenida:** si alguien sale por descuido al menú principal, una barra superior le permite regresar de inmediato a su sala abierta con todas sus selecciones preservadas.
 4. **Catálogo secuencial limpio sin redundancias (`v2.3.3`):** eliminación de las 48 píldoras repetitivas de sombrero y motivación en las 24 tarjetas del acordeón final; la clasificación teórica se muestra en la cabecera del Core Drive y las tarjetas individuales destacan con protagonismo absoluto las medallas de votación del alumno (`🥇`, `🥈`, `🥉`, `✓`).
 5. **Claridad pedagógica en mecánicas de aula (`v2.3.4`):** incorporación de ejemplos cotidianos y aplicados en la descripción de las tarjetas (como los comodines con fecha de caducidad: prórroga de 48 horas sin penalización, reintento de actividad o descarte de la nota más baja), garantizando comprensión inmediata y sin ambigüedades en el aula.

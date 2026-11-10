@@ -50,6 +50,8 @@
 
       --border-color: #2e4064;
       --border-accent: #3b82f6;
+      --primary: #0284c7;
+      --text-color: var(--text-heading);
 
       --text-heading: #ffffff;
       --text-main: #f8fafc;
@@ -101,6 +103,8 @@
 
       --border-color: #94a3b8;
       --border-accent: #1d4ed8;
+      --primary: #0284c7;
+      --text-color: var(--text-heading);
 
       --text-heading: #0f172a;
       --text-main: #0f172a;
@@ -3909,10 +3913,10 @@
       </p>
 
       <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-        <button type="button" class="form-submit-btn" id="btnConfirmStayInRoom" onclick="closeModal('modalConfirmExitRoom')" style="background: var(--primary); color: #fff; font-weight: 700; padding: 0.75rem 1rem;">
+        <button type="button" class="form-submit-btn" id="btnConfirmStayInRoom" onclick="closeModal('modalConfirmExitRoom')" style="margin-top: 0; padding: 0.75rem 1rem;">
           🛡️ Permanecer en la sala
         </button>
-        <button type="button" class="btn-tab" onclick="proceedToExitRoom()" style="width: 100%; justify-content: center; padding: 0.65rem 1rem; border-color: var(--border-color); color: var(--text-muted);">
+        <button type="button" class="btn-tab" onclick="proceedToExitRoom()" style="width: 100%; justify-content: center; padding: 0.65rem 1rem; border-color: var(--border-color); color: var(--text-muted); font-weight: 600;">
           🚪 Sí, salir al inicio / cambiar de sala
         </button>
       </div>

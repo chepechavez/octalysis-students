@@ -1,7 +1,7 @@
 # Estado del proyecto: Octalysis Students
 
 **Última actualización:** 10 de noviembre de 2026  
-**Versión actual:** `2.3.4`  
+**Versión actual:** `2.3.5`  
 **Repositorio:** `https://github.com/chepechavez/octalysis-students` (rama `main`)  
 **Referencia base:** `https://github.com/chepechavez/octalysis-game`  
 **Propósito de este documento:** servir como bitácora viva de estado arquitectónico, cambios realizados y pasos opcionales pendientes para continuar el desarrollo sin fricciones desde cualquiera de los equipos de trabajo del autor.
@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo del estado actual
 
-La plataforma **Octalysis Students (`v2.3.4`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2`, `v2.3.3` y `v2.3.4`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas) y la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8).
+La plataforma **Octalysis Students (`v2.3.5`)** se encuentra **100 % funcional, conectada al backend maestro de Google Apps Script (`MASTER_WEBHOOK_URL`), verificada sin errores y lista para proyección en aula y uso estudiantil multi-dispositivo**. En las iteraciones del 10 de noviembre de 2026 (`v2.3.2` a `v2.3.5`) se optimizó la experiencia de usuario (UX) aplicando principios de prevención de errores, legibilidad y reducción de ruido cognitivo: se implementó la visibilidad contextual inteligente del botón de profesor (oculto para alumnos comunes, activo con 1 clic para docentes autenticados), la confirmación preventiva al pulsar «Cambiar sala» (protegiendo el avance no enviado del estudiante), el banner de retorno de emergencia en la pantalla de bienvenida, la limpieza de etiquetas redundantes en las 24 tarjetas del catálogo secuencial (eliminando 48 píldoras repetitivas), la clarificación pedagógica con ejemplos concretos en la tarjeta de comodines (CD8) y la corrección integral de contrastes en el botón de permanencia del modal de salida bajo el tema claro.
 
 ---
 
@@ -98,6 +98,12 @@ git push origin main
 ---
 
 ## 6. Historial de cambios
+
+- **2026-11-10 (`v2.3.5`):**
+  - **Corrección de contraste y visibilidad en tema claro para el modal de salida (`#modalConfirmExitRoom`):**
+    - Se resolvió el error visual donde el texto del botón principal `🛡️ Permanecer en la sala` era invisible en tema claro (texto blanco sobre fondo transparente contra la tarjeta modal blanca).
+    - La causa raíz residía en una sobreescritura inline que invocaba una variable no declarada (`background: var(--primary); color: #fff;`).
+    - Se retiró la sobreescritura inline para permitir que aplique limpiamente la clase nativa `.form-submit-btn` (degradado azul `#0284c7` a `#0369a1` con texto blanco `#ffffff`, garantizando contraste WCAG AAA en ambos temas) y se declararon formalmente las variables `--primary: #0284c7;` y `--text-color: var(--text-heading);` en `:root` y en `html[data-theme="light"]`.
 
 - **2026-11-10 (`v2.3.4`):**
   - **Clarificación pedagógica de la regla 23 (CD8: Comodines con fecha de caducidad):**
